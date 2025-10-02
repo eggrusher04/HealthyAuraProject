@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+//Service class handles the business logic to decide what happens and when. It uses repositories and flow/rules of the app
+
 @Service
 public class AuthService {
     @Autowired

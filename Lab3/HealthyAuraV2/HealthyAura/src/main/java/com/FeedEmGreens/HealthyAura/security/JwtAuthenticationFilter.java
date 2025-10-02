@@ -15,6 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Collections;
 
+//JWT filter is used to intercept HTTP requests and validate the tokens before the request reaches the controller.
+//Does it by extracting the token from Authorization header and calls JwUtil to handle the validation logic
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter{
     private final JwtUtil jwtUtil;

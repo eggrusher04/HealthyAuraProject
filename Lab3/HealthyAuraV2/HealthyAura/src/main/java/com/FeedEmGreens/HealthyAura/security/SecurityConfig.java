@@ -11,6 +11,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+//Security class that handles authentication and authorization logic. It configures how Sping Security behaves.
+
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
