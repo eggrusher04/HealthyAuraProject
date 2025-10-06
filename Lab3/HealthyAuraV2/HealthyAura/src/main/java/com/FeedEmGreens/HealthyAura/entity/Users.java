@@ -18,6 +18,11 @@ public class Users {
     @Column(nullable = false)
     private String role;
 
+    private Integer points = 0;
+
+    @Column(length = 512)
+    private String preferences;
+
     public Long getId() {
         return id;
     }
@@ -37,6 +42,10 @@ public class Users {
     public String getRole() {
         return role;
     }
+
+    public Integer getPoints() {return points;}
+
+    public String getPreferences() {return preferences;}
 
     public void setId(Long id) {
         this.id = id;
@@ -58,5 +67,7 @@ public class Users {
         this.role = role;
     }
 
+    public void setPoints(Integer points) {this.points = points;}
 
+    public void setPreferences(String preferences) {this.preferences = preferences;}
 }
