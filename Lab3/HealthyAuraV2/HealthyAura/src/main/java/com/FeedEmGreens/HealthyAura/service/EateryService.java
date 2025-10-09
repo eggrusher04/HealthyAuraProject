@@ -49,11 +49,14 @@ public class EateryService {
                 JSONArray coordinates = geometry.getJSONArray("coordinates");
 
                 EateryRequest eatery = new EateryRequest();
-                eatery.setName(extractProperty(properties,"NAME:"));
+                eatery.setName(extractProperty(properties,"NAME"));
                 eatery.setBuildingName(extractProperty(properties, "ADDRESSBUILDINGNAME"));
                 eatery.setAddress(extractProperty(properties, "ADDRESSSTREETNAME"));
                 eatery.setPostalCode(extractProperty(properties, "ADDRESSPOSTALCODE"));
                 eatery.setDescription(extractProperty(properties, "DESCRIPTION"));
+
+                eatery.setLatitude(coordinates.getDouble(1));
+                eatery.setLongitude(coordinates.getDouble(0));
 
                 eateries.add(eatery);
             }
