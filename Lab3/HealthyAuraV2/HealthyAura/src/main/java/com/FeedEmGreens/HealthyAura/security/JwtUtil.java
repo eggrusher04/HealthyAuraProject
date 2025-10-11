@@ -14,6 +14,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+//The purpose of this class is to generate tokens, validate it and extract information from the token(username and role)
+
 @Component
 public class JwtUtil {
 
