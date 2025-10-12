@@ -4,17 +4,17 @@ public class ProfileResponse {
 
     private String username;
     private String email;
-    private Integer points;
+    private int totalPoints;
     private String preferences;
 
     public ProfileResponse() {
         // Default constructor
     }
 
-    public ProfileResponse(String username, String email, Integer points, String preferences) {
+    public ProfileResponse(String username, String email, int totalPoints, String preferences) {
         this.username = username;
         this.email = email;
-        this.points = points;
+        this.totalPoints = totalPoints;
         this.preferences = preferences;
     }
 
@@ -27,8 +27,8 @@ public class ProfileResponse {
         return email;
     }
 
-    public Integer getPoints() {
-        return points;
+    public Integer getTotalPoints() {
+        return totalPoints;
     }
 
     public String getPreferences() {
@@ -44,8 +44,8 @@ public class ProfileResponse {
         this.email = email;
     }
 
-    public void setPoints(Integer points) {
-        this.points = points;
+    public void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
     }
 
     public void setPreferences(String preferences) {

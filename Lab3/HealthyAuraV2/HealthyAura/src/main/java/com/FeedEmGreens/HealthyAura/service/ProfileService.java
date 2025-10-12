@@ -1,6 +1,8 @@
 package com.FeedEmGreens.HealthyAura.service;
 
 import com.FeedEmGreens.HealthyAura.entity.Users;
+import com.FeedEmGreens.HealthyAura.entity.Points;
+
 import com.FeedEmGreens.HealthyAura.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,15 +35,15 @@ public class ProfileService {
         userRepository.save(user);
     }
 
-    // 🟨 Optional: Update points (for rewards page later)
-    public void updatePoints(String username, Integer points) {
+    // 🟨 Optional: Link a new Points record to a user (only if needed)
+    public void assignPointsEntityToUser(String username, Points pointsEntity) {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
             throw new RuntimeException("User not found: " + username);
         }
 
         Users user = userOpt.get();
-        user.setPoints(points); // your manual setter
+        user.setPoints(pointsEntity);
         userRepository.save(user);
     }
 }

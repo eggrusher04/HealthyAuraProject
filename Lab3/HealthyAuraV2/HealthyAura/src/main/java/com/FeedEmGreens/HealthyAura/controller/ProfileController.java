@@ -20,22 +20,29 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    // 🟩 1️⃣ Get profile by username (for now, via query param)
+    private int getUserTotalPoints(Users user) {
+        return (user.getPoints() != null) ? user.getPoints().getTotalPoints() : 0;
+    }
+
+    // Get profile by username (for now, via query param)
     @GetMapping("/{username}")
     public ResponseEntity<ProfileResponse> getProfile(@PathVariable String username) {
         Users user = profileService.getUserProfile(username);
 
+        // Safely extract total points
+        int totalPoints = getUserTotalPoints(user);
+
         ProfileResponse response = new ProfileResponse(
                 user.getUsername(),
                 user.getEmail(),
-                user.getPoints(),
+                totalPoints,
                 user.getPreferences()
         );
 
         return ResponseEntity.ok(response);
     }
 
-    // 🟦 2️⃣ Update preferences for a given username
+    // Update preferences for a given username
     @PutMapping("/{username}")
     public ResponseEntity<ProfileResponse> updateProfile(
             @PathVariable String username,
@@ -44,23 +51,29 @@ public class ProfileController {
         profileService.updatePreferences(username, req.getPreferences());
 
         Users updatedUser = profileService.getUserProfile(username);
+
+        int totalPoints = getUserTotalPoints(updatedUser);
+
+
         ProfileResponse response = new ProfileResponse(
                 updatedUser.getUsername(),
                 updatedUser.getEmail(),
-                updatedUser.getPoints(),
+                totalPoints,
                 updatedUser.getPreferences()
         );
 
         return ResponseEntity.ok(response);
     }
 
-    // 🟨 3️⃣ Get user points (optional for rewards)
+    // Get only user points (for rewards module)
     @GetMapping("/{username}/points")
     public ResponseEntity<Map<String, Integer>> getPoints(@PathVariable String username) {
         Users user = profileService.getUserProfile(username);
 
+        int totalPoints = getUserTotalPoints(user);
+
         Map<String, Integer> pointsMap = new HashMap<>();
-        pointsMap.put("points", user.getPoints());
+        pointsMap.put("points", totalPoints);
 
         return ResponseEntity.ok(pointsMap);
     }

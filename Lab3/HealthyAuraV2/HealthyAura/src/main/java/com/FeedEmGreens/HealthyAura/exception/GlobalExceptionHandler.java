@@ -6,6 +6,8 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import com.FeedEmGreens.HealthyAura.service.AuthService.DuplicateUserException;
+
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -32,6 +34,15 @@ public class GlobalExceptionHandler {
         body.put("status", 403);
         body.put("message", "You do not have permission to access this resource.");
         return new ResponseEntity<>(body, HttpStatus.FORBIDDEN);
+    }
+    // 400 - Duplicate username or email
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<Map<String, Object>> handleDuplicateUser(DuplicateUserException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("status", 400);
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
     // Custom runtime exceptions (e.g., user not found)
