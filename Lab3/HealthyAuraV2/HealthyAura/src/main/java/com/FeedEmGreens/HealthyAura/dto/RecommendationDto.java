@@ -18,9 +18,9 @@ public class RecommendationDto {
 
     public RecommendationDto() {}
 
-    public RecommendationDto(Long id, String name, String address, String fullAddress,  
-                             List<String> tags, String description, Double longitude,
-                             Double latitude) {
+    public RecommendationDto(Long id, String name, String address, String fullAddress
+                            List<String> tags, String description, Double longitude,
+                            Double latitude) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -35,7 +35,7 @@ public class RecommendationDto {
     public static RecommendationDto fromEatery(Eatery eatery) {
         return new RecommendationDto(
                 eatery.getId(),
-                eatery.getName(),
+                eatery.getName(), 
                 eatery.getAddress(),
                 eatery.getFullAddress(),
                 eatery.getTagNames(),
