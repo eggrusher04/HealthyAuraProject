@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -20,5 +21,11 @@ public class EateryController {
     @GetMapping
     public ResponseEntity<List<EateryRequest>> getAllEateries(){
         return ResponseEntity.ok(eateryService.fetchEateries());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EateryRequest>> search(@RequestParam(required = false) String query){
+        List<EateryRequest> results = eateryService.searchEatery(query);
+        return ResponseEntity.ok(results);
     }
 }

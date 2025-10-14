@@ -11,17 +11,20 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EateryService {
     private static final String DATASET_ID = "d_2925c2ccf75d1c135c2d469e0de3cee6";
     private static final String URL = "https://api-open.data.gov.sg/v1/public/api/datasets/";
+    private final HttpClient client = HttpClient.newHttpClient();
+    private List<EateryRequest> cachedEateries = new ArrayList<>();
 
     public List<EateryRequest> fetchEateries(){
         List<EateryRequest> eateries = new ArrayList<>();
 
         try{
-            HttpClient client = HttpClient.newHttpClient();
+
             HttpRequest pollRequest = HttpRequest.newBuilder()
                     .uri(URI.create(URL + DATASET_ID + "/poll-download"))
                     .build();
@@ -61,11 +64,15 @@ public class EateryService {
                 eateries.add(eatery);
             }
 
+            this.cachedEateries = eateries;
+            return eateries;
+
         }catch (Exception e){
             e.printStackTrace();
+            throw new RuntimeException("Failed to fetch eatery data");
         }
 
-        return eateries;
+
     }
 
     private String extractProperty(JSONObject props, String key){
@@ -77,5 +84,24 @@ public class EateryService {
         }catch(Exception e){
             return "";
         }
+    }
+
+    public List<EateryRequest> searchEatery(String query){
+        if(cachedEateries.isEmpty()){
+            fetchEateries();
+        }
+
+        if(query == null || query.isEmpty()){
+            return cachedEateries;
+        }
+
+        String lowerCaseQuery = query.toLowerCase();
+
+        return cachedEateries.stream()
+                .filter(e -> e.getName().toLowerCase().contains(lowerCaseQuery) ||
+                        e.getBuildingName().toLowerCase().contains(lowerCaseQuery) ||
+                        e.getAddress().toLowerCase().contains((lowerCaseQuery)) ||
+                        e.getPostalCode().contains(lowerCaseQuery) )
+                .collect(Collectors.toList());
     }
 }
