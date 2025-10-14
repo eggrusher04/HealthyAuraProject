@@ -10,7 +10,6 @@ public class RecommendationDto {
     private String address;
     private String fullAddress;
     private List<String> tags;
-    private String imageUrl;
     private String description;
     private Double longitude;
     private Double latitude;
@@ -20,14 +19,13 @@ public class RecommendationDto {
     public RecommendationDto() {}
 
     public RecommendationDto(Long id, String name, String address, String fullAddress,  
-                             List<String> tags, String imageUrl, String description, Double longitude, 
+                             List<String> tags, String description, Double longitude,
                              Double latitude) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.fullAddress = fullAddress;
         this.tags = tags;
-        this.imageUrl = imageUrl;
         this.description = description;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -41,7 +39,6 @@ public class RecommendationDto {
                 eatery.getAddress(),
                 eatery.getFullAddress(),
                 eatery.getTagNames(),
-                eatery.getPhotoUrl(),
                 eatery.getDescription(),
                 eatery.getLongitude(),
                 eatery.getLatitude()
@@ -67,9 +64,6 @@ public class RecommendationDto {
 
     public List<String> getTags() { return tags; }
     public void setTags(List<String> tags) { this.tags = tags; }
-
-    public String getImageUrl() { return imageUrl; }
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

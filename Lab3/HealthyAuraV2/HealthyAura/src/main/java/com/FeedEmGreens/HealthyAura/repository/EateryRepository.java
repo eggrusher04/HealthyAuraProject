@@ -21,5 +21,8 @@ public interface EateryRepository extends JpaRepository<Eatery, Long> {
     
     // Find eateries by postal code
     List<Eatery> findByPostalCode(Long postalCode);
+    
+    // Find eatery by name and coordinates (for duplicate checking)
+    List<Eatery> findByNameAndLatitudeAndLongitude(String name, Double latitude, Double longitude);
 
 }

@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="6d643768-78fc-4d1a-832a-7dcd2e2708b6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/controller/homeController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/dto/RecommendationDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/entity/DietaryTags.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/entity/Eatery.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/repository/EateryRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/service/RecManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/HealthyAura.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/controller/EateryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/dto/EateryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/service/EateryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/entity/Eatery.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/entity/Eatery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/repository/EateryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/repository/EateryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/security/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/entity/Eatery.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/entity/Eatery.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/repository/EateryRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/repository/EateryRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/../Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/security/SecurityConfig.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,25 +30,25 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="33om0wbko9m76qFeaoj9WqozgQs" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "hz",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Hz/OneDrive - Nanyang Technological University/Desktop/sc2006/2006-SCSD-16/Lab3 - Copy"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;hz&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Hz/OneDrive - Nanyang Technological University/Desktop/sc2006/2006-SCSD-16/Lab3 - Copy&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="6d643768-78fc-4d1a-832a-7dcd2e2708b6" name="Changes" comment="" />

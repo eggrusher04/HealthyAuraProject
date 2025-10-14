@@ -27,9 +27,6 @@ public class Eatery {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "photo_url", length = 500)
-    private String photoUrl;
-
     @Column(name = "longitude")
     private Double longitude;
 
@@ -83,12 +80,6 @@ public class Eatery {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
-
-    public String getPhotoUrl() { return photoUrl; }
-    public void setPhotoUrl(String photoUrl) { this.photoUrl = photoUrl; }
-
-    public Integer getNumCookedFoodStalls() { return numCookedFoodStalls; }
-    public void setNumCookedFoodStalls(Integer numCookedFoodStalls) { this.numCookedFoodStalls = numCookedFoodStalls; }
 
     public Double getLongitude() { return longitude; }
     public void setLongitude(Double longitude) { this.longitude = longitude; }
