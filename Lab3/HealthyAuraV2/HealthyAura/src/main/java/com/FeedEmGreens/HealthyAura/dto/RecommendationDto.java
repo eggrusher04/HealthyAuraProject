@@ -18,7 +18,7 @@ public class RecommendationDto {
 
     public RecommendationDto() {}
 
-    public RecommendationDto(Long id, String name, String address, String fullAddress
+    public RecommendationDto(Long id, String name, String address, String fullAddress,
                             List<String> tags, String description, Double longitude,
                             Double latitude) {
         this.id = id;
