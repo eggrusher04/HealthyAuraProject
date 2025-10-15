@@ -1,0 +1,15 @@
+# Ignore all build output folders inside subprojects
+**/target/
+
+# IntelliJ / VSCode / IDE settings
+**/.idea/
+**/.vscode/
+*.iml
+
+# OS / temporary files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+/Lab3/HealthyAuraV2/HealthyAura/target/
