@@ -57,4 +57,33 @@ public class EateryController {
         Eatery updated = eateryService.addTagsToEatery(eateryId, request.getTags());
         return ResponseEntity.ok(updated);
     }
+
+    // Directions backend ( not sure if we gonna add this for now )
+    private static final Logger logger = LoggerFactory.getLogger(EateryController.class);
+
+    @GetMapping("/directions")
+    public ResponseEntity<Void> redirectToGoogleMaps(
+            @RequestParam double destLat,
+            @RequestParam double destLon,
+            @RequestParam(required = false) Double originLat,
+            @RequestParam(required = false) Double originLon
+    ) {
+        String url;
+        if (originLat != null && originLon != null) {
+            url = String.format(
+                    "https://www.google.com/maps/dir/?api=1&origin=%f,%f&destination=%f,%f",
+                    originLat, originLon, destLat, destLon
+            );
+        } else {
+            url = String.format(
+                    "https://www.google.com/maps/dir/?api=1&destination=%f,%f",
+                    destLat, destLon
+            );
+            logger.info("Redirecting to Google Maps URL: {}", url);
+
+        }
+        return ResponseEntity.status(302).header("Location", url).build();
+    }
+
+
 }
