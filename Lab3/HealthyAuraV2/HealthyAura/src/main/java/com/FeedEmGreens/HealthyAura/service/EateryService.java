@@ -1,8 +1,13 @@
 package com.FeedEmGreens.HealthyAura.service;
 
 import com.FeedEmGreens.HealthyAura.dto.EateryRequest;
+import com.FeedEmGreens.HealthyAura.dto.AddTagsRequest;
+import com.FeedEmGreens.HealthyAura.entity.Eatery;
+import com.FeedEmGreens.HealthyAura.entity.DietaryTags;
+import com.FeedEmGreens.HealthyAura.repository.EateryRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -20,11 +25,14 @@ public class EateryService {
     private final HttpClient client = HttpClient.newHttpClient();
     private List<EateryRequest> cachedEateries = new ArrayList<>();
 
+    @Autowired
+    private EateryRepository eateryRepository;
+
     public List<EateryRequest> fetchEateries(){
         List<EateryRequest> eateries = new ArrayList<>();
 
         try{
-
+            HttpClient client = HttpClient.newHttpClient();
             HttpRequest pollRequest = HttpRequest.newBuilder()
                     .uri(URI.create(URL + DATASET_ID + "/poll-download"))
                     .build();
@@ -71,8 +79,67 @@ public class EateryService {
             e.printStackTrace();
             throw new RuntimeException("Failed to fetch eatery data");
         }
+    }
 
+    // Convert EateryRequest DTO to Eatery entity
+    public Eatery convertToEntity(EateryRequest request) {
+        Eatery eatery = new Eatery();
+        eatery.setName(request.getName());
+        eatery.setBuildingName(request.getBuildingName());
+        eatery.setAddress(request.getAddress());
+        eatery.setDescription(request.getDescription());
+        eatery.setLatitude(request.getLatitude());
+        eatery.setLongitude(request.getLongitude());
 
+        // Convert postal code from String to Long
+        try {
+            if (request.getPostalCode() != null && !request.getPostalCode().trim().isEmpty()) {
+                eatery.setPostalCode(Long.parseLong(request.getPostalCode()));
+            }
+        } catch (NumberFormatException e) {
+            // Handle invalid postal code format
+            System.err.println("Invalid postal code format: " + request.getPostalCode());
+        }
+
+        return eatery;
+    }
+
+    // Save API data to database
+    public List<Eatery> saveEateriesFromApi() {
+        List<EateryRequest> apiEateries = fetchEateries();
+        List<Eatery> savedEateries = new ArrayList<>();
+
+        for (EateryRequest request : apiEateries) {
+            Eatery entity = convertToEntity(request);
+            // Check if eatery already exists by name and location
+            List<Eatery> existing = eateryRepository.findByNameAndLatitudeAndLongitude(
+                entity.getName(), entity.getLatitude(), entity.getLongitude());
+
+            if (existing.isEmpty()) {
+                savedEateries.add(eateryRepository.save(entity));
+            }
+        }
+
+        return savedEateries;
+    }
+
+    // Get all eateries from database
+    public List<Eatery> getAllEateriesFromDatabase() {
+        return eateryRepository.findAll();
+    }
+
+    // Attach tags to an eatery
+    public Eatery addTagsToEatery(Long eateryId, List<String> tags) {
+        Eatery eatery = eateryRepository.findById(eateryId)
+                .orElseThrow(() -> new IllegalArgumentException("Eatery not found: " + eateryId));
+
+        for (String tagName : tags) {
+            if (tagName == null || tagName.isBlank()) continue;
+            DietaryTags tag = new DietaryTags(tagName.trim());
+            eatery.addDietaryTag(tag);
+        }
+
+        return eateryRepository.save(eatery);
     }
 
     private String extractProperty(JSONObject props, String key){
