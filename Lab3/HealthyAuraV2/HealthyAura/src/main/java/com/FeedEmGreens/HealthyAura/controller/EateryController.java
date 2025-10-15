@@ -18,6 +18,7 @@ public class EateryController {
     @Autowired
     private EateryService eateryService;
 
+    // Unified endpoint: All or Search query optional)(
     @GetMapping
     public ResponseEntity<List<EateryRequest>> getAllEateries(@RequestParam(required = false) String query){
         if(query == null || query.isBlank()) {
@@ -35,8 +36,8 @@ public class EateryController {
     }
 
     // Get eateries from database (returns entities)
-    @GetMapping
-    public ResponseEntity<List<Eatery>> getAllEateries(){
+    @GetMapping("/db")
+    public ResponseEntity<List<Eatery>> getAllEateriesFromDb() {
         return ResponseEntity.ok(eateryService.getAllEateriesFromDatabase());
     }
 
