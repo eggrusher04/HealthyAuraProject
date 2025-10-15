@@ -23,7 +23,7 @@ public class EateryController {
     }
 
     // Get eateries from database (returns entities)
-    @GetMapping
+    @GetMapping("/db")
     public ResponseEntity<List<Eatery>> getAllEateries(){
         return ResponseEntity.ok(eateryService.getAllEateriesFromDatabase());
     }
