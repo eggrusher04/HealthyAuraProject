@@ -7,10 +7,7 @@ import com.FeedEmGreens.HealthyAura.entity.Eatery;
 import com.FeedEmGreens.HealthyAura.service.EateryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class EateryController {
     }
 
     // Get eateries from database (returns entities)
-    @GetMapping
+    @GetMapping("/api-data/fetch")
     public ResponseEntity<List<Eatery>> getAllEateries(){
         return ResponseEntity.ok(eateryService.getAllEateriesFromDatabase());
     }
