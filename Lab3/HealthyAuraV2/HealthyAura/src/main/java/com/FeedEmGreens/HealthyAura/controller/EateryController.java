@@ -24,7 +24,7 @@ public class EateryController {
     }
 
     // Get eateries from database (returns entities)
-    @GetMapping("/api-data/fetch")
+    @GetMapping("/fetchDb")
     public ResponseEntity<List<Eatery>> getAllEateries(){
         return ResponseEntity.ok(eateryService.getAllEateriesFromDatabase());
     }
