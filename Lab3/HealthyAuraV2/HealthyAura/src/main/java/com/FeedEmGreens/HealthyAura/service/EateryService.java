@@ -172,4 +172,11 @@ public class EateryService {
                         e.getPostalCode().contains(lowerCaseQuery) )
                 .collect(Collectors.toList());
     }
+
+    public List<Eatery> searchEateryFromDatabase(String query){
+        if(query == null || query.isBlank()){
+            return eateryRepository.findAll();
+        }
+        return eateryRepository.searchByQuery(query);
+    }
 }

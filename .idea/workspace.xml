@@ -7,7 +7,8 @@
     <list default="true" id="eac02406-0ca9-43f0-adea-ea2cf5a23182" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/controller/EateryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/controller/EateryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/controller/EateryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/controller/EateryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/repository/EateryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/repository/EateryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/service/EateryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/service/EateryService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,23 +36,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.HealthyAuraApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.HealthyAura [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.HealthyAura [compile].executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;testMergedBackend&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.HealthyAuraApplication.executor": "Run",
+    "Maven.HealthyAura [clean].executor": "Run",
+    "Maven.HealthyAura [compile].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "testMergedBackend",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler"
   }
-}</component>
+}]]></component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="eac02406-0ca9-43f0-adea-ea2cf5a23182" name="Changes" comment="" />
