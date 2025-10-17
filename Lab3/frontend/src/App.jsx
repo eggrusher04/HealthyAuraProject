@@ -5,11 +5,12 @@ import Home from './pages/Home';
 import Explore from './pages/Explore';
 import Rewards from './pages/Rewards';
 import Profile from './pages/Profile';
+import Auth from './pages/Auth';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 function Protected({ children }) {
   const { user } = useAuth();
-  return user ? children : <Navigate to="/?signin=true" replace />;
+  return user ? children : <Navigate to="/auth" replace />;
 }
 
 export default function App(){
@@ -23,6 +24,7 @@ export default function App(){
             <Route path="/explore" element={<Explore />} />
             <Route path="/rewards" element={<Rewards />} />
             <Route path="/profile" element={<Protected><Profile /></Protected>} />
+            <Route path="/auth" element={<Auth />} />
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
         </main>
