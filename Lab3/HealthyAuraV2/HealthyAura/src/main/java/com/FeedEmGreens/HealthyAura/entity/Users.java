@@ -2,6 +2,8 @@ package com.FeedEmGreens.HealthyAura.entity;
 
 import jakarta.persistence.*;
 
+
+
 @Entity
 @Table(name = "users")
 public class Users {
@@ -9,14 +11,23 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false, unique = true)
     private String username;
+
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     private String role;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Points points;  // 🔗 Linked to Points entity
+
+    @Column(length = 512)
+    private String preferences;
 
     public Long getId() {
         return id;
@@ -38,6 +49,10 @@ public class Users {
         return role;
     }
 
+    public Points getPoints() {return points;}
+
+    public String getPreferences() {return preferences;}
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -58,5 +73,7 @@ public class Users {
         this.role = role;
     }
 
+    public void setPoints(Points points) {this.points = points;}
 
+    public void setPreferences(String preferences) {this.preferences = preferences;}
 }

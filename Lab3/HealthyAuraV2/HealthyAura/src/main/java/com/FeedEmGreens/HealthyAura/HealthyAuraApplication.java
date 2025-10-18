@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // HTTP requests -> Controller -> Service -> Repository -> Database
 
 @SpringBootApplication
-public class HealthyAuraApplication {
+public class 	HealthyAuraApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HealthyAuraApplication.class, args);
