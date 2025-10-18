@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eac02406-0ca9-43f0-adea-ea2cf5a23182" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/config/DatabaseSeeder.java" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/src/main/java/com/FeedEmGreens/HealthyAura/config/DatabaseSeeder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/controller/loginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/controller/loginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/dto/AuthResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/dto/AuthResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/security/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/security/JwtAuthenticationFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/security/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/security/JwtUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/security/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService.class" afterDir="false" />
-    </list>
+    <list default="true" id="eac02406-0ca9-43f0-adea-ea2cf5a23182" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

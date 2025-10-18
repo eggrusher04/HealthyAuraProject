@@ -14,7 +14,7 @@ public class ProfileService {
     @Autowired
     private UserRepository userRepository;
 
-    // 🟩 Fetch profile details
+    //Fetch profile details
     public Users getUserProfile(String username) {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
@@ -23,7 +23,7 @@ public class ProfileService {
         return userOpt.get();
     }
 
-    // 🟦 Update preferences field
+    //Update preferences field
     public void updatePreferences(String username, String preferences) {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
@@ -35,7 +35,7 @@ public class ProfileService {
         userRepository.save(user);
     }
 
-    // 🟨 Optional: Link a new Points record to a user (only if needed)
+    //Optional: Link a new Points record to a user (only if needed)
     public void assignPointsEntityToUser(String username, Points pointsEntity) {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
