@@ -39,8 +39,8 @@ public class DatabaseSeeder {
     }
 
     //  New User + Points Seeder
-    @Bean
-    CommandLineRunner initUserAndPoints(UserRepository userRepository, PointsRepository pointsRepository) {
+    //@Bean
+    /*CommandLineRunner initUserAndPoints(UserRepository userRepository, PointsRepository pointsRepository) {
         return args -> {
             if (userRepository.findByUsername("rajath").isEmpty()) {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -65,5 +65,5 @@ public class DatabaseSeeder {
                 System.out.println("User 'rajath' already exists, skipping seeding.");
             }
         };
-    }
+    }*/
 }
