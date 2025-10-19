@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { mockApi } from '../services/mockApi';
+import { API } from '../services/api';
 
 export default function Home(){
   const { user } = useAuth();
@@ -13,10 +13,31 @@ export default function Home(){
     if (d === new Date().toDateString()) setDismissedToday(true);
 
     if (user && !dismissedToday) {
-      // fetch one recommendation candidate based on user preferences
-      mockApi.getStalls({ tags: user?.diet ? [user.diet] : [] }).then(r => {
-        if (r.stalls && r.stalls.length) setRecommend(r.stalls[0]);
-      });
+      const tags = user?.diet ? [user.diet] : [];
+
+      const fetchRecommendations = async () => {
+          try{
+              let response;
+              if(tags.length > 0){
+                  response = await API.get("/home/recommendations/tags", {
+                      params: { tags },
+                      });
+                  }
+              else{
+                  response = await API.get("/home/recommendations");
+                  }
+
+              if(response.data && response.data.length > 0){
+                  setRecommend(response.data[0]);
+                  }
+              }
+          catch(err){
+              console.error("Error fetching recommendations:",err);
+              }
+          }
+
+      };
+    fetchRecommendations();
     }
   },[user,dismissedToday]);
 

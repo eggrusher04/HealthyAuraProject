@@ -5,6 +5,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/Lab3/HealthyAuraV2/HealthyAura/pom.xml" />
+        <option value="$PROJECT_DIR$/Lab3/backend/pom.xml" />
       </list>
     </option>
   </component>
