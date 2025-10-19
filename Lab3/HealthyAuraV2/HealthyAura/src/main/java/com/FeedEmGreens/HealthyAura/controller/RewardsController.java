@@ -6,6 +6,7 @@ import com.FeedEmGreens.HealthyAura.entity.Points;
 import com.FeedEmGreens.HealthyAura.entity.Reward;
 import com.FeedEmGreens.HealthyAura.service.RewardsService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,9 @@ public class RewardsController {
     // ---------------- POINTS ENDPOINTS ----------------
 
     /**  Get user's current points */
-    @GetMapping("/{username}")
-    public ResponseEntity<PointsResponse> getPoints(@PathVariable String username) {
+    @GetMapping("/me")
+    public ResponseEntity<PointsResponse> getPoints() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Points p = rewardsService.getUserPoints(username);
 
         PointsResponse response = new PointsResponse(
@@ -38,8 +40,9 @@ public class RewardsController {
     }
 
     /** Add points to a user  */
-    @PostMapping("/{username}/add")
-    public ResponseEntity<PointsResponse> addPoints(@PathVariable String username, @RequestParam int points) {
+    @PostMapping("/me/add")
+    public ResponseEntity<PointsResponse> addPoints(@RequestParam int points) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Points p = rewardsService.addPoints(username, points);
 
         PointsResponse response = new PointsResponse(
@@ -53,8 +56,9 @@ public class RewardsController {
     }
 
     /** Redeem generic points (no specific reward) */
-    @PostMapping("/{username}/redeem")
-    public ResponseEntity<PointsResponse> redeemPoints(@PathVariable String username, @RequestParam int points) {
+    @PostMapping("/me/redeem")
+    public ResponseEntity<PointsResponse> redeemPoints(@RequestParam int points) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Points p = rewardsService.redeemPoints(username, points);
 
         PointsResponse response = new PointsResponse(
@@ -83,10 +87,10 @@ public class RewardsController {
     }
 
     /** Redeem a specific reward (deduct points accordingly) */
-    @PostMapping("/{username}/redeem-reward/{rewardId}")
+    @PostMapping("/me/redeem-reward/{rewardId}")
     public ResponseEntity<RewardResponse> redeemReward(
-            @PathVariable String username,
             @PathVariable Long rewardId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         RewardResponse response = rewardsService.redeemReward(username, rewardId);
         return ResponseEntity.ok(response);
     }

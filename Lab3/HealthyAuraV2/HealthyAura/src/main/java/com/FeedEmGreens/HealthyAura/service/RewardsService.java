@@ -1,9 +1,12 @@
 package com.FeedEmGreens.HealthyAura.service;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.FeedEmGreens.HealthyAura.entity.Users;
 import com.FeedEmGreens.HealthyAura.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
+import org.springframework.security.access.AccessDeniedException;
 import java.time.LocalDateTime;
 
 // Imports for Points
@@ -34,6 +37,11 @@ public class RewardsService {
 
     // Get user's points by username (auto-create if missing)
     public Points getUserPoints(String username) {
+        String currentUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(!currentUser.equals(username)){
+            throw new AccessDeniedException("Access Forbidden.");
+        }
+
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

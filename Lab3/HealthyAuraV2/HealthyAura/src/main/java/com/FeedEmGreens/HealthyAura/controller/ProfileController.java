@@ -5,6 +5,7 @@ import com.FeedEmGreens.HealthyAura.dto.UpdateProfileRequest;
 import com.FeedEmGreens.HealthyAura.entity.Users;
 import com.FeedEmGreens.HealthyAura.service.ProfileService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -25,8 +26,9 @@ public class ProfileController {
     }
 
     // Get profile by username (for now, via query param)
-    @GetMapping("/{username}")
-    public ResponseEntity<ProfileResponse> getProfile(@PathVariable String username) {
+    @GetMapping("/me")
+    public ResponseEntity<ProfileResponse> getProfile() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Users user = profileService.getUserProfile(username);
 
         // Safely extract total points
@@ -43,11 +45,11 @@ public class ProfileController {
     }
 
     // Update preferences for a given username
-    @PutMapping("/{username}")
+    @PutMapping("/me")
     public ResponseEntity<ProfileResponse> updateProfile(
-            @PathVariable String username,
             @RequestBody UpdateProfileRequest req
     ) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         profileService.updatePreferences(username, req.getPreferences());
 
         Users updatedUser = profileService.getUserProfile(username);
@@ -66,8 +68,9 @@ public class ProfileController {
     }
 
     // Get only user points (for rewards module)
-    @GetMapping("/{username}/points")
-    public ResponseEntity<Map<String, Integer>> getPoints(@PathVariable String username) {
+    @GetMapping("/me/points")
+    public ResponseEntity<Map<String, Integer>> getPoints() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Users user = profileService.getUserProfile(username);
 
         int totalPoints = getUserTotalPoints(user);
