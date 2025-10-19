@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.FeedEmGreens.HealthyAura.HealthyAuraApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.238 s -- in com.FeedEmGreens.HealthyAura.HealthyAuraApplicationTests
