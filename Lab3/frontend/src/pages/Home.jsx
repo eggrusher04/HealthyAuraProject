@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { API } from '../services/api';
+import API from '../services/api';
 
 export default function Home(){
   const { user } = useAuth();
   const [recommend, setRecommend] = useState(null);
   const [dismissedToday, setDismissedToday] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     // check localStorage for dismissed popup today
     const d = localStorage.getItem('rec_dismiss_date');
     if (d === new Date().toDateString()) setDismissedToday(true);
@@ -16,30 +16,27 @@ export default function Home(){
       const tags = user?.diet ? [user.diet] : [];
 
       const fetchRecommendations = async () => {
-          try{
-              let response;
-              if(tags.length > 0){
-                  response = await API.get("/home/recommendations/tags", {
-                      params: { tags },
-                      });
-                  }
-              else{
-                  response = await API.get("/home/recommendations");
-                  }
-
-              if(response.data && response.data.length > 0){
-                  setRecommend(response.data[0]);
-                  }
-              }
-          catch(err){
-              console.error("Error fetching recommendations:",err);
-              }
+        try {
+          let response;
+          if (tags.length > 0) {
+            response = await API.get("/home/recommendations/tags", {
+              params: { tags },
+            });
+          } else {
+            response = await API.get("/home/recommendations");
           }
 
+          if (response.data && response.data.length > 0) {
+            setRecommend(response.data[0]);
+          }
+        } catch (err) {
+          console.error("Error fetching recommendations:", err);
+        }
       };
-    fetchRecommendations();
+
+      fetchRecommendations();
     }
-  },[user,dismissedToday]);
+  }, [user, dismissedToday]);
 
   const dismiss = () => {
     localStorage.setItem('rec_dismiss_date', new Date().toDateString());
