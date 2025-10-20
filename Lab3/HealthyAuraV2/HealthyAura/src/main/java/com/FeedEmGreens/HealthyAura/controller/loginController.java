@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/* Due to the springboot framework, controllers are kept thin to handle HTTP requests */
+
 @RestController
 @RequestMapping("/auth")
 public class loginController {
@@ -24,6 +26,7 @@ public class loginController {
         return ResponseEntity.ok(authService.signup(req.getEmail(), req.getUsername(), req.getPassword(), "USER"));
     }
 
+    //Ensure ONLY admin can create an account(admin has to log in first)
     @PostMapping("/admin/signup")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Users> createAdmin(@RequestBody SignupRequest req){

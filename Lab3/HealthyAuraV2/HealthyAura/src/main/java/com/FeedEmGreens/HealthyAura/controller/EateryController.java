@@ -1,5 +1,6 @@
 package com.FeedEmGreens.HealthyAura.controller;
 
+
 import com.FeedEmGreens.HealthyAura.dto.EateryRequest;
 import com.FeedEmGreens.HealthyAura.dto.AddTagsRequest;
 import com.FeedEmGreens.HealthyAura.entity.Eatery;
@@ -18,14 +19,29 @@ public class EateryController {
 
     // Get eateries from external API
     @GetMapping("/api-data")
-    public ResponseEntity<List<EateryRequest>> getEateriesFromApi(){
-        return ResponseEntity.ok(eateryService.fetchEateries());
+    public ResponseEntity<List<EateryRequest>> getEateriesFromApi(@RequestParam(required = false) String query){
+        if(query == null || query.isBlank()) {
+            return ResponseEntity.ok(eateryService.fetchEateries());
+        }
+        else{
+            List<EateryRequest> results = eateryService.searchEatery(query);
+            return ResponseEntity.ok(results);
+        }
     }
 
     // Get eateries from database (returns entities)
-    @GetMapping("/db")
-    public ResponseEntity<List<Eatery>> getAllEateries(){
-        return ResponseEntity.ok(eateryService.getAllEateriesFromDatabase());
+    @GetMapping("/fetchDb")
+    public ResponseEntity<List<Eatery>> getAllEateries(@RequestParam(required = false) String query){
+        List<Eatery> eateries;
+
+        if(query == null || query.isBlank()){
+            return ResponseEntity.ok(eateryService.getAllEateriesFromDatabase());
+        }
+        else{
+            eateries = eateryService.searchEateryFromDatabase(query);
+        }
+
+        return ResponseEntity.ok(eateries);
     }
 
     // Sync API data to database

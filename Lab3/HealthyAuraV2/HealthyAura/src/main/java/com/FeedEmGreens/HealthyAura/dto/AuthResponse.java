@@ -1,5 +1,7 @@
 package com.FeedEmGreens.HealthyAura.dto;
 
+//These are Data Transfer Object which defines data structure for requests and responses. It is separate from entities.
+
 public class AuthResponse {
     private String token;
     private String username;
