@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { mockApi } from '../services/mockApi';
+import API from "../services/api";
 
 const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
@@ -9,8 +9,14 @@ export function AuthProvider({ children }) {
   const [lockInfo, setLockInfo] = useState({}); // {username: {attempts, lockedUntil}}
 
   useEffect(() => {
-    const raw = localStorage.getItem('healthyaura_user');
-    if (raw) setUser(JSON.parse(raw));
+    const savedUser = localStorage.getItem('healthyaura_user');
+    if (savedUser) {
+        const parsed = JSON.parse(savedUser);
+        setUser(parsed);
+        if(parsed.token){
+            API.defaults.headers.common["Authorization"] = 'Bearer ${parsed.token}';
+        }
+    }
   }, []);
 
   const signIn = async (username, password) => {
@@ -20,37 +26,59 @@ export function AuthProvider({ children }) {
       throw new Error('Account locked. Try later.');
     }
 
-    const res = await mockApi.signIn(username, password);
-    if (res.success) {
-      setUser(res.user);
-      localStorage.setItem('healthyaura_user', JSON.stringify(res.user));
-      // reset attempts
-      setLockInfo((s) => ({ ...s, [username]: { attempts: 0 } }));
-      return res.user;
-    } else {
-      // increment attempts and possibly lock
-      setLockInfo((s) => {
-        const curr = s[username] || { attempts: 0 };
-        const attempts = curr.attempts + 1;
-        const lockedUntil = attempts >= 3 ? new Date(Date.now() + 30*60*1000).toISOString() : curr.lockedUntil;
-        return { ...s, [username]: { attempts, lockedUntil } };
-      });
-      throw new Error('The username or password is incorrect. Please try again.');
+    try{
+        const res = await API.post("/auth/login", { "username": username, "password": password, });
+        console.log("Login response",res.data);
+        const { token, username: uname, role } = res.data;
+
+        if(!token) throw new Error("Invalid response from server");
+
+        const userData = { username: uname, role };
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("healthyaura_user", JSON.stringify(userData));
+
+        API.defaults.headers.common["Authorization"] = 'Bearer ${token}'
+        setUser(userData);
+        setLockInfo((s) => ({ ...s, [username]: { attempts: 0} }));
+        return userData;
+    } catch(err){
+        // Failed login attempt → increment
+              setLockInfo((s) => {
+                const curr = s[username] || { attempts: 0 };
+                const attempts = curr.attempts + 1;
+                const lockedUntil =
+                  attempts >= 3
+                    ? new Date(Date.now() + 30 * 60 * 1000).toISOString()
+                    : curr.lockedUntil;
+                return { ...s, [username]: { attempts, lockedUntil } };
+              });
+              throw new Error("The username or password is incorrect. Please try again.");
     }
+
   };
 
   const signOut = () => {
-    setUser(null);
+    localStorage.removeItem("token");
     localStorage.removeItem('healthyaura_user');
+    delete API.defaults.headers.common["Authorization"];
+    setUser(null);
   };
 
   const signUp = async (payload) => {
-    const res = await mockApi.signUp(payload);
-    if (res.success) {
-      setUser(res.user);
-      localStorage.setItem('healthyaura_user', JSON.stringify(res.user));
-    }
-    return res;
+    const res = await API.post("/auth/signup", payload);
+    console.log("Signup response:", res.data);
+
+    const { token, username, role } = res.data;
+    const userData = { username, role };
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("healthyaura_user", JSON.stringify(userData));
+
+    API.defaults.headers.common["Authorization"] = 'Bearer ${token}';
+    setUser(userData);
+
+    return res.data;
   };
 
   return (
