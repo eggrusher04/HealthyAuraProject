@@ -3,6 +3,18 @@ import API from "../services/api";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
 export default function Explore() {
   const [q, setQ] = useState("");
   const [stalls, setStalls] = useState([]);
@@ -58,7 +70,7 @@ export default function Explore() {
       });
 
       // OneMap tile layer
-      L.tileLayer("https://maps-a.onemap.sg/v3/Default/{z}/{x}/{y}.png", {
+      L.tileLayer("https://www.onemap.gov.sg/maps/tiles/Original/{z}/{x}/{y}.png", {
         attribution: "Map data © OneMap Singapore",
       }).addTo(newMap);
 
