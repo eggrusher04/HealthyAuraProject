@@ -62,6 +62,7 @@ spring.jpa.show-sql=true
 
 ---
 ## Detailed testing documentation
+This google doc is to show different tests run and the full application flow tests
 https://docs.google.com/document/d/1GaOReZVyQn5gaxL6rKZyOU3mg1lsy0TetvCA2Y2N6_8/edit?usp=sharing
 
 ---
