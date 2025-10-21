@@ -80,4 +80,31 @@ public class ProfileController {
 
         return ResponseEntity.ok(pointsMap);
     }
+
+    @PutMapping("/me/email")
+    public ResponseEntity<Map<String, String>> updateEmail(@RequestBody Map<String, String> req) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String newEmail = req.get("email");
+
+        Users updatedUser = profileService.updateEmail(username, newEmail);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Email updated successfully");
+        response.put("email", updatedUser.getEmail());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/me/password")
+    public ResponseEntity<Map<String, String>> updatePassword(@RequestBody Map<String, String> req) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        String newPassword = req.get("password");
+
+        profileService.updatePassword(username, newPassword);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Password updated successfully");
+        return ResponseEntity.ok(response);
+    }
+
 }

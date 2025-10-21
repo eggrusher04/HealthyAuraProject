@@ -1,51 +1,108 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { mockApi } from '../services/mockApi';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import API from "../services/api";
 
-const sampleRewards = [
-  { id: 'r1', title: '$10 Voucher', cost: 500, expiry: '2025-12-31' },
-  { id: 'r2', title: 'Spa Treatment 10% off', cost: 1200, expiry: '2025-06-30' }
-];
-
-export default function Rewards(){
+export default function Rewards() {
   const { user } = useAuth();
   const [points, setPoints] = useState(0);
+  const [rewards, setRewards] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(()=> {
-    if (user) mockApi.getUserPoints(user.username).then(r => setPoints(r.points));
-  },[user]);
+  // Fetch user points
+  const fetchPoints = async () => {
+    try {
+      const res = await API.get("/rewards/me");
+      setPoints(res.data.totalPoints || 0);
+    } catch (err) {
+      console.error("Error fetching user points:", err);
+    }
+  };
 
-  const redeem = async (r) => {
-    const res = await mockApi.redeemReward(user.username, r);
-    if (res.success) {
-      alert('Reward redeemed successfully.');
-      setPoints(res.newBalance);
-    } else {
-      alert(res.message || 'Not enough points.');
+  // Fetch rewards catalog
+  const fetchRewards = async () => {
+    try {
+      const res = await API.get("/rewards/catalog");
+      setRewards(res.data || []);
+    } catch (err) {
+      console.error("Error fetching rewards catalog:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchPoints();
+      fetchRewards();
+    }
+  }, [user]);
+
+  // Redeem reward
+  const redeem = async (rewardId) => {
+    try {
+      const res = await API.post(`/rewards/me/redeem-reward/${rewardId}`);
+      alert(res.data.message || "Reward redeemed successfully!");
+      fetchPoints(); // refresh balance
+    } catch (err) {
+      console.error("Error redeeming reward:", err);
+      alert("Not enough points or reward unavailable.");
     }
   };
 
   if (!user) return <div>Please sign in to view rewards.</div>;
 
+  if (loading)
+    return (
+      <div className="text-center text-gray-500 mt-8">
+        Loading rewards...
+      </div>
+    );
+
   return (
-    <div>
+    <div className="p-4">
+      {/* Points display */}
       <div className="bg-white p-4 rounded shadow mb-4">
         <div className="text-sm text-gray-500">Your Points Balance</div>
-        <div className="text-2xl font-bold">{points}</div>
+        <div className="text-2xl font-bold text-green-700">{points}</div>
       </div>
 
+      {/* Rewards grid */}
       <div className="grid gap-3">
-        {sampleRewards.map(r => (
-          <div key={r.id} className="bg-white p-4 rounded shadow flex justify-between items-center">
-            <div>
-              <div className="font-semibold">{r.title}</div>
-              <div className="text-xs text-gray-500">Cost: {r.cost} pts • Expires: {r.expiry}</div>
+        {rewards.length === 0 ? (
+          <div className="text-center text-gray-500">No rewards available.</div>
+        ) : (
+          rewards.map((r) => (
+            <div
+              key={r.id}
+              className="bg-white p-4 rounded shadow flex justify-between items-center"
+            >
+              <div>
+                <div className="font-semibold text-green-700">{r.name}</div>
+                <div className="text-xs text-gray-600 mb-1">
+                  {r.description}
+                </div>
+                <div className="text-xs text-gray-500">
+                  Cost: {r.pointsRequired} pts •{" "}
+                  {r.active ? "Active" : "Inactive"}
+                </div>
+              </div>
+
+              <div>
+                <button
+                  disabled={points < r.pointsRequired}
+                  onClick={() => redeem(r.id)}
+                  className={`px-3 py-1 rounded ${
+                    points >= r.pointsRequired
+                      ? "bg-green-600 text-white hover:bg-green-700"
+                      : "bg-gray-200 text-gray-500"
+                  }`}
+                >
+                  Redeem
+                </button>
+              </div>
             </div>
-            <div>
-              <button disabled={points < r.cost} onClick={()=>redeem(r)} className={`px-3 py-1 rounded ${points >= r.cost ? 'bg-green-600 text-white' : 'bg-gray-200 text-gray-500'}`}>Redeem</button>
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @Service
 public class ProfileService {
 
     @Autowired
     private UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     //Fetch profile details
     public Users getUserProfile(String username) {
@@ -46,4 +49,19 @@ public class ProfileService {
         user.setPoints(pointsEntity);
         userRepository.save(user);
     }
+
+    public Users updateEmail(String username, String newEmail) {
+        Users user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setEmail(newEmail);
+        return userRepository.save(user);
+    }
+
+    public void updatePassword(String username, String rawPassword) {
+        Users user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setPassword(encoder.encode(rawPassword));
+        userRepository.save(user);
+    }
+
 }
