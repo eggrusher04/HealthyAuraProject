@@ -60,3 +60,9 @@ spring.jpa.show-sql=true
 ## Folder Structure
 <img width="440" height="406" alt="image" src="https://github.com/user-attachments/assets/e8441ece-7d45-439e-af80-f0ab46ef0336" />
 
+---
+## Detailed testing documentation
+https://docs.google.com/document/d/1GaOReZVyQn5gaxL6rKZyOU3mg1lsy0TetvCA2Y2N6_8/edit?usp=sharing
+
+---
+
