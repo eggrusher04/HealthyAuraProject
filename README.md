@@ -25,9 +25,9 @@ HealthyAura is a **full-stack web application** that helps users discover afford
 ---
 
 ## Frontend Setup (React)
-npm install
-npm start
-Head to http://localhost:3000
+1) npm install
+2) npm start
+3) Head to "http://localhost:3000"
 
 ---
 
