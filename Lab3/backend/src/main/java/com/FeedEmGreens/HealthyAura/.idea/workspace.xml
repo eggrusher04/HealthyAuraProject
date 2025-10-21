@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="11934ded-edb0-4964-b17f-81dc51664ff0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="aaa60bf9-e5ef-4097-ae22-f8d1618b469d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,9 +15,10 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../../../../.." />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
   "associatedIndex": 0
 }]]></component>
-  <component name="ProjectId" id="34HavtkElG9N33jJKKGICVCuBTa" />
+  <component name="ProjectId" id="34HoEjvz1wjbmtgeaIGI1OvnkIS" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -26,18 +26,18 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "BackEndFrontEndIntegration",
-    "ignore.virus.scanning.warn.message": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "IntegrationFrontEndWBackEnd",
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="11934ded-edb0-4964-b17f-81dc51664ff0" name="Changes" comment="" />
-      <created>1760873188345</created>
+      <changelist id="aaa60bf9-e5ef-4097-ae22-f8d1618b469d" name="Changes" comment="" />
+      <created>1760879748933</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1760873188345</updated>
+      <updated>1760879748933</updated>
     </task>
     <servers />
   </component>
