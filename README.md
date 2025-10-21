@@ -55,23 +55,5 @@ spring.jpa.show-sql=true '''
 
 ---
 ## Folder Structure
-HealthyAura/
-│
-├── backend/
-│   ├── src/main/java/com/FeedEmGreens/HealthyAura/
-│   │   ├── controller/        # REST Controllers
-│   │   ├── dto/               # Data Transfer Objects
-│   │   ├── entity/            # JPA Entities
-│   │   ├── repository/        # Repositories (JPA)
-│   │   ├── service/           # Business logic
-│   │   ├── security/          # JWT + Security Config
-│   └── resources/
-│       └── application.properties
-│
-└── frontend/
-    ├── src/
-    │   ├── pages/             # Home, Explore, Profile, Rewards
-    │   ├── components/        # Layout/UI components
-    │   ├── contexts/          # Auth context
-    │   ├── services/          # API service files
-    └── package.json
+<img width="440" height="406" alt="image" src="https://github.com/user-attachments/assets/e8441ece-7d45-439e-af80-f0ab46ef0336" />
+
