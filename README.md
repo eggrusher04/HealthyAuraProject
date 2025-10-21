@@ -34,11 +34,14 @@ HealthyAura is a **full-stack web application** that helps users discover afford
 ## Backend Setup (Spring Boot)
 1) Create a new database - "CREATE DATABASE healthyauradb;"
 2) Open "HealthyAura/backend/src/main/resources/application.properties" and change the values to match your MySQL setup
-''' spring.datasource.url=jdbc:mysql://localhost:3306/healthyauradb
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/healthyauradb
 spring.datasource.username=<your-username>
 spring.datasource.password=<your-password>
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true '''
+spring.jpa.show-sql=true
+
+```
 
 3) Open command prompt or your preferred terminal in the backend folder and execute "mvn spring-boot:run"
 4) Once it is compiled, the backend will start on "http://localhost:8080"
@@ -56,4 +59,11 @@ spring.jpa.show-sql=true '''
 ---
 ## Folder Structure
 <img width="440" height="406" alt="image" src="https://github.com/user-attachments/assets/e8441ece-7d45-439e-af80-f0ab46ef0336" />
+
+---
+## Detailed testing documentation
+This google doc is to show different tests run and the full application flow tests
+https://docs.google.com/document/d/1GaOReZVyQn5gaxL6rKZyOU3mg1lsy0TetvCA2Y2N6_8/edit?usp=sharing
+
+---
 
