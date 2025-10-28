@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import API from "../services/api";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useParams, useNavigate } from "react-router-dom";
+
 
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -22,6 +24,7 @@ export default function Explore() {
   const [sortBy, setSortBy] = useState("distance");
   const [selectedStall, setSelectedStall] = useState(null);
   const [map, setMap] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     search();
@@ -153,7 +156,7 @@ export default function Explore() {
               </div>
               <div className="text-right">
                 <button
-                  onClick={() => showMap(s)}
+                  onClick={() => navigate(`/details/${s.id}`)}
                   className="mt-2 bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700"
                 >
                   Get Directions

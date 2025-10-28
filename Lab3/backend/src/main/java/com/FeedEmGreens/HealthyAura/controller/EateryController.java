@@ -44,6 +44,13 @@ public class EateryController {
         return ResponseEntity.ok(eateries);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Eatery> getEateryById(@PathVariable Long id) {
+        return ResponseEntity.of(
+                eateryService.getEateryById(id) // returns Optional<Eatery>
+        );
+    }
+
     // Sync API data to database
     @PostMapping("/sync")
     public ResponseEntity<List<Eatery>> syncEateriesFromApi(){
