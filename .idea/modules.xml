@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/2006-SCSD-16.iml" filepath="$PROJECT_DIR$/.idea/2006-SCSD-16.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lab3/backend/src/main/main.iml" filepath="$PROJECT_DIR$/Lab3/backend/src/main/main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Lab3/backend/src/test/test.iml" filepath="$PROJECT_DIR$/Lab3/backend/src/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lab3/backend/HealthyAura.iml" filepath="$PROJECT_DIR$/Lab3/backend/HealthyAura.iml" />
     </modules>
   </component>
 </project>

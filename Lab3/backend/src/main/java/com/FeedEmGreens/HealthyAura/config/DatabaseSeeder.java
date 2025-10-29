@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
+@org.springframework.context.annotation.Profile("!test")  // <-- add this line
 public class DatabaseSeeder {
 
     //   Reward Seeder
