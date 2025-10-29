@@ -6,6 +6,8 @@ import Explore from './pages/Explore';
 import Rewards from './pages/Rewards';
 import Profile from './pages/Profile';
 import Auth from './pages/Auth';
+import AdminAuth from './pages/AdminAuth';
+import AdminDashboard from './pages/AdminDashboard';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 function Protected({ children }) {
@@ -25,6 +27,8 @@ export default function App(){
             <Route path="/rewards" element={<Rewards />} />
             <Route path="/profile" element={<Protected><Profile /></Protected>} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/admin/auth" element={<AdminAuth />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
         </main>
