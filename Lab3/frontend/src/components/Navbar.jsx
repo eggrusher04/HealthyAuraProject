@@ -4,7 +4,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
-
   return (
     <nav className="bg-white border-b shadow-sm">
       <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -32,13 +31,23 @@ export default function Navbar() {
               </button>
             </>
           ) : (
-            // ✨ CHANGED: replaced plain text with a clickable "Sign In" link
-            <Link
-              to="/auth"
-              className="text-sm text-green-700 font-semibold hover:underline"
-            >
-              Sign In
-            </Link>
+            <>
+              {/* Admin Button - Changed style to fit the existing 'Sign In' button style */}
+              <Link
+                to="/admin/auth"
+                className="text-sm text-gray-700 font-semibold hover:text-green-700" // Styled to look like the 'Admin' link in your screenshot
+              >
+                Admin
+              </Link>
+
+              {/* Sign In Button */}
+              <Link
+                to="/auth"
+                className="text-sm text-green-700 font-semibold hover:underline"
+              >
+                Sign In
+              </Link>
+            </>
           )}
         </div>
       </div>

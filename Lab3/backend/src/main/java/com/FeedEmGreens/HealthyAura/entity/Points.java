@@ -12,7 +12,7 @@ public class Points {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private Users user;
@@ -23,10 +23,15 @@ public class Points {
     @Column(nullable = false)
     private int redeemedPoints = 0;
 
+    @Column(name = "last_updated")
     private LocalDateTime lastUpdated = LocalDateTime.now();
 
     // Constructors
-    public Points() {}
+    public Points() {
+        this.totalPoints = 0;
+        this.redeemedPoints = 0;
+        this.lastUpdated = LocalDateTime.now();
+    }
 
     public Points(Users user) {
         this.user = user;
