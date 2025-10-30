@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useParams, useNavigate } from "react-router-dom";
 
-
+// Fix default marker paths for Leaflet
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 delete L.Icon.Default.prototype._getIconUrl;
-
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
   iconUrl: markerIcon,
@@ -26,6 +25,8 @@ export default function Explore() {
   const [map, setMap] = useState(null);
   const navigate = useNavigate();
 
+  console.log("Explore page rendered");
+
   useEffect(() => {
     search();
   }, []);
@@ -38,15 +39,13 @@ export default function Explore() {
 
   const search = async () => {
     try {
-      let res;
-      if (q) {
-        res = await API.get("/api/eateries/fetchDb", { params: { query: q } });
-      } else {
-        res = await API.get("/api/eateries/fetchDb");
-      }
+      const endpoint = q
+        ? `/api/eateries/fetchDb?query=${encodeURIComponent(q)}`
+        : "/api/eateries/fetchDb";
 
+      const res = await API.get(endpoint);
       if (Array.isArray(res.data)) {
-        console.log("Fetched eateries:", res.data);
+        console.log("Fetched eateries:", res.data.length);
         setStalls(res.data);
       } else {
         console.warn("Unexpected data shape:", res.data);
@@ -61,23 +60,19 @@ export default function Explore() {
   const showMap = (stall) => {
     setSelectedStall(stall);
 
-    // Initialize or update map
     setTimeout(() => {
-      if (map) {
-        map.remove();
-      }
+      if (map) map.remove();
 
       const newMap = L.map("onemap", {
         center: [stall.latitude, stall.longitude],
         zoom: 17,
       });
 
-      // OneMap tile layer
-      L.tileLayer("https://www.onemap.gov.sg/maps/tiles/Original/{z}/{x}/{y}.png", {
-        attribution: "Map data © OneMap Singapore",
-      }).addTo(newMap);
+      L.tileLayer(
+        "https://www.onemap.gov.sg/maps/tiles/Original/{z}/{x}/{y}.png",
+        { attribution: "Map data © OneMap Singapore" }
+      ).addTo(newMap);
 
-      // Add marker
       L.marker([stall.latitude, stall.longitude])
         .addTo(newMap)
         .bindPopup(`<b>${stall.name}</b><br>${stall.fullAddress || stall.address}`)
@@ -156,7 +151,10 @@ export default function Explore() {
               </div>
               <div className="text-right">
                 <button
-                  onClick={() => navigate(`/details/${s.id}`)}
+                  onClick={() => {
+                    console.log("Navigating to /details/" + s.id);
+                    navigate(`/details/${s.id}`);
+                  }}
                   className="mt-2 bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700"
                 >
                   Get Directions
@@ -169,16 +167,13 @@ export default function Explore() {
         <div className="text-gray-500 text-sm">No results found.</div>
       )}
 
-      {/* OneMap Display */}
+      {/* Map Display */}
       {selectedStall && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-2 text-green-800">
             Directions to {selectedStall.name}
           </h2>
-          <div
-            id="onemap"
-            className="w-full h-96 rounded border shadow"
-          ></div>
+          <div id="onemap" className="w-full h-96 rounded border shadow"></div>
         </div>
       )}
     </div>
