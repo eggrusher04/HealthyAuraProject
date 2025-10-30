@@ -20,6 +20,11 @@ public class RecommendationDto {
     private String reason; // one-line reasoning for recommendation
     private Double score; // recommendation score (0-100)
 
+    // Ratings summary (for display)
+    private Double averageHealth;
+    private Double averageHygiene;
+    private Long reviewCount;
+
 
     public RecommendationDto() {}
 
@@ -145,6 +150,21 @@ public class RecommendationDto {
     public void setReason(String reason) { this.reason = reason; }
     
     public Double getScore() { return score; }
-    public void setScore(Double score) { this.score = score; }
+    public void setScore(Double score) {
+        if (score == null) {
+            this.score = null;
+        } else {
+            this.score = Math.round(score * 10.0) / 10.0; // 1 decimal place
+        }
+    }
+
+    public Double getAverageHealth() { return averageHealth; }
+    public void setAverageHealth(Double averageHealth) { this.averageHealth = averageHealth; }
+
+    public Double getAverageHygiene() { return averageHygiene; }
+    public void setAverageHygiene(Double averageHygiene) { this.averageHygiene = averageHygiene; }
+
+    public Long getReviewCount() { return reviewCount; }
+    public void setReviewCount(Long reviewCount) { this.reviewCount = reviewCount; }
 
 }
