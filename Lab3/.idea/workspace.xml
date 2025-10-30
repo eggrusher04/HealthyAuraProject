@@ -4,7 +4,383 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d9c91f2-adbc-4200-8cdd-873d3f2e12c6" name="Changes" comment="" />
+    <list default="true" id="8d9c91f2-adbc-4200-8cdd-873d3f2e12c6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/HashGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/config/PasswordConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminAuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminLogsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/HealthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/dto/AdminActivityLogDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/dto/AdminLoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/dto/AdminSignupRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/dto/MessageResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/AdminActivityLog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/repository/AdminActivityLogRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/repository/AdminRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/service/AdminActivityLogService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/service/AdminService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/service/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HashGenerator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HealthyAura.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/PasswordConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminAuthController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminLogsController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/HealthController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/TestController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/UserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminActivityLogDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminLoginRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminSignupRequest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/MessageResponse.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/AdminActivityLog.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/AdminActivityLogRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/AdminRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AdminActivityLogService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AdminService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/UserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/0053d087149a9af0497c5aaaf20bc6a3b037c6c571ed028d1ff1454accddddff.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/007a10409d0b58d72bdc30bf690b1c05f68407b11fa808abee525f70e9c71a33.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/00a4e6d62da269ad1efd51943f87270b8c73a1d506bbf3b6658cabf53d6bd8c1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/01a949182ebf5556cc453a3e2ab3e306dad350cc64f69c19e797664cd5d2f1be.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/049bc99fe2fd80bca4b98e74f898b23642d99bb6391f19b4f73ab58d76d3635c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/0839e7215373be368381964b0337c9c32a9c16630f02de53e9730039854baf7e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/08bdf877054299c5e118dfed2af402e67e22a7ddcff9229628d0e9ad69ffe64c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/08fea16be9363eade700f9e3a437a3ff8054a5bcbfe3d9b4a95108b84bc32968.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/09afb8a3e271e8a8fc44e0460c8ae38ad58c28da94c2e712d7cac5c3756c25ee.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/0a243cab09d40028c1e68412d0f0848d0dce259adc81a0d41d6d6af030c0d4c4.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/0f094f8d9f293c3be2c98274d6c81119c7e746ae375ae99febfd9ad247ec4777.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/104024395f134652c1e576197dd5aea65026f24c8e2d26d472c45b72b0a9f8e2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/11ae96dcd655bed721e674e59f303d56093a91a6ab91c1aba9a406dbac866b38.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/168399cb216fe8f4fab938a9cd53e6468acada5de378f593d2b78089bc87141f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/17f0d5bf3dcf8d52438a4e8f31b480b7687b27a456abf5d1dc1348f1efebd563.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/18f8bf1812647bd65ab7880ef4fade5673bb48fa27d0773bd6f1f9305dcdd9f3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/194cddd757d99acf873a66d249fedba2ab9cc8d6299444eb2c557d69fb238b5c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/1ca98a46a252fcf101e9ed100ad0ec9f52b7f69985fba0ca2e3fde3f379c23db.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/1e55fc4930a31de44e1094bec403da90cdf3ffa102ac57db768405c41b13dc44.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2386209982e07d80e4e875c6983c1304daad14035fe22233871d6bdb759e7a62.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/23c74e925314902661266bd602e28cd18ef6ff8932b3be6bb85aa8359b86b10c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/248281d408dee3d608d8fa465b7918662d7aa7471f2f9d1b5da188ce9ce69801.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/24df83e2afb51576dd78c19aa6688bfd849ad0e7bc78fe86dde600c7d43654c3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/262b7a52254570a20774712710388136720279d12d8a2e0a600a4b368967d840.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/29b831e798dc3eed4bb28fa0523a58ede518d803fe11525d5f7d4ee57a3fe092.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2a52b2087cde563483fe7290dc1a3a87b4067e9972cd34cc9b1ba0c2fe877b3b.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2ae3c464fe01db2a28edfa1f1e5f230a5ac22c4c9aaf7287f76aa0981fcb2b03.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2b114406102e35cba87e129bae29c181fcacc78754b7c1885117e4f6aebfc5d7.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2b42cfcaa992a29dfc5610da2f8b965600de73c579b7e8c9d81765da45a0e17b.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2b725e4a0d8593d48841d1da33cd6401b602b9e23ac5e8014e058417ccb9ebc9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2cf4dd90e0582934f5b81ea7750d5390b1dfc080559a1c07eb0de7e740725599.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2dcac1bdb190c462d768b2ae8868639c296366eedd730e2630aa792bbe565854.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/2f6edb814e8318cbb51ba8606659a185d8c19e26bd372b53f621247db8d07212.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/305b625b87304bcdcef64bb84986c9166826ae9090c28a989e9f103e3d92fe06.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/3103e0598c0d1aa55c25e1bbfb93158562ee54be5bce4b887eb89cd22f05c469.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/343c6be03b2a27cde50487b6d11a4768382b307f9e8030427d543937ffd4d07f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/35ba0a5555314c699e7397ccf21a749d9770e196c036c4ba6dfd483835af0742.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/36afc3d079d5d9fdedd4c9237048f843fce98c54073730f781bd891b65516042.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/378c04845d50e48e3cbbaa8519cc11b69a2c40ffd2a86c00ec9aee3bd235b04f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/38a6ffd1bfc921c65468f4013e54d15ee36f70e62c1d51979af90e54ca033c54.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/3a6e5ce9dec0abf13af3976ea50638c3e62debeecc08377f215e97d6c6ca1852.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/3aef39a8ae6e8ca7c92459d925d5c0942a913be502cb5c776e1e49683098bea5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/3b3fd5b2ab7ebeaec999a06d9b11780ce1c9471bfae7f54646c62e63896ce8cc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/3c4dab258b8b2bae3a7eff0e29c9cc24c2663ecc7740f3b0e2fa8ddbb6ed1593.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/3eeaecc34697716315798911f9aedac5c83303e280b2a15ceac18b1802af7f7e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/4085255aa51c5609dfbf50aca604c673d92fdd6c8c9b11f59ba5ce32ba5ae687.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/422bbaf901f3c2b6dfb21521d72bf24cd55763c30518f5512c6043276ca9dde0.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/43abe7558c0e51ded4334e8150a40873c662b5babb65dba5baa19b67a5a05e5e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/46c737c4ca62ee13613fd73e8381e6bc80e3860c599f176264be7d8bad60ee63.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/489f6592422152b88ee64ce699aa08477466bc943ef012bc569005eaa0dff6af.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/48c6d491eec25f7db0337a09f6d6cf74d00b5e2e171c7c1e536d698690de9a4e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/49294813c0c8e349ed8a1633570589d38f55409da839e0d41e51945e2d3916b7.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/4bb2b8a008f336387dbc78ff009168b611c867b0af5726b318776c293adcea29.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/4e3cb7abaa93c88db700b7be54c96043aa17da59b018f31fbc28f23746d774af.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/505a15b7122448156dc1a9ccf6b97f3679281ea9ef18e8dd3106246d5eb93991.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/514529e068137d362953cbcb27c68090820af972abeb56983696ebdfecee4e88.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/517633bdfe04ab2acdfe005d624befb2f98c26560917def1fea0e1a65c9c9168.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/52fec6ac403cfc02170708574f3915d2832e6f2dbcc00a578f2b0b941656c03a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/549502739e987b9dc0115ca303e35e52e220f6f35c97f0706cdbfdfc5699c9f6.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/54c557331f2765100f707206aaebf328e2a86508a4f1a2d7da7374bb93fe8a00.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/55941d3ff18e755e7c0be04eef827b12b8564948d6ec8ed70ca95252bdcde03f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/55c1362da228c74d9d4f7b755ffc7e07cc8d4569b763b2c5088c44ca1162d72f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/57c4b195c3ad1c27f829c6a754ecfcc67672097234163bd3161cf8b49e6317f8.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/597e282444f11846cdd2c79b09c69dfa0a9085650627f585837a596c899cf569.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/59d93eb14d58add4671bdbc796d678152fee835d01b9ee2aba9967e01f1bc32e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/5a7873accf4ad313eed213ca997dc0cf8c25b9e210d0720fc32c17a1f0072258.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/5d578b2c9287ba172d519d2c91c28bc93b64182db0786dede5a411546686c6f0.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/5ded14ed4ebf3811fda272b4929cdac8f413b86e987658d2cf1282a874205620.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/5df348635f63664c662fffd68abcd7d9f3987b35484d783e99888f973af2b8d3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/5f1e8b0459f36b9c92b8f4f94f9d8ea01c33a5fe36b300b337702aeabd0812ff.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/5f3333a8c44d9631f25f3aa1779e46ce17703019afbbb0c50c97ada3f2ad26cf.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/5f4d2e82733036223a496e468d314c65cd3a7cf0371580a6f80d92a7fa5ada1a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/6071f8d22ebea15328fe402b6b55f4a12e473da23550597a2dd16e34ba72bedb.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/63b3a057bf77519665f8d804aa53faec351a98eb7923e4534e768a1665146983.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/651274eae7cb74f0ef9d9023fc9e450aeb6e7f575a6320ba0cb4a12b2765a3b3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/672c7f7f3096ee826859980a1ee1c539cf7ea5d3d65e00ae57cc399e0808b9e9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/69709d1b369f8cccc7ec98c1c9a032fb2123bc642fa3e6459c3411ba01a5ec38.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/6c8148aba6d9255337aa7273c67365ef14dd573b79f93cca28bb27360383cb27.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/6d153be2427dc4f18d1db8af991ba30ec153e7f575267fe4047de8cc6884ab0a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/6e5dfbe1ba8b5b1ef722c8d86420838bdbcc1d2b0f60be090367b0b4664b3a44.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/70b5482afcda42c30b2262006abb6a5fe1ef5e5c8baeccc15ab5d0705ff0cb49.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/72f295d28980dcf412c11630e44261a31193d9916db827a4749141738d8451ad.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/733667aae43c4b530df80a5dae18c9e727db3c53e4da846aec3fe5df75529974.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/7425e896326da5539834438037e226f3ce8a9892c6702292c1282c52a16a4f52.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/749bb6abd264c3ae771c22b3b3b9d2e6ec5f98fadab49035cb0f2c3866c24864.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/77b7480aab4dce218dc48283cf04cc3f53fba2439002e0824194c9371592f5f1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/77eecec040ff3dfd494e795ef94b4d34857d4c94501f25af8829f2b6b146bac2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/78549d66b380922a349ccc0f563e0fab75e8a19594d85927315f0cdb31d1292a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/795046e22b45bfa802959aed1fd7050876d8f1d924876a9968f7510b3861edfb.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/79dae29b01a04bd40820f6cdbcf2bcf0716d6e0ea6fd8adfbb9701fa00c264c2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/7a7a405157bd7238fffe2505fc19af044daa8d57a366856bda7e4d101f04f685.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/7bc6377ec7659c542808c2f64097206f9ae6a64d96a968006c8ac90fbc8ddae4.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/7d10b327cedbeec7f338f1c3f39fe01710e07bd515ea68ce301dc4928d793c63.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/7d14437506ec81c3318be76f718b449f148ea2734355a98bc5dcd7d8849cfd4a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/7e4b99fe17e12163919c106b184c7b1a765e7a411ed6ef30de9bfbb1b6f1e01f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/7e73bd0f535ea8909d2959ffdb3d17e4696d899bbaf7e041bf480e0efc3b9510.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/8180870d73d4c954afe679346eb54647122298d461948a18849774490e29506a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/81b843fd81e1a2b7373964cc3c4198b8e42eb1a1c3de59670caf3d5e8d7636a0.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/82a0a39fd89f813917c69d322d5cbbe34c2e21bb188f28e2e10f2ae3d2735bd3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/83d94f27c6e5af3d39562c5702a7a685ced4c7ff3360fb61e78ab5a96988d982.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/84674f4e2094e469b4031354758748a1f4be4856f847386be10d619a2db30c11.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/85d47a29d424d242bca39377a6bdf104f0b594d968bee06e5d18abbc5c315838.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/8c8da0b4991261d564b93fb240cb1b551c65cd4c8c0dff679e0f0f68c2277f16.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/8d239773628e1d46c462b082eff8ca0975c829adf7954a67bdcc88c14238dd2d.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/8f316de7d0fa7b2a03cb6bc713768821228fefc24a1eba502fbc47be8878ceae.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/90c0b0f1a7f289de6535f7fbd7c514c92e22079734adce86ef6f9e90b784ca8f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/90c3e5c697de150de9b3c93f8093d32d53c2b43c57b36ffff0a29e7d4ec1df92.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/92ef2fc43ac7ca4e58cf824773993f608a43fa0d710ec6a286c4c41cce62b324.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/938a44f73374c61374f715f9187ce70068be11d62765e14194098cfad9bd372f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/939e45072c2a42e80192524f5504a9eb29366136207e96ba7885e255c37a3447.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/93bd7021b09aa642743165a48b6ec6ced17d9722fb4e3e83b57188bdd19966a9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/944c94ea2fdb071718d23e3bdfca2a09d1fa62e5d1710c5ebc3dae6f6859a890.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/96cdb9febcef2ad4dac79a303ec5a3d310e89839277c5daaf66ea316a7ab4af9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/978d250c7fea957445e6ee629fb774839e718eb41327e4e1a8c0af55d13ea861.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/9a7de5bfe7263f685e2ee0f9147b1a5f1bbadf6066b47da4a79c5bcdde6e5a6e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/9a9b20de3f6987e3820130d0d4482983cf0e69fe4ae4e6282153ed56baf7a1f9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/9d63d9bba04533f912691f6b65ac7182aa65efc36b507017efb11a35c604bb05.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/9ecbe6c8261cd8bda694c532027f14a084c2561e2c8954c2d6ee1d065000bc66.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a1c077db3acf7ff6d9a94c687f65a56a052cb97dad0664a546304378254413ef.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a2702ba0a6260ecabb804e70227b23245dd2d09374e15ef4012016968e5e5c46.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a5c216e74a3ae9171e48126d663a7d7b89b4cb1bece7f46e64261ba6e4f6096e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a5c276a29b2ec7cf0a4e795e65bdf26268eeeaa160f6d7e7b52d749892d04c10.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a62d933bfb1853aef674f26648e078a7bae650d6e57925d071aa305ea692ffa1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a67d190c036fe994ca5513b35982bc6984c6836e25e43ad69bca1133b8bcbf98.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a706a62a17191f9f530c7be92ff8bc85131f7dd3ff0c9b583cca6e6b66bcfa39.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a784485bf0375ba0b1cabcd752a7a099c46d3a7ba9549599197d4eb4924abed7.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a83f1de22e169af378bdf8ecf8026cb13bc8819177abc7fd79f96bd67114e249.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/a861a11404361aab1e9689bf1611202c00e8eb9f29319b513abd84212dca5e55.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/abed5fd085ce63fd748a93c3708094a18938b5ba1d7973fdcb713898d2822de5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ad650adbf138bd0b8a4b202610cd3eab187b0d527cf1d354de316b1e938abf0c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ae2350bbf1d7b3b9a981ace61d4af321aae89040c5cd249d7b91a04167105922.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ae293e3a483d51885208f0f8a088b937f4f22d580ccb547ee63283a556758ad3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/aeb308b503a23a6d282f9537ffcb3a348726a7ae097ace7740b770e973dd2491.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b26aee8515af600d31629df54e08e358e0dbd7aeca19b79634ae510cde23c1c5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b28e900968666b67ffce8ac4da4d7ed26d0b77b9026555882645bab80b7f1f9c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b3a0efc66ed0408e07d1a2f6a99ed29975fd1c5e7b5f184d9db9bd0a0cd8874d.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b52bba8c1201a45690ad583dc6d6420267d8eaff59a10524b5ce9cddeb02b6d7.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b57932cf58f7e3b42a068c5776d011ddcaf851c4b2f8a5bf0100cabc54c0332e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b5a6bc9fab7f67487614c26c6ef1e4662b5ec819041417b4209a6d7266df6dd7.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b5e77c121f65dbe3d97061090184b68537fb5a284412c7031d0dd7b7455c2e97.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b63df0ecab7360811b03a33b8973ad23d660e820d20e9410010d6a6fdd282423.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b6e7665ceba5fb4a2fd5ec3b0816cd099b72262387f9de8696a89b04b6e53f0b.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/b7d3f8a7e5c8b4de10944e5e960ad1c544338175122dc2d5d2dcb3bb94621848.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ba33fcb93b278d34b4e4b48931ac4a7f95bea672b75f2568c9d986ed957b6b69.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/bc1c2b3f2a38d0011c367d20517893fc089411125b06ba9bbc58ad384f62cad1.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/be1f4c6e488dff5aa30144fe140455319e14bd82e685693e1e9e41e440fef3d4.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c083eb22eb55ca796e55752b51dc1035f59132ed133196b3048d936d89b6d2c0.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c2d2b8d796a7192fb8818fab3d52be3a8203618c9cde1e22d7591d5f273ad982.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c3d273c13f2d24e6bed02360aba0006777b0e9ab0c81da1d0a6f4a653832d731.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c48a9942a1487122bf87b7a1be74f49bf35554d5c3032bf0c4d011e7103d6146.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c5bbcc82c03d93a85abc6c162e5b7df33c1b05d740032f79fdf47a69f3fd9339.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c5c6e2cf99f741d09317bf49dd4f4ab84d576f0a499df4381743465fcfea923a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c7b06068505bc0d15342fde7a68a4adc0f98d822c88c3f79db3b3ce8e453585f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c8dc6ca22899d02805c7036c1bf3fb67a4b3773a213f8ced27f975cd7946babc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c90ed5b37069e35d05170f49f679421b3ff8a82020b8e64b239d4bb10746e2e2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/c9bc96f771193fca77238012cee394754a37bb97b4a7140421bda5ef3d264fab.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ca7669ee432c47a7578038027894d73eefc95dd9c70af6ec31843c5cdf2370f8.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/caff7a58b53d3880d64975c932c43c618d8c1799bd293d6a1995cc158ffd4237.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/cd741b49579a58495600b966f55b02b4949354fc74054db17f36bef50e4e7d74.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ceef800ee17e458b76fb18b9b4f3f6dcf7dbb183c98b264755bd811a8097db49.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d2d27ca4b9701636c93d6beed0bd986b6e825e6e18555334d880e3bb316bf29d.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d31dbbbc0ca7eaaad325650f7bdd01427bcda361a2fc90aa01a2a6f46aa3264f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d3db7a7c7ca2500784706089d7dc140158986f3810fe3c384c9473ab2a310936.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d45dd8f66f2bb7d2bd88ef50f56f5b28e444583e9c4e3327987c0b3aa8bad848.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d663c15208989c63c6754a0f735bb82455d1cc88a650f272e86113e80215176a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d6f3f196af49dbd968a8b108a5777f6d9cc2d5bee61fb2b337c325284c8dc2d5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d6f9c17069583f5ba4d4d58a449a1b523ecb1e7dc4fc85bbbe6c9b32908f09d0.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d7e3df55edc8db1f2b3119a69fcce892c85ed350b833b0414d917a85dd113736.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d886c281e49e46c35c08478229ec6b454faa73178f21bf62927b281c8471b517.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/d9e1bd91344d773e3fecb37f64ab04daa91552ace743b609a197c3437b899a2c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/dc331d881a243a9c3f9f37801ff635472b1908e09783f302eb28df4b26279613.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/def95a0d32930a73e4b87dd05b81fd3ccb172287e794e62bc47eecd7f5b8e46a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/e2000f495446cda0141714aa29afedaf9b3d5184fcea072f09ec1759f579563e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/e38d3863592d064cc7ab0b5b89949fef68198dc420f4f7a5437d8642dd9b687e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/e6b61d448e53994b5d200fd3e92c95fe55d679e477eda9e2ee860208c1ba859c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/e6ffd7c86d9f8dc5389aced2209504985d990d3686b8c9a4560f8d1f02738481.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/e7bf7738996466c84b5d3447384b8a85ec71e6fb48acd6511337ca3776da1046.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/e898669d0f3961f58c538718dd56a3bfba9777449437415e274dcb60be5bd446.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/eaf3e7d02129b7c087948615f0191ef8394a076fe361db34fb7d7e0501df01fc.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ebae6fc4f3f3d07f1735484c539a287428b952648f16af8bfe8c4d77aeae957a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ebae757a947a124893efd1fc71d14e6941a9cb9b8504ed95b6ceef45c0c8c2c2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ec2f0461bcd2aae5892f9984dbe1188a01c97ca6db5a9f3592bd30bc0b7ffd56.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ec4f89d5f49926bccf88d155d9389ca6efe5e98d342266bd440db668edc4dc9b.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/ef1075ffc9ab77093677196e13950aaf509ef07326bad16e50bdec1c2026436e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/f222da9e6e1dcd78a72eb40423007f88e5c2a6fcc85409cef95e58a2a0a14ae9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/f3ea388266076980e268c87d834a12796f2c4e06cacfc38d32490e4b73d80ed2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/f4b993f935f01c09410aeca09560c89a8a8a41985d57c52176fe6e2318ac3e64.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/f5acab313b85b4cee5b2e3b1bf878b78367bbf13aacaa779c7dfb93971e59748.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/f75569323948b6ad9b7825ad50a0ead483c5b1204664e6daee98ce934d5ce413.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/f768f8dee8f651dc010aa15ea9bac141eab04c2f1b8e887410037c770cb177d8.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/f8a847e4bbca0f09cc342d16939766d80d33eb0a745c1e64800dc72301ec56fb.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/f9aea6e2c9b8af56a30753643581d9976a1f35dee2e6b2f07c7b1d4b5ca143b5.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/fa4be6bbc8009a2d90c41719ff69491f13fd209b83d2555cedb0f86cdc600819.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/fb5ec7102609d0b4f68bd074b03d85b008a279bd7a35faf192105478ce330653.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/fbb05fb89c4485c12103ac0f837a23f044fc145362186082444b0084a8f66cc6.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/fcd7570361ea93c76d5e93dbb08c8bda42f64c24a18e6932c1b087467fcb807d.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/babel-loader/fd79fc6e27983ad5adb2643b0188a62a67bbe6fd3c6c2cf21ee646771bf3c156.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/fetch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/composeSignals.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/estimateDataURLDecodedBytes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/progressEventReducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/resolveConfig.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/trackStream.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AdminAuth.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/pages/AdminDashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/dto/AuthResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/dto/AuthResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/Points.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/Points.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/security/JwtUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/security/JwtUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/security/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/security/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/service/ProfileService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/service/ProfileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/client/GovLicensedEatingApiClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/client/GovLicensedEatingApiClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/CorsConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/DatabaseSeeder.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/DatabaseSeeder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/WebConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/WebConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/EateryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/EateryController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/GovApiTestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/GovApiTestController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/ProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/ProfileController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/RewardsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/RewardsController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/homeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/homeController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/loginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/loginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AddTagsRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AddTagsRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AuthResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AuthResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/EateryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/EateryDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/EateryRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/EateryRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/LoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/LoginRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/PointsResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/PointsResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/ProfileResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/ProfileResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/RecommendationDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/RecommendationDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/RewardResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/RewardResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/SignupRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/SignupRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/UpdateProfileRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/UpdateProfileRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Admin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/DietaryTags.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/DietaryTags.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Eatery.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Eatery.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Points.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Points.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Reward.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Reward.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Users.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Users.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/exception/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/exception/GlobalExceptionHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/mapper/GovLicensedEatingMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/mapper/GovLicensedEatingMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse$Record.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse$Record.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse$Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse$Result.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/EateryRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/EateryRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/PointsRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/PointsRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/RewardRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/RewardRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/JwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/JwtUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService$DuplicateUserException.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService$DuplicateUserException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/EateryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/EateryService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/ProfileService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/ProfileService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/RecManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/RecManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/RewardsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/RewardsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/util/EateryDataCleaner.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/util/EateryDataCleaner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/test-classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/test-classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplicationTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/0.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/1.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/1.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/10.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/10.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/11.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/11.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/12.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/12.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/13.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/13.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/2.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/2.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/3.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/3.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/4.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/4.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/5.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/5.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/6.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/6.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/7.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/7.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/8.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/8.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/9.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/9.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/axios.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/browser/axios.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/browser/axios.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/browser/axios.cjs.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/browser/axios.cjs.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/esm/axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/esm/axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/esm/axios.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/esm/axios.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/esm/axios.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/esm/axios.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/esm/axios.min.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/esm/axios.min.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/node/axios.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/node/axios.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/dist/node/axios.cjs.map" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/dist/node/axios.cjs.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/index.d.cts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/index.d.cts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/adapters.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/adapters.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/http.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/http.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/xhr.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/adapters/xhr.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/cancel/CancelToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/cancel/CancelToken.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/Axios.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/Axios.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/AxiosError.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/AxiosError.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/AxiosHeaders.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/AxiosHeaders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/buildFullPath.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/buildFullPath.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/dispatchRequest.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/dispatchRequest.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/mergeConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/core/mergeConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/defaults/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/defaults/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/env/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/env/data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/AxiosTransformStream.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/AxiosTransformStream.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/buildURL.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/buildURL.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/formDataToStream.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/formDataToStream.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/isURLSameOrigin.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/isURLSameOrigin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/throttle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/throttle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/toFormData.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/toFormData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/toURLEncodedForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/toURLEncodedForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/validator.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/helpers/validator.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/platform/common/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/platform/common/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/platform/node/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/platform/node/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/lib/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/lib/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/node_modules/axios/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/axios/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Layout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/contexts/AuthContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Profile.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +415,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Rushaidy",
+    "git-widget-placeholder": "Merging Rushaidy",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/rusha/OneDrive/Documents/GitHub/2006-SCSD-16/Lab3",
