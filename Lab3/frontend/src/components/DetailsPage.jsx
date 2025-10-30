@@ -1,8 +1,11 @@
 import React from "react";
 import BottomNav from "./BottomNav";
+import { Link, useParams } from "react-router-dom";
+
 
 export default function DetailsPage() {
 //Hard coded values based off UI, make sure to call api where required  when integrating 
+  const { id } = useParams(); // gets the current eatery id
 
   const places = [
     {
@@ -89,6 +92,7 @@ export default function DetailsPage() {
           ))}
         </div>
       </div>
+      
 
       <BottomNav />
     </div>

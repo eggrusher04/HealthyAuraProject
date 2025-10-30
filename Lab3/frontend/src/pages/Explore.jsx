@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { mockApi } from '../services/mockApi';
+import { Link, useParams } from "react-router-dom";
 
 export default function Explore(){
   const [q, setQ] = useState('');
@@ -42,7 +43,18 @@ export default function Explore(){
         {stalls.map(s=>(
           <div key={s.id} className="bg-white p-4 rounded shadow flex justify-between items-center">
             <div>
-              <div className="font-semibold">{s.name}</div>
+              {/* <div className="font-semibold">{s.name}</div> */}
+
+            {/* Clickable stall name */}
+            <Link
+              to={`/eatery/${s.id}/status`}
+              className="font-semibold text-gray-800 hover:text-green-700 cursor-pointer block"
+            >
+              {s.name}
+            </Link>
+
+
+
               <div className="text-xs text-gray-500">{s.center} • {s.address}</div>
               <div className="mt-2 text-xs">{s.tags.join(' • ')}</div>
             </div>

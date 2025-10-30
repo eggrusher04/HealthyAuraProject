@@ -6,6 +6,10 @@ import Explore from './pages/Explore';
 import Rewards from './pages/Rewards';
 import Profile from './pages/Profile';
 import Auth from './pages/Auth';
+import DetailsPage from './components/DetailsPage';
+import CrowdQueueStatus from './components/CrowdQueueStatus';
+import LeaveReview from './components/LeaveReview';
+
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 function Protected({ children }) {
@@ -25,6 +29,11 @@ export default function App(){
             <Route path="/rewards" element={<Rewards />} />
             <Route path="/profile" element={<Protected><Profile /></Protected>} />
             <Route path="/auth" element={<Auth />} />
+
+            <Route path="/eatery/:id" element={<DetailsPage />} />
+            <Route path="/eatery/:id/status" element={<CrowdQueueStatus />} />
+            <Route path="/eatery/:id/review" element={<LeaveReview />} />
+
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
         </main>
