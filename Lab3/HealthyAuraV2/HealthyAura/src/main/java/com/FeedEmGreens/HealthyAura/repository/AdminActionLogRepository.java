@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface AdminActionLogRepository extends JpaRepository<AdminActionLog, Long> {
     List<AdminActionLog> findByAdminUsernameOrderByTimestampDesc(String adminUsername);
+
+    List<AdminActionLog> findTop10ByAdminUsernameOrderByTimestampDesc(String adminUsername);
 }
 
 
