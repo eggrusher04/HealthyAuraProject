@@ -14,7 +14,7 @@ const AdminAuth = () => {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:8080/api/admin/auth/login', {
+            const response = await fetch('http://localhost:8080/auth/admin/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

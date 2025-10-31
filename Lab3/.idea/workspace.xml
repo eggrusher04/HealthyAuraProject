@@ -5,76 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8d9c91f2-adbc-4200-8cdd-873d3f2e12c6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminAuthController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HashGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HashGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/client/GovLicensedEatingApiClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/client/GovLicensedEatingApiClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/CorsConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/DatabaseSeeder.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/DatabaseSeeder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/PasswordConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/PasswordConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/WebConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/config/WebConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminAuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminAuthController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminLogsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminLogsController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/GovApiTestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/GovApiTestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/HealthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/HealthController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/ProfileController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/ProfileController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/RewardsController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/RewardsController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/TestController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/TestController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/homeController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/homeController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/loginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/loginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AddTagsRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AddTagsRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminActivityLogDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminActivityLogDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminLoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminLoginRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminSignupRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AdminSignupRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AuthResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/AuthResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/EateryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/EateryDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/EateryRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/EateryRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/LoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/LoginRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/MessageResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/MessageResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/PointsResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/PointsResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/ProfileResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/ProfileResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/RecommendationDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/RecommendationDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/RewardResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/RewardResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/SignupRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/SignupRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/UpdateProfileRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/dto/UpdateProfileRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Admin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/AdminActivityLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/AdminActivityLog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/DietaryTags.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/DietaryTags.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Eatery.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Eatery.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Points.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Points.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Reward.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Reward.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Users.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/entity/Users.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/exception/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/exception/GlobalExceptionHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/mapper/GovLicensedEatingMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/mapper/GovLicensedEatingMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse$Record.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse$Record.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse$Result.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse$Result.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/AdminActivityLogRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/AdminActivityLogRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/AdminRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/AdminRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/EateryRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/EateryRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/PointsRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/PointsRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/RewardRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/RewardRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/repository/UserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/JwtAuthenticationFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/JwtUtil.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/security/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AdminActivityLogService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AdminActivityLogService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AdminService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AdminService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService$DuplicateUserException.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService$DuplicateUserException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/AuthService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/ProfileService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/ProfileService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/RecManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/RecManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/RewardsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/RewardsService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/service/UserService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/util/EateryDataCleaner.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/util/EateryDataCleaner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/test-classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplicationTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/test-classes/com/FeedEmGreens/HealthyAura/HealthyAuraApplicationTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/HealthyAura.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/target/classes/com/FeedEmGreens/HealthyAura/controller/AdminAuthController.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/.eslintcache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/0.pack" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack" afterDir="false" />
@@ -107,22 +43,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HealthyAuraApplication.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "Rushaidy",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/rusha/OneDrive/Documents/GitHub/2006-SCSD-16/Lab3",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HealthyAuraApplication.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Rushaidy&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/rusha/OneDrive/Documents/GitHub/2006-SCSD-16/Lab3&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\rusha\OneDrive\Documents\GitHub\2006-SCSD-16\Lab3\frontend\src\pages" />
