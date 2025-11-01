@@ -9,6 +9,9 @@ import Auth from './pages/Auth';
 import DetailsPage from './pages/DetailsPage';
 import AdminAuth from './pages/AdminAuth';
 import AdminDashboard from './pages/AdminDashboard';
+import CrowdQueueStatus from './components/CrowdQueueStatus';
+import LeaveReview from './components/LeaveReview';
+
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 function Protected({ children }) {
@@ -31,6 +34,9 @@ export default function App(){
             <Route path="/details/:id" element={<DetailsPage />} />
             <Route path="/auth/admin/signup" element={<AdminAuth />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/eatery/:id/status" element={<CrowdQueueStatus />} />
+            <Route path="/eatery/:id/review" element={<LeaveReview />} />
+
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
         </main>
