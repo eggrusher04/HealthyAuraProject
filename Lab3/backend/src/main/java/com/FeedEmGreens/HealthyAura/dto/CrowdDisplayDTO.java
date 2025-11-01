@@ -3,7 +3,7 @@ package com.FeedEmGreens.HealthyAura.dto;
 public class CrowdDisplayDTO {
     private String crowdLevel;
     private int estimatedQueueMinutes;
-    private String colorCode; // 🔴🟡🟢 front-end helper
+    private String colorCode;
 
     public CrowdDisplayDTO(String crowdLevel, int estimatedQueueMinutes, String colorCode) {
         this.crowdLevel = crowdLevel;
