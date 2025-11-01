@@ -8,11 +8,6 @@ public class HealthyAuraApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HealthyAuraApplication.class, args);
+
     }
-    
-    // REMOVE THIS METHOD IF IT EXISTS:
-    // @Bean
-    // public PasswordEncoder passwordEncoder() {
-    //     return new BCryptPasswordEncoder();
-    // }
 }

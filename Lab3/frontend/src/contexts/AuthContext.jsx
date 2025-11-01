@@ -103,8 +103,6 @@ export function AuthProvider({ children }) {
     const signOut = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("healthyaura_user");
-        localStorage.removeItem("adminToken");
-        localStorage.removeItem("adminUsername");
         delete API.defaults.headers.common["Authorization"];
         setUser(null);
     };

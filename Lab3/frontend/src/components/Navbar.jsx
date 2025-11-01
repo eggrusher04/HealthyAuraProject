@@ -17,6 +17,24 @@ export default function Navbar() {
           <Link to="/rewards" className="text-sm text-gray-600">
             Rewards
           </Link>
+
+          {user?.role === 'ADMIN' && (
+              <Link
+                to="/auth/admin/signup"
+                className="text-sm font-semibold text-green-700 hover:underline"
+              >
+                Create Admin
+              </Link>
+          )}
+          {user?.role === 'ADMIN' && (
+              <Link
+                to="/admin/dashboard"
+                className="text-sm font-semibold text-green-700 hover:underline"
+              >
+                Activity Logs
+              </Link>
+            )}
+
         </div>
 
         <div className="flex items-center gap-4">
@@ -32,14 +50,6 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              {/* Admin Button - Changed style to fit the existing 'Sign In' button style */}
-              <Link
-                to="/admin/auth"
-                className="text-sm text-gray-700 font-semibold hover:text-green-700" // Styled to look like the 'Admin' link in your screenshot
-              >
-                Admin
-              </Link>
-
               {/* Sign In Button */}
               <Link
                 to="/auth"

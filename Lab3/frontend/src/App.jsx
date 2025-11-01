@@ -29,7 +29,7 @@ export default function App(){
             <Route path="/profile" element={<Protected><Profile /></Protected>} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/details/:id" element={<DetailsPage />} />
-            <Route path="/admin/auth" element={<AdminAuth />} />
+            <Route path="/auth/admin/signup" element={<AdminAuth />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
