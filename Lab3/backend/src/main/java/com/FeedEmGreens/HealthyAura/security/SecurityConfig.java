@@ -36,6 +36,8 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(frame -> frame.disable())) // Allow H2 frames
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/signup", "/auth/login").permitAll()
+                        .requestMatchers("/auth/signup", "/auth/login").permitAll()
+                        .requestMatchers("/crowd/**").permitAll() // 👈 add this line
                         .requestMatchers("/auth/admin/signup").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
