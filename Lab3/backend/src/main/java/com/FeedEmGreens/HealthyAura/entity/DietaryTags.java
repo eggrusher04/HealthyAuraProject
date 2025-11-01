@@ -1,6 +1,7 @@
 package com.FeedEmGreens.HealthyAura.entity;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "dietary_tags")
@@ -15,6 +16,7 @@ public class DietaryTags {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eatery_id")
+    @JsonIgnore
     private Eatery eatery;
 
     // Constructors
