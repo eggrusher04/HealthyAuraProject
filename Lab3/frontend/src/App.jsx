@@ -15,9 +15,26 @@ import AdminTagManager from './pages/AdminTagManager';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 function Protected({ children }) {
-  const { user } = useAuth();
-  return user ? children : <Navigate to="/auth" replace />;
+  const { user, loadingUser } = useAuth();
+
+  // Still loading user info (from localStorage or backend)
+  if (loadingUser) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-gray-600">
+        Loading...
+      </div>
+    );
+  }
+
+  // No user after loading — redirect to login
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  // User is loaded and authenticated
+  return children;
 }
+
 
 export default function App(){
   return (

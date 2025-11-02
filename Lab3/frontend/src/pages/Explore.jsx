@@ -4,7 +4,6 @@ import API from "../services/api";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Fix default marker paths for Leaflet
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
@@ -25,8 +24,6 @@ export default function Explore() {
   const [map, setMap] = useState(null);
   const navigate = useNavigate();
 
-  console.log("Explore page rendered");
-
   useEffect(() => {
     search();
   }, []);
@@ -39,11 +36,12 @@ export default function Explore() {
 
   const search = async () => {
     try {
-      const endpoint = q
-        ? `/api/eateries/fetchDb?query=${encodeURIComponent(q)}`
-        : "/api/eateries/fetchDb";
+      const params = {};
+      if (q) params.query = q;
+      if (tags.length > 0) params.tags = tags;
 
-      const res = await API.get(endpoint);
+      const res = await API.get("/api/eateries/fetchDb", { params });
+
       if (Array.isArray(res.data)) {
         console.log("Fetched eateries:", res.data.length);
         setStalls(res.data);
@@ -56,6 +54,8 @@ export default function Explore() {
       setStalls([]);
     }
   };
+
+
 
   const showMap = (stall) => {
     setSelectedStall(stall);
@@ -107,29 +107,31 @@ export default function Explore() {
       {/* Tag filters and sorting */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="space-x-2">
-          {["Vegan", "Vegetarian", "Halal", "Healthy", "High Protein"].map((t) => (
-            <button
-              key={t}
-              onClick={() => toggleTag(t)}
-              className={`px-2 py-1 border rounded ${
-                tags.includes(t)
-                  ? "bg-green-100 text-green-700"
-                  : "bg-white text-gray-700"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+          {["Vegan", "Vegetarian", "Halal", "Healthy", "High Protein"].map(
+            (t) => (
+              <button
+                key={t}
+                onClick={() => toggleTag(t)}
+                className={`px-2 py-1 border rounded ${
+                  tags.includes(t)
+                    ? "bg-green-100 text-green-700 border-green-500"
+                    : "bg-white text-gray-700"
+                }`}
+              >
+                {t}
+              </button>
+            )
+          )}
         </div>
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="p-2 border rounded"
-        >
-          <option value="distance">Distance</option>
-          <option value="price">Average price</option>
-          <option value="popularity">Popularity</option>
-        </select>
+
+        {tags.length > 0 && (
+          <button
+            onClick={search}
+            className="ml-2 bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+          >
+            Apply Filters
+          </button>
+        )}
       </div>
 
       {/* Results */}
@@ -145,10 +147,22 @@ export default function Explore() {
                 <div className="text-xs text-gray-500">
                   {s.address || s.fullAddress}
                 </div>
-                <div className="mt-2 text-xs text-gray-600">
-                  {s.tags?.join(" • ")}
-                </div>
+
+                {/* Tag display */}
+                {Array.isArray(s.tags) && s.tags.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {s.tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
+                      >
+                        {typeof tag === "string" ? tag : tag.tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
+
               <div className="text-right">
                 <button
                   onClick={() => {

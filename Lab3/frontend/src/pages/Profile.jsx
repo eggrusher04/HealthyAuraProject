@@ -17,7 +17,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // 1. Check if the profile is already available from AuthContext (full profile fetched after login/mount)
+        // Case 1: AuthContext already provided user
         if (user && user.email) {
           setProfile(user);
           setForm({
@@ -29,8 +29,7 @@ export default function Profile() {
           return;
         }
 
-        // 2. If AuthContext didn't populate full data yet, fetch it here
-        setLoading(true);
+        // Case 2: Fetch from backend if AuthContext has no full profile yet
         const res = await API.get("/profile/me");
         const profileData = res.data;
         setProfile(profileData);
@@ -41,18 +40,13 @@ export default function Profile() {
         });
       } catch (err) {
         console.error("Error fetching profile data:", err);
-        // Fallback: Use existing user data from AuthContext, filling in defaults
         if (user) {
+          // Fallback to minimal user
           setProfile({
-            ...user, // Use all properties from the basic user object
+            ...user,
             email: user.email || "Email not found",
             preferences: user.preferences || "No preferences set",
             totalPoints: user.totalPoints ?? 0,
-          });
-          setForm({
-            email: user.email || "",
-            preferences: user.preferences || "",
-            password: "",
           });
         }
       } finally {
@@ -60,14 +54,11 @@ export default function Profile() {
       }
     };
 
-    // Wait for AuthContext to finish loading before attempting to fetch/set profile
-    if (!loadingUser && user) {
+    // Wait until loadingUser is done before trying to fetch
+    if (!loadingUser) {
       fetchProfile();
-    } else if (!loadingUser && !user) {
-      // If auth is done loading and no user is present, stop local loading
-      setLoading(false);
     }
-  }, [user, loadingUser]); // Re-run when the user object from context changes
+  }, [user, loadingUser]);
 
   // ====== Handlers ======
   const handleSavePrefs = async () => {
@@ -127,7 +118,7 @@ export default function Profile() {
   return (
     <Layout>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
+
         {/* Header */}
         <div className="bg-white rounded-2xl shadow overflow-hidden mb-6">
           <div className="h-24 bg-gradient-to-r from-green-600 to-emerald-500" />
@@ -153,8 +144,8 @@ export default function Profile() {
               {profile.username}
             </h2>
             <p className="text-gray-600 text-sm">
-              {profile.email || "Not set"} 
-            </p> 
+              {profile.email || "Not set"}
+            </p>
 
             <div className="flex gap-3 mt-3">
               <div className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
@@ -166,7 +157,7 @@ export default function Profile() {
             </div>
           </div>
         </div>
-        
+
         {/* ===== Edit Email ===== */}
         <div className="bg-white rounded-2xl shadow p-5 mb-6">
           <div className="flex items-center justify-between mb-3">
@@ -258,7 +249,7 @@ export default function Profile() {
             <p className="text-sm text-gray-500 mt-1">No preferences set</p>
           )}
         </div>
-        
+
         {/* ===== Password ===== */}
         <div className="bg-white rounded-2xl shadow p-5 mb-6">
           <div className="flex items-center justify-between mb-3">

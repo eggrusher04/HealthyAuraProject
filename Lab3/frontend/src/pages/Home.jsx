@@ -40,8 +40,7 @@ export default function Home() {
         const params = coords ? { lat: coords.lat, lng: coords.lng } : {};
         const response = await API.get("/home/recommendations", { params });
 
-        if (response.data && response.data.length > 0) {
-          console.log("Fetched recommendations:", response.data);
+        if (Array.isArray(response.data) && response.data.length > 0) {
           setRecommendations(response.data);
         } else {
           setRecommendations([]);
@@ -56,7 +55,6 @@ export default function Home() {
     fetchRecommendations();
   }, [user, coords]);
 
-  // Loading state
   if (loading)
     return (
       <div className="p-6 text-gray-600 text-center">
@@ -64,7 +62,6 @@ export default function Home() {
       </div>
     );
 
-  // Not logged in
   if (!user)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center p-6">
@@ -84,6 +81,85 @@ export default function Home() {
   const featured = recommendations.slice(0, 10);
   const others = recommendations.slice(10);
 
+  const renderCard = (rec) => (
+    <div
+      key={rec.id}
+      className="p-4 bg-white rounded-lg shadow hover:shadow-md transition flex flex-col justify-between"
+    >
+      <div>
+        <h3 className="text-lg font-semibold text-green-700">{rec.name}</h3>
+        <p className="text-sm text-gray-600">{rec.fullAddress || rec.address}</p>
+
+        {/* Tags */}
+        {Array.isArray(rec.tags) && rec.tags.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1">
+            {rec.tags.map((tag, i) => (
+              <span
+                key={i}
+                className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
+              >
+                {typeof tag === "string" ? tag : tag.tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Description */}
+        {rec.description && (
+          <p className="text-xs text-gray-500 mt-2">{rec.description}</p>
+        )}
+
+        {/* Reason */}
+        {rec.reason && (
+          <p className="text-xs text-gray-400 mt-1 italic">{rec.reason}</p>
+        )}
+
+        {/* Scores */}
+        <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
+          {rec.averageHealth != null && !isNaN(rec.averageHealth) && (
+            <span>
+              Health:{" "}
+              <span className="font-semibold text-green-700">
+                {Number(rec.averageHealth).toFixed(1)}
+              </span>
+            </span>
+          )}
+          {rec.averageHygiene != null && !isNaN(rec.averageHygiene) && (
+            <span>
+              Hygiene:{" "}
+              <span className="font-semibold text-green-700">
+                {Number(rec.averageHygiene).toFixed(1)}
+              </span>
+            </span>
+          )}
+          {rec.reviewCount != null && (
+            <span>
+              {rec.reviewCount} review{rec.reviewCount !== 1 ? "s" : ""}
+            </span>
+          )}
+          {rec.score != null && !isNaN(rec.score) && (
+            <span>
+              Score:{" "}
+              <span className="font-semibold text-green-700">
+                {Number(rec.score).toFixed(1)}
+              </span>
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* View Button */}
+      <div className="mt-4">
+        <button
+          onClick={() => navigate(`/details/${rec.id}`)}
+          className="w-full bg-green-600 text-white py-2 rounded-md text-sm hover:bg-green-700 transition"
+        >
+          View
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4 text-green-800">
@@ -92,52 +168,13 @@ export default function Home() {
 
       {recommendations.length > 0 ? (
         <>
-          {/* Featured Top 10 */}
-          <h2 className="text-lg font-semibold text-green-700 mb-3">
-            Top Picks
-          </h2>
+          {/* Top Picks */}
+          <h2 className="text-lg font-semibold text-green-700 mb-3">Top Picks</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            {featured.map((rec) => (
-              <div
-                key={rec.id}
-                className="p-4 bg-white rounded-lg shadow hover:shadow-md transition flex flex-col justify-between"
-              >
-                <div>
-                  <h3 className="text-lg font-semibold text-green-700">
-                    {rec.name}
-                  </h3>
-                  <p className="text-sm text-gray-600">
-                    {rec.fullAddress || rec.address}
-                  </p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    {rec.description}
-                  </p>
-                  {rec.tags?.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-1">
-                      {rec.tags.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <div className="mt-4">
-                  <button
-                    onClick={() => navigate(`/details/${rec.id}`)}
-                    className="w-full bg-green-600 text-white py-2 rounded-md text-sm hover:bg-green-700 transition"
-                  >
-                    View
-                  </button>
-                </div>
-              </div>
-            ))}
+            {featured.map(renderCard)}
           </div>
 
-          {/* Scrollable List for Remaining */}
+          {/* More Eateries */}
           {others.length > 0 && (
             <>
               <h2 className="text-lg font-semibold text-green-700 mb-2">
@@ -149,34 +186,7 @@ export default function Home() {
                     key={rec.id}
                     className="inline-block w-72 bg-white rounded-lg shadow p-4 flex-shrink-0 hover:shadow-md transition flex flex-col justify-between"
                   >
-                    <div>
-                      <h3 className="text-md font-semibold text-green-700 truncate">
-                        {rec.name}
-                      </h3>
-                      <p className="text-sm text-gray-500 truncate">
-                        {rec.fullAddress || rec.address}
-                      </p>
-                      {rec.tags?.length > 0 && (
-                        <div className="mt-2 flex flex-wrap gap-1">
-                          {rec.tags.map((tag, i) => (
-                            <span
-                              key={i}
-                              className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                    <div className="mt-3">
-                      <button
-                        onClick={() => navigate(`/details/${rec.id}`)}
-                        className="w-full bg-green-600 text-white py-2 rounded-md text-sm hover:bg-green-700 transition"
-                      >
-                        View
-                      </button>
-                    </div>
+                    {renderCard(rec)}
                   </div>
                 ))}
               </div>

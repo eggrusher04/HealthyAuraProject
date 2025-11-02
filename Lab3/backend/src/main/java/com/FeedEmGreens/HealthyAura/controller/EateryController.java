@@ -32,18 +32,25 @@ public class EateryController {
 
     // Get eateries from database (returns entities)
     @GetMapping("/fetchDb")
-    public ResponseEntity<List<Eatery>> getAllEateries(@RequestParam(required = false) String query){
+    public ResponseEntity<List<Eatery>> getAllEateries(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) List<String> tags) {
+
         List<Eatery> eateries;
 
-        if(query == null || query.isBlank()){
-            return ResponseEntity.ok(eateryService.getAllEateriesFromDatabase());
-        }
-        else{
+        if ((query == null || query.isBlank()) && (tags == null || tags.isEmpty())) {
+            eateries = eateryService.getAllEateriesFromDatabase();
+        } else if (tags == null || tags.isEmpty()) {
             eateries = eateryService.searchEateryFromDatabase(query);
+        } else if (query == null || query.isBlank()) {
+            eateries = eateryService.searchEateryByTags(tags);
+        } else {
+            eateries = eateryService.searchEateryByQueryAndTags(query, tags);
         }
 
         return ResponseEntity.ok(eateries);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Eatery> getEateryById(@PathVariable Long id) {

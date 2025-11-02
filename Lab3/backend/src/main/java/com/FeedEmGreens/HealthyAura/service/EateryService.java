@@ -264,4 +264,38 @@ public class EateryService {
         return eateryRepository.findById(id);
     }
 
+    public List<Eatery> searchEateryByTags(List<String> tags) {
+        if (tags == null || tags.isEmpty()) {
+            return eateryRepository.findAll();
+        }
+
+        return eateryRepository.findAll().stream()
+                .filter(e -> e.getDietaryTags() != null && !e.getDietaryTags().isEmpty() &&
+                        e.getDietaryTags().stream()
+                                .anyMatch(tag -> tags.stream()
+                                        .anyMatch(input -> tag.getTag().equalsIgnoreCase(input))))
+                .collect(Collectors.toList());
+    }
+
+    public List<Eatery> searchEateryByQueryAndTags(String query, List<String> tags) {
+        String lowerQuery = query != null ? query.toLowerCase() : "";
+        return eateryRepository.findAll().stream()
+                .filter(e -> {
+                    boolean matchesQuery =
+                            query == null || query.isBlank() ||
+                                    e.getName().toLowerCase().contains(lowerQuery) ||
+                                    (e.getAddress() != null && e.getAddress().toLowerCase().contains(lowerQuery));
+
+                    boolean matchesTags =
+                            tags == null || tags.isEmpty() ||
+                                    (e.getDietaryTags() != null && e.getDietaryTags().stream()
+                                            .anyMatch(tag -> tags.stream()
+                                                    .anyMatch(input -> tag.getTag().equalsIgnoreCase(input))));
+
+                    return matchesQuery && matchesTags;
+                })
+                .collect(Collectors.toList());
+    }
+
+
 }
