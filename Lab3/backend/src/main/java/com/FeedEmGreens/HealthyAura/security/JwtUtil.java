@@ -39,11 +39,11 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .claims()
-                    .subject(username)
-                    .add("role",role)
-                    .issuedAt(Date.from(now))
-                    .expiration(Date.from(exp))
-                    .and()
+                .subject(username)
+                .add("role",role)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(exp))
+                .and()
                 .signWith(key, Jwts.SIG.HS256)
                 .compact();
     }

@@ -2,6 +2,7 @@ package com.FeedEmGreens.HealthyAura.dto;
 
 import com.FeedEmGreens.HealthyAura.entity.Eatery;
 import java.util.List;
+import java.util.ArrayList;
 
 public class RecommendationDto {
 
@@ -13,7 +14,16 @@ public class RecommendationDto {
     private String description;
     private Double longitude;
     private Double latitude;
-    // do we need indicate recommendation reasons;
+    
+    // Enhanced recommendation features
+    private Double distance; // in km
+    private String reason; // one-line reasoning for recommendation
+    private Double score; // recommendation score (0-100)
+
+    // Ratings summary (for display)
+    private Double averageHealth;
+    private Double averageHygiene;
+    private Long reviewCount;
 
 
     public RecommendationDto() {}
@@ -21,6 +31,7 @@ public class RecommendationDto {
     public RecommendationDto(Long id, String name, String address, String fullAddress,
                             List<String> tags, String description, Double longitude,
                             Double latitude) {
+        this();
         this.id = id;
         this.name = name;
         this.address = address;
@@ -31,9 +42,13 @@ public class RecommendationDto {
         this.latitude = latitude;
     }
 
-    // Factory method
+    // Enhanced factory method
     public static RecommendationDto fromEatery(Eatery eatery) {
-        return new RecommendationDto(
+        return fromEatery(eatery, null, null);
+    }
+    
+    public static RecommendationDto fromEatery(Eatery eatery, Double userLat, Double userLng) {
+        RecommendationDto dto = new RecommendationDto(
                 eatery.getId(),
                 eatery.getName(), 
                 eatery.getAddress(),
@@ -42,12 +57,66 @@ public class RecommendationDto {
                 eatery.getDescription(),
                 eatery.getLongitude(),
                 eatery.getLatitude()
-                //generateRecommendationReason(eatery),
-                //distance to be calculated separately using other method?
         );
+        
+        // Calculate distance if user location provided
+        if (userLat != null && userLng != null) {
+            dto.distance = calculateDistance(userLat, userLng, eatery.getLatitude(), eatery.getLongitude());
+        }
+        
+        // Generate reason based on distance and tags
+        dto.reason = generateReason(dto);
+        
+        return dto;
     }
-
-
+    
+    // Calculate distance using Haversine formula
+    private static Double calculateDistance(Double lat1, Double lng1, Double lat2, Double lng2) {
+        if (lat1 == null || lng1 == null || lat2 == null || lng2 == null) {
+            return null;
+        }
+        
+        final int R = 6371; // Earth's radius in kilometers
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lngDistance = Math.toRadians(lng2 - lng1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+    
+    // Generate one-line reason for recommendation
+    private static String generateReason(RecommendationDto dto) {
+        List<String> reasons = new ArrayList<>();
+        
+        // Distance-based reasons
+        if (dto.distance != null) {
+            if (dto.distance < 0.5) {
+                reasons.add("Near you");
+            } else if (dto.distance < 1.0) {
+                reasons.add("Close by");
+            } else if (dto.distance < 2.0) {
+                reasons.add("Within walking distance");
+            }
+        }
+        
+        // Generic tag-based reasons - show first few tags
+        List<String> tags = dto.getTags();
+        if (!tags.isEmpty()) {
+            // Show up to 2 tags as reasons
+            int tagCount = Math.min(2, tags.size());
+            for (int i = 0; i < tagCount; i++) {
+                reasons.add(tags.get(i) + " option");
+            }
+        }
+        
+        if (reasons.isEmpty()) {
+            return "Recommended for you";
+        }
+        
+        return String.join(" • ", reasons);
+    }
 
     // Getters and setters
     public Long getId() { return id; }
@@ -73,5 +142,29 @@ public class RecommendationDto {
 
     public Double getLatitude() { return latitude; }
     public void setLatitude(Double latitude) { this.latitude = latitude; }
+    
+    public Double getDistance() { return distance; }
+    public void setDistance(Double distance) { this.distance = distance; }
+    
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
+    
+    public Double getScore() { return score; }
+    public void setScore(Double score) {
+        if (score == null) {
+            this.score = null;
+        } else {
+            this.score = Math.round(score * 10.0) / 10.0; // 1 decimal place
+        }
+    }
+
+    public Double getAverageHealth() { return averageHealth; }
+    public void setAverageHealth(Double averageHealth) { this.averageHealth = averageHealth; }
+
+    public Double getAverageHygiene() { return averageHygiene; }
+    public void setAverageHygiene(Double averageHygiene) { this.averageHygiene = averageHygiene; }
+
+    public Long getReviewCount() { return reviewCount; }
+    public void setReviewCount(Long reviewCount) { this.reviewCount = reviewCount; }
 
 }

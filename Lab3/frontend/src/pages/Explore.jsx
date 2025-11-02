@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -8,7 +9,6 @@ import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
 delete L.Icon.Default.prototype._getIconUrl;
-
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
   iconUrl: markerIcon,
@@ -22,6 +22,7 @@ export default function Explore() {
   const [sortBy, setSortBy] = useState("distance");
   const [selectedStall, setSelectedStall] = useState(null);
   const [map, setMap] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     search();
@@ -35,15 +36,14 @@ export default function Explore() {
 
   const search = async () => {
     try {
-      let res;
-      if (q) {
-        res = await API.get("/api/eateries/fetchDb", { params: { query: q } });
-      } else {
-        res = await API.get("/api/eateries/fetchDb");
-      }
+      const params = {};
+      if (q) params.query = q;
+      if (tags.length > 0) params.tags = tags;
+
+      const res = await API.get("/api/eateries/fetchDb", { params });
 
       if (Array.isArray(res.data)) {
-        console.log("Fetched eateries:", res.data);
+        console.log("Fetched eateries:", res.data.length);
         setStalls(res.data);
       } else {
         console.warn("Unexpected data shape:", res.data);
@@ -55,26 +55,24 @@ export default function Explore() {
     }
   };
 
+
+
   const showMap = (stall) => {
     setSelectedStall(stall);
 
-    // Initialize or update map
     setTimeout(() => {
-      if (map) {
-        map.remove();
-      }
+      if (map) map.remove();
 
       const newMap = L.map("onemap", {
         center: [stall.latitude, stall.longitude],
         zoom: 17,
       });
 
-      // OneMap tile layer
-      L.tileLayer("https://www.onemap.gov.sg/maps/tiles/Original/{z}/{x}/{y}.png", {
-        attribution: "Map data © OneMap Singapore",
-      }).addTo(newMap);
+      L.tileLayer(
+        "https://www.onemap.gov.sg/maps/tiles/Original/{z}/{x}/{y}.png",
+        { attribution: "Map data © OneMap Singapore" }
+      ).addTo(newMap);
 
-      // Add marker
       L.marker([stall.latitude, stall.longitude])
         .addTo(newMap)
         .bindPopup(`<b>${stall.name}</b><br>${stall.fullAddress || stall.address}`)
@@ -109,29 +107,31 @@ export default function Explore() {
       {/* Tag filters and sorting */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="space-x-2">
-          {["Vegan", "Vegetarian", "Halal", "Healthy", "High Protein"].map((t) => (
-            <button
-              key={t}
-              onClick={() => toggleTag(t)}
-              className={`px-2 py-1 border rounded ${
-                tags.includes(t)
-                  ? "bg-green-100 text-green-700"
-                  : "bg-white text-gray-700"
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+          {["Vegan", "Vegetarian", "Halal", "Healthy", "High Protein"].map(
+            (t) => (
+              <button
+                key={t}
+                onClick={() => toggleTag(t)}
+                className={`px-2 py-1 border rounded ${
+                  tags.includes(t)
+                    ? "bg-green-100 text-green-700 border-green-500"
+                    : "bg-white text-gray-700"
+                }`}
+              >
+                {t}
+              </button>
+            )
+          )}
         </div>
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="p-2 border rounded"
-        >
-          <option value="distance">Distance</option>
-          <option value="price">Average price</option>
-          <option value="popularity">Popularity</option>
-        </select>
+
+        {tags.length > 0 && (
+          <button
+            onClick={search}
+            className="ml-2 bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+          >
+            Apply Filters
+          </button>
+        )}
       </div>
 
       {/* Results */}
@@ -147,13 +147,28 @@ export default function Explore() {
                 <div className="text-xs text-gray-500">
                   {s.address || s.fullAddress}
                 </div>
-                <div className="mt-2 text-xs text-gray-600">
-                  {s.tags?.join(" • ")}
-                </div>
+
+                {/* Tag display */}
+                {Array.isArray(s.tags) && s.tags.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {s.tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
+                      >
+                        {typeof tag === "string" ? tag : tag.tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
+
               <div className="text-right">
                 <button
-                  onClick={() => showMap(s)}
+                  onClick={() => {
+                    console.log("Navigating to /details/" + s.id);
+                    navigate(`/details/${s.id}`);
+                  }}
                   className="mt-2 bg-green-600 text-white text-xs px-3 py-1 rounded hover:bg-green-700"
                 >
                   Get Directions
@@ -166,16 +181,13 @@ export default function Explore() {
         <div className="text-gray-500 text-sm">No results found.</div>
       )}
 
-      {/* OneMap Display */}
+      {/* Map Display */}
       {selectedStall && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-2 text-green-800">
             Directions to {selectedStall.name}
           </h2>
-          <div
-            id="onemap"
-            className="w-full h-96 rounded border shadow"
-          ></div>
+          <div id="onemap" className="w-full h-96 rounded border shadow"></div>
         </div>
       )}
     </div>

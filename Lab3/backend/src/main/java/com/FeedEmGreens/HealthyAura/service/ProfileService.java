@@ -2,7 +2,6 @@ package com.FeedEmGreens.HealthyAura.service;
 
 import com.FeedEmGreens.HealthyAura.entity.Users;
 import com.FeedEmGreens.HealthyAura.entity.Points;
-
 import com.FeedEmGreens.HealthyAura.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class ProfileService {
     private UserRepository userRepository;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    //Fetch profile details
+    // Fetch profile details
     public Users getUserProfile(String username) {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
@@ -26,28 +25,31 @@ public class ProfileService {
         return userOpt.get();
     }
 
-    //Update preferences field
-    public void updatePreferences(String username, String preferences) {
+    // Update preferences field
+    public Users updatePreferences(String username, String preferences) {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
             throw new RuntimeException("User not found: " + username);
         }
 
         Users user = userOpt.get();
-        user.setPreferences(preferences); // your manual setter
-        userRepository.save(user);
+        user.setPreferences(preferences);
+        return userRepository.save(user);
     }
 
-    //Optional: Link a new Points record to a user (only if needed)
-    public void assignPointsEntityToUser(String username, Points pointsEntity) {
+    // Create and assign Points entity to user if it doesn't exist
+    public void initializeUserPoints(String username) {
         Optional<Users> userOpt = userRepository.findByUsername(username);
         if (userOpt.isEmpty()) {
             throw new RuntimeException("User not found: " + username);
         }
 
         Users user = userOpt.get();
-        user.setPoints(pointsEntity);
-        userRepository.save(user);
+        if (user.getPoints() == null) {
+            Points points = new Points(user);
+            user.setPoints(points);
+            userRepository.save(user);
+        }
     }
 
     public Users updateEmail(String username, String newEmail) {
@@ -63,5 +65,4 @@ public class ProfileService {
         user.setPassword(encoder.encode(rawPassword));
         userRepository.save(user);
     }
-
 }
