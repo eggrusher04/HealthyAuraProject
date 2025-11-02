@@ -10,6 +10,7 @@ import DetailsPage from './pages/DetailsPage';
 import AdminAuth from './pages/AdminAuth';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminModeration from './pages/AdminModeration';
+import AdminTagManager from './pages/AdminTagManager';
 
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
@@ -34,6 +35,7 @@ export default function App(){
             <Route path="/auth/admin/signup" element={<AdminAuth />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/admin/review-moderation" element={<AdminModeration />} />
+            <Route path="/admin/tags" element={<AdminTagManager />} />
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
         </main>

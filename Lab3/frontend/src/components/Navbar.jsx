@@ -34,6 +34,17 @@ export default function Navbar() {
                 Activity Logs
               </Link>
             )}
+        {user?.role === "ADMIN" && (
+          <>
+            <a
+              href="/admin/tags"
+              className="text-sm font-semibold text-green-700 hover:underline"
+            >
+              Tag Manager
+            </a>
+          </>
+        )}
+
 
         </div>
 
