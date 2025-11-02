@@ -552,9 +552,6 @@ export default function DetailsPage() {
           </form>
         </div>
       </div>
-
-
-      <BottomNav />
     </div>
   );
 }

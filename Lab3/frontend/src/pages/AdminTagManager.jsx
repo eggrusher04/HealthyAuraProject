@@ -27,41 +27,59 @@ export default function AdminTagManager() {
 
   // Add new tag
   const handleAddTag = async () => {
-    if (!eateryId || !newTag.trim()) return alert("Eatery ID and new tag required.");
+    if (!newTag.trim()) return alert("Please enter a tag name.");
     try {
-      await axios.put(
+      // Always send the exact format backend expects
+      const payload = { tags: [newTag.trim()] };
+
+      console.log("Sending payload:", payload);
+
+      const response = await axios.post(
         `http://localhost:8080/api/eateries/${eateryId}/tags`,
-        { oldTag: null, newTag },
+        payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setFeedback(`Added tag '${newTag}'`);
+
+      // Assuming backend returns updated tags array
+      setTags(response.data.tags || [...tags, newTag.trim()]);
       setNewTag("");
-      fetchTags();
+      setFeedback(`Tag "${newTag}" added successfully.`);
     } catch (err) {
-      console.error(err);
-      setFeedback("Failed to add tag.");
+      console.error("Add tag error:", err.response?.data || err.message);
+      setFeedback("Failed to add tag. Please check backend logs.");
     }
   };
 
+
+
   // Rename tag
   const handleRenameTag = async () => {
-    if (!eateryId || !oldTag.trim() || !renameTo.trim())
-      return alert("Provide old and new tag values.");
-    try {
-      await axios.put(
-        `http://localhost:8080/api/eateries/${eateryId}/tags`,
-        { oldTag, newTag: renameTo },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setFeedback(`Renamed '${oldTag}' → '${renameTo}'`);
-      setOldTag("");
-      setRenameTo("");
-      fetchTags();
-    } catch (err) {
-      console.error(err);
-      setFeedback("Failed to rename tag.");
-    }
-  };
+      const oldVal = (oldTag || "").trim();
+      const newVal = (renameTo || "").trim();
+
+      if (!oldVal || !newVal) {
+        alert("Please enter both old and new tag names.");
+        return;
+      }
+
+      try {
+        const payload = { oldTag: oldVal, newTag: newVal };
+        const res = await axios.put(
+          `http://localhost:8080/api/eateries/${eateryId}/tags`,
+          payload,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setTags(res.data.dietaryTags || res.data.tags || []);
+        setFeedback(`Tag "${oldVal}" renamed to "${newVal}".`);
+        setOldTag("");
+        setRenameTo("");
+      } catch (err) {
+        console.error("Rename tag error:", err.response?.data || err.message);
+        setFeedback("Failed to rename tag. Please check backend logs.");
+      }
+    };
+
 
   // Delete tag
   const handleDeleteTag = async (tag) => {
@@ -112,26 +130,21 @@ export default function AdminTagManager() {
         {/* Display Tags */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold mb-2 text-gray-700">Current Tags</h2>
-          {tags.length > 0 ? (
-            <ul className="space-y-2">
-              {tags.map((tag, idx) => (
-                <li
-                  key={idx}
-                  className="flex justify-between items-center bg-gray-100 rounded px-3 py-2"
-                >
-                  <span className="text-gray-800">{tag}</span>
-                  <button
-                    onClick={() => handleDeleteTag(tag)}
-                    className="text-red-600 text-sm hover:underline"
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-gray-500">No tags found.</p>
-          )}
+          {tags.map((t, idx) => (
+            <li
+              key={t.id || idx}
+              className="flex justify-between items-center bg-gray-100 rounded px-3 py-2"
+            >
+              <span className="text-gray-800">{t.tag}</span>
+              <button
+                onClick={() => handleDeleteTag(t.tag)}
+                className="text-red-600 text-sm hover:underline"
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+
         </div>
 
         {/* Add Tag */}
@@ -179,12 +192,6 @@ export default function AdminTagManager() {
               Rename
             </button>
           </div>
-        </div>
-
-        <div className="mt-8 text-center">
-          <a href="/admin/dashboard" className="text-green-700 text-sm hover:underline">
-            ← Back to Dashboard
-          </a>
         </div>
       </div>
     </div>
