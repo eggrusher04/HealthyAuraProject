@@ -345,6 +345,26 @@ export default function AdminDashboard() {
           </table>
         </div>
       </main>
+
+      {/* === Moderation Redirect === */}
+      <div className="mt-12 flex justify-center">
+        <div className="bg-white shadow-md rounded-xl p-6 text-center w-full sm:w-2/3 lg:w-1/2">
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">
+            Need to moderate flagged reviews?
+          </h2>
+          <p className="text-sm text-gray-600 mb-4">
+            Go to the moderation panel to resolve, hide, or delete reviews.
+          </p>
+          <a
+            href="/admin/review-moderation"
+            className="inline-block px-5 py-2 bg-green-600 text-white rounded-md text-sm font-medium hover:bg-green-700 transition"
+          >
+            Go to Moderation Page →
+          </a>
+        </div>
+      </div>
+
+
     </div>
   );
 }

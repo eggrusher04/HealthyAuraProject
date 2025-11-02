@@ -35,13 +35,28 @@ public class AdminDashboardController {
         try {
             String effective = (status == null || status.isBlank()) ? "PENDING" : status;
             List<ReviewFlag> flags = reviewFlagRepository.findByStatusOrderByCreatedAtDesc(effective);
-            return ResponseEntity.ok(flags);
+
+            List<Map<String, Object>> result = flags.stream().map(flag -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", flag.getId());
+                map.put("reason", flag.getReason());
+                map.put("status", flag.getStatus());
+                map.put("createdAt", flag.getCreatedAt());
+                map.put("adminNotes", flag.getAdminNotes());
+                map.put("reviewedAt", flag.getReviewedAt());
+                map.put("reviewId",
+                        flag.getReview() != null ? flag.getReview().getId() : null);
+                return map;
+            }).collect(Collectors.toList());
+
+            return ResponseEntity.ok(result);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
             error.put("error", "Action could not be completed. Please try again.");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
+
 
     // Hygiene/health reported flags: use generic by-reason endpoint below
 
