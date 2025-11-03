@@ -33,7 +33,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Application.HealthyAuraApplication.executor": "Debug",
+    "Application.HealthyAuraApplication.executor": "Run",
     "Maven.HealthyAura [clean].executor": "Run",
     "Maven.HealthyAura [compile].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
