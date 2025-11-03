@@ -97,12 +97,7 @@ export function AuthProvider({ children }) {
 
   const signUp = async (payload) => {
     const res = await API.post("/auth/signup", payload);
-    const { token, username, role } = res.data;
-    const basicUserData = { username, role: role || "USER", token };
-
-    localStorage.setItem("token", token);
-    await fetchUserProfile(token, basicUserData);
-
+    console.log("Signup Response:", res.data);
     return res.data;
   };
 

@@ -55,7 +55,13 @@ export default function Navbar() {
               <Link to="/profile" className="text-sm text-green-700">
                 Profile
               </Link>
-              <button onClick={signOut} className="text-sm text-red-500">
+              <button
+                onClick={() => {
+                  signOut();
+                  window.location.href = "/auth";
+                }}
+                className="text-sm text-red-500"
+              >
                 Sign out
               </button>
             </>
