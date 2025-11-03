@@ -6,12 +6,35 @@ import Explore from './pages/Explore';
 import Rewards from './pages/Rewards';
 import Profile from './pages/Profile';
 import Auth from './pages/Auth';
+import DetailsPage from './pages/DetailsPage';
+import AdminAuth from './pages/AdminAuth';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminModeration from './pages/AdminModeration';
+import AdminTagManager from './pages/AdminTagManager';
+
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 function Protected({ children }) {
-  const { user } = useAuth();
-  return user ? children : <Navigate to="/auth" replace />;
+  const { user, loadingUser } = useAuth();
+
+  // Still loading user info (from localStorage or backend)
+  if (loadingUser) {
+    return (
+      <div className="flex justify-center items-center min-h-screen text-gray-600">
+        Loading...
+      </div>
+    );
+  }
+
+  // No user after loading — redirect to login
+  if (!user) {
+    return <Navigate to="/auth" replace />;
+  }
+
+  // User is loaded and authenticated
+  return children;
 }
+
 
 export default function App(){
   return (
@@ -25,6 +48,11 @@ export default function App(){
             <Route path="/rewards" element={<Rewards />} />
             <Route path="/profile" element={<Protected><Profile /></Protected>} />
             <Route path="/auth" element={<Auth />} />
+            <Route path="/details/:id" element={<DetailsPage />} />
+            <Route path="/auth/admin/signup" element={<AdminAuth />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/review-moderation" element={<AdminModeration />} />
+            <Route path="/admin/tags" element={<AdminTagManager />} />
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
         </main>

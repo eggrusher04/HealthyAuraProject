@@ -1,86 +1,180 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import API from '../services/api';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import API from "../services/api";
 
 export default function Home() {
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [recommendations, setRecommendations] = useState([]);
-  const [recommend, setRecommend] = useState(null); // Popup eatery
+  const [coords, setCoords] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  // Get user location
   useEffect(() => {
-    if (user) {
-      const tags = user?.diet ? [user.diet] : [];
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setCoords({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
+      },
+      (err) => {
+        console.warn("Location not available:", err.message);
+        setCoords(null);
+      }
+    );
+  }, []);
 
-      const fetchRecommendations = async () => {
-        try {
-          let response;
-          if (tags.length > 0) {
-            response = await API.get('/home/recommendations/tags', { params: { tags } });
-          } else {
-            response = await API.get('/home/recommendations');
-          }
+  // Fetch recommendations (only if logged in)
+  useEffect(() => {
+    const fetchRecommendations = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
-          if (response.data && response.data.length > 0) {
-            console.log('Fetched recommendations:', response.data);
-            setRecommendations(response.data);
-            setRecommend(response.data[0]); // popup always shows
-          }
-        } catch (err) {
-          console.error('Error fetching recommendations:', err);
+      setLoading(true);
+      try {
+        const params = coords ? { lat: coords.lat, lng: coords.lng } : {};
+        const response = await API.get("/home/recommendations", { params });
+
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          setRecommendations(response.data);
+        } else {
+          setRecommendations([]);
         }
-      };
+      } catch (err) {
+        console.error("Error fetching recommendations:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchRecommendations();
-    }
-  }, [user]);
+    fetchRecommendations();
+  }, [user, coords]);
+
+  if (loading)
+    return (
+      <div className="p-6 text-gray-600 text-center">
+        Loading recommendations...
+      </div>
+    );
+
+  if (!user)
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center text-center p-6">
+        <h1 className="text-2xl font-semibold mb-4 text-green-800">
+          Welcome to HealthyAura
+        </h1>
+        <p className="text-gray-700 bg-white p-4 rounded shadow max-w-md">
+          You must be logged in to see personalized recommendations.
+          <br />
+          <span className="text-sm text-gray-500">
+            Please sign in to view eateries tailored to your preferences.
+          </span>
+        </p>
+      </div>
+    );
 
   const featured = recommendations.slice(0, 10);
   const others = recommendations.slice(10);
 
+  const renderCard = (rec) => (
+    <div
+      key={rec.id}
+      className="p-4 bg-white rounded-lg shadow hover:shadow-md transition flex flex-col justify-between"
+    >
+      <div>
+        <h3 className="text-lg font-semibold text-green-700">{rec.name}</h3>
+        <p className="text-sm text-gray-600">{rec.fullAddress || rec.address}</p>
+
+        {/* Tags */}
+        {Array.isArray(rec.tags) && rec.tags.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1">
+            {rec.tags.map((tag, i) => (
+              <span
+                key={i}
+                className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
+              >
+                {typeof tag === "string" ? tag : tag.tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Description */}
+        {rec.description && (
+          <p className="text-xs text-gray-500 mt-2">{rec.description}</p>
+        )}
+
+        {/* Reason */}
+        {rec.reason && (
+          <p className="text-xs text-gray-400 mt-1 italic">{rec.reason}</p>
+        )}
+
+        {/* Scores */}
+        <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
+          {rec.averageHealth != null && !isNaN(rec.averageHealth) && (
+            <span>
+              Health:{" "}
+              <span className="font-semibold text-green-700">
+                {Number(rec.averageHealth).toFixed(1)}
+              </span>
+            </span>
+          )}
+          {rec.averageHygiene != null && !isNaN(rec.averageHygiene) && (
+            <span>
+              Hygiene:{" "}
+              <span className="font-semibold text-green-700">
+                {Number(rec.averageHygiene).toFixed(1)}
+              </span>
+            </span>
+          )}
+          {rec.reviewCount != null && (
+            <span>
+              {rec.reviewCount} review{rec.reviewCount !== 1 ? "s" : ""}
+            </span>
+          )}
+          {rec.score != null && !isNaN(rec.score) && (
+            <span>
+              Score:{" "}
+              <span className="font-semibold text-green-700">
+                {Number(rec.score).toFixed(1)}
+              </span>
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* View Button */}
+      <div className="mt-4">
+        <button
+          onClick={() => navigate(`/details/${rec.id}`)}
+          className="w-full bg-green-600 text-white py-2 rounded-md text-sm hover:bg-green-700 transition"
+        >
+          View
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4 text-green-800">
-        Recommended for you
+        Recommended for You
       </h1>
 
-      {!user && (
-        <div className="p-4 bg-white rounded shadow">
-          Please sign in to see recommendations.
-        </div>
-      )}
-
-      {user && (
+      {recommendations.length > 0 ? (
         <>
-          {/* Featured Top 10 */}
-          <h2 className="text-lg font-semibold text-green-700 mb-3">
-            Top Picks
-          </h2>
+          {/* Top Picks */}
+          <h2 className="text-lg font-semibold text-green-700 mb-3">Top Picks</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            {featured.map((rec) => (
-              <div
-                key={rec.id}
-                className="p-4 bg-white rounded-lg shadow hover:shadow-md transition"
-              >
-                <h3 className="text-lg font-semibold text-green-700">{rec.name}</h3>
-                <p className="text-sm text-gray-600">{rec.fullAddress || rec.address}</p>
-                <p className="text-xs text-gray-500 mt-1">{rec.description}</p>
-                {rec.tags?.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1">
-                    {rec.tags.map((tag, i) => (
-                      <span
-                        key={i}
-                        className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
+            {featured.map(renderCard)}
           </div>
 
-          {/* Scrollable List for Remaining */}
+          {/* More Eateries */}
           {others.length > 0 && (
             <>
               <h2 className="text-lg font-semibold text-green-700 mb-2">
@@ -90,72 +184,19 @@ export default function Home() {
                 {others.map((rec) => (
                   <div
                     key={rec.id}
-                    className="inline-block w-72 bg-white rounded-lg shadow p-4 flex-shrink-0 hover:shadow-md transition"
+                    className="inline-block w-72 bg-white rounded-lg shadow p-4 flex-shrink-0 hover:shadow-md transition flex flex-col justify-between"
                   >
-                    <h3 className="text-md font-semibold text-green-700 truncate">
-                      {rec.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 truncate">
-                      {rec.fullAddress || rec.address}
-                    </p>
-                    {rec.tags?.length > 0 && (
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {rec.tags.map((tag, i) => (
-                          <span
-                            key={i}
-                            className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    {renderCard(rec)}
                   </div>
                 ))}
               </div>
             </>
           )}
-
-          {/* Always-Visible Popup */}
-          {recommend && (
-            <div className="fixed bottom-6 right-6 w-80 bg-white border p-4 rounded-lg shadow-lg z-50 animate-slideUp">
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="font-semibold text-green-800">{recommend.name}</div>
-                  <div className="text-xs text-gray-500">
-                    {recommend.fullAddress || recommend.address}
-                  </div>
-                  <div className="text-xs text-gray-400 mt-1">{recommend.description}</div>
-                  {recommend.tags?.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {recommend.tags.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <button
-                  onClick={() => setRecommend(null)}
-                  className="text-sm text-gray-500"
-                >
-                  ✕
-                </button>
-              </div>
-
-              <div className="mt-3 flex gap-2">
-                <button className="flex-1 border rounded py-1 text-sm">View</button>
-                <button className="flex-1 bg-green-600 text-white rounded py-1 text-sm">
-                  Get Directions
-                </button>
-              </div>
-            </div>
-          )}
         </>
+      ) : (
+        <div className="p-4 bg-white rounded shadow text-center text-gray-500">
+          No recommendations available.
+        </div>
       )}
     </div>
   );

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
+@org.springframework.context.annotation.Profile("!test")  // <-- add this line
 public class DatabaseSeeder {
 
     //   Reward Seeder
@@ -34,6 +35,35 @@ public class DatabaseSeeder {
                 System.out.println(" Dummy rewards loaded into database.");
             } else {
                 System.out.println("Rewards already exist, skipping seeding.");
+            }
+        };
+    }
+
+    //  Admin Seeder that creates the first admin account
+    @Bean
+    CommandLineRunner initAdmin(UserRepository userRepository, PointsRepository pointsRepository) {
+        return args -> {
+            if (userRepository.findByUsername("admin").isEmpty()) {
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+                Users admin = new Users();
+                admin.setUsername("admin");
+                admin.setEmail("admin@healthyaura.com");
+                admin.setPassword(encoder.encode("admin123"));
+                admin.setRole("ADMIN");
+                userRepository.save(admin);
+
+                //Points record created for this admin
+                Points points = new Points();
+                points.setUser(admin);
+                points.setTotalPoints(0);
+                points.setRedeemedPoints(0);
+                points.setLastUpdated(LocalDateTime.now());
+                pointsRepository.save(points);
+
+                System.out.println("Created default admin account: admin (password: admin123)");
+            } else {
+                System.out.println("Admin user already exists, skipping seeding.");
             }
         };
     }

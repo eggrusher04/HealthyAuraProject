@@ -1,13 +1,16 @@
 package com.FeedEmGreens.HealthyAura.service;
 
 import com.FeedEmGreens.HealthyAura.dto.EateryRequest;
-import com.FeedEmGreens.HealthyAura.dto.AddTagsRequest;
 import com.FeedEmGreens.HealthyAura.entity.Eatery;
 import com.FeedEmGreens.HealthyAura.entity.DietaryTags;
+import com.FeedEmGreens.HealthyAura.entity.AdminActionLog;
 import com.FeedEmGreens.HealthyAura.repository.EateryRepository;
+import com.FeedEmGreens.HealthyAura.repository.DietaryTagsRepository;
+import com.FeedEmGreens.HealthyAura.repository.AdminActionLogRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -16,6 +19,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +31,12 @@ public class EateryService {
 
     @Autowired
     private EateryRepository eateryRepository;
+
+    @Autowired
+    private DietaryTagsRepository dietaryTagsRepository;
+
+    @Autowired
+    private AdminActionLogRepository adminActionLogRepository;
 
     public List<EateryRequest> fetchEateries() {
         List<EateryRequest> eateries = new ArrayList<>();
@@ -129,18 +139,88 @@ public class EateryService {
         return eateryRepository.findAll();
     }
 
-    // Attach tags to an eatery
+    // Attach tags to an eatery (dedupe per eatery, case-insensitive)
     public Eatery addTagsToEatery(Long eateryId, List<String> tags) {
         Eatery eatery = eateryRepository.findById(eateryId)
                 .orElseThrow(() -> new IllegalArgumentException("Eatery not found: " + eateryId));
 
+        List<String> existing = eatery.getTagNames().stream()
+                .map(s -> s.toLowerCase().trim())
+                .toList();
+
+        int added = 0;
         for (String tagName : tags) {
             if (tagName == null || tagName.isBlank()) continue;
-            DietaryTags tag = new DietaryTags(tagName.trim());
+            String normalized = tagName.trim();
+            if (existing.contains(normalized.toLowerCase())) {
+                continue; // skip duplicates like "vegna" vs "vegan" will still be distinct; exact case-insensitive match only
+            }
+            DietaryTags tag = new DietaryTags(normalized);
             eatery.addDietaryTag(tag);
+            added++;
         }
 
-        return eateryRepository.save(eatery);
+        Eatery saved = eateryRepository.save(eatery);
+        if (added > 0) {
+            logAdminAction("ADD_TAG", eateryId, null, "Added " + added + " tag(s)");
+        } else {
+            logAdminAction("ADD_TAG", eateryId, null, "No tags added (duplicates/blank)");
+        }
+        return saved;
+    }
+
+    // Delete a tag from an eatery by tag name (case-insensitive)
+    public Eatery deleteTagFromEatery(Long eateryId, String tagName) {
+        Eatery eatery = eateryRepository.findById(eateryId)
+                .orElseThrow(() -> new IllegalArgumentException("Eatery not found: " + eateryId));
+        if (tagName == null || tagName.isBlank()) {
+            throw new IllegalArgumentException("Tag name cannot be blank");
+        }
+
+        String target = tagName.trim();
+        DietaryTags existing = dietaryTagsRepository.findByEateryAndTagIgnoreCase(eatery, target)
+                .orElseThrow(() -> new IllegalArgumentException("Tag not found for eatery: " + target));
+
+        eatery.removeDietaryTag(existing);
+        Eatery saved = eateryRepository.save(eatery);
+        logAdminAction("DELETE_TAG", eateryId, existing.getId(), "Removed tag '" + existing.getTag() + "'");
+        return saved;
+    }
+
+    // Edit/rename a tag for an eatery
+    public Eatery editTagForEatery(Long eateryId, String oldTagName, String newTagName) {
+        Eatery eatery = eateryRepository.findById(eateryId)
+                .orElseThrow(() -> new IllegalArgumentException("Eatery not found: " + eateryId));
+        if (oldTagName == null || oldTagName.isBlank() || newTagName == null || newTagName.isBlank()) {
+            throw new IllegalArgumentException("Old and new tag names must be provided");
+        }
+
+        String oldNorm = oldTagName.trim();
+        String newNorm = newTagName.trim();
+
+        DietaryTags existing = dietaryTagsRepository.findByEateryAndTagIgnoreCase(eatery, oldNorm)
+                .orElseThrow(() -> new IllegalArgumentException("Tag not found for eatery: " + oldNorm));
+
+        // prevent duplicate after rename
+        boolean duplicateExists = eatery.getTagNames().stream()
+                .map(s -> s.toLowerCase())
+                .anyMatch(s -> s.equals(newNorm.toLowerCase()));
+        if (duplicateExists) {
+            throw new IllegalArgumentException("A tag with the same name already exists for this eatery");
+        }
+
+        String before = existing.getTag();
+        existing.setTag(newNorm);
+        Eatery saved = eateryRepository.save(eatery);
+        logAdminAction("EDIT_TAG", eateryId, existing.getId(), "Renamed tag '" + before + "' -> '" + newNorm + "'");
+        return saved;
+    }
+
+    private void logAdminAction(String actionType, Long eateryId, Long targetId, String details) {
+        String admin = SecurityContextHolder.getContext().getAuthentication() != null ?
+                SecurityContextHolder.getContext().getAuthentication().getName() : "unknown";
+        AdminActionLog log = new AdminActionLog(admin, actionType, "TAG", targetId, eateryId, details, java.time.LocalDateTime.now());
+        adminActionLogRepository.save(log);
     }
 
     private String extractProperty(JSONObject props, String key){
@@ -179,4 +259,43 @@ public class EateryService {
         }
         return eateryRepository.searchByQuery(query);
     }
+
+    public Optional<Eatery> getEateryById(Long id) {
+        return eateryRepository.findById(id);
+    }
+
+    public List<Eatery> searchEateryByTags(List<String> tags) {
+        if (tags == null || tags.isEmpty()) {
+            return eateryRepository.findAll();
+        }
+
+        return eateryRepository.findAll().stream()
+                .filter(e -> e.getDietaryTags() != null && !e.getDietaryTags().isEmpty() &&
+                        e.getDietaryTags().stream()
+                                .anyMatch(tag -> tags.stream()
+                                        .anyMatch(input -> tag.getTag().equalsIgnoreCase(input))))
+                .collect(Collectors.toList());
+    }
+
+    public List<Eatery> searchEateryByQueryAndTags(String query, List<String> tags) {
+        String lowerQuery = query != null ? query.toLowerCase() : "";
+        return eateryRepository.findAll().stream()
+                .filter(e -> {
+                    boolean matchesQuery =
+                            query == null || query.isBlank() ||
+                                    e.getName().toLowerCase().contains(lowerQuery) ||
+                                    (e.getAddress() != null && e.getAddress().toLowerCase().contains(lowerQuery));
+
+                    boolean matchesTags =
+                            tags == null || tags.isEmpty() ||
+                                    (e.getDietaryTags() != null && e.getDietaryTags().stream()
+                                            .anyMatch(tag -> tags.stream()
+                                                    .anyMatch(input -> tag.getTag().equalsIgnoreCase(input))));
+
+                    return matchesQuery && matchesTags;
+                })
+                .collect(Collectors.toList());
+    }
+
+
 }

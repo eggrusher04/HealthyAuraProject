@@ -1,7 +1,5 @@
 package com.FeedEmGreens.HealthyAura.service;
 
-
-
 import com.FeedEmGreens.HealthyAura.entity.Points;
 import com.FeedEmGreens.HealthyAura.repository.PointsRepository;
 import com.FeedEmGreens.HealthyAura.security.JwtUtil;
@@ -72,7 +70,6 @@ public class AuthService {
             throw new DuplicateUserException("Email already exists");
         }
 
-
         Users user = new Users();
         user.setEmail(email);
         user.setUsername(username);
@@ -93,15 +90,32 @@ public class AuthService {
     }
 
     public AuthResponse login(String username, String rawPassword){
+        System.out.println("=== LOGIN ATTEMPT ===");
+        System.out.println("Username: " + username);
+        System.out.println("Raw password: " + rawPassword);
+        
         Users user = userRepo.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> {
+                    System.out.println("❌ USER NOT FOUND: " + username);
+                    return new RuntimeException("User not found");
+                });
 
-        if(!encoder.matches(rawPassword,user.getPassword())){
+        System.out.println("✅ User found: " + user.getUsername());
+        System.out.println("Stored hash: " + user.getPassword());
+        System.out.println("User role: " + user.getRole());
+        
+        boolean passwordMatches = encoder.matches(rawPassword, user.getPassword());
+        System.out.println("Password matches: " + passwordMatches);
+        
+        if(!passwordMatches){
+            System.out.println("❌ PASSWORD MISMATCH for user: " + username);
             throw new RuntimeException("Invalid password");
         }
 
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
-        return new AuthResponse(token,user.getUsername(), user.getRole());
+        System.out.println("✅ LOGIN SUCCESSFUL - Token generated");
+        System.out.println("=== LOGIN COMPLETE ===");
+        
+        return new AuthResponse(token, user.getUsername(), user.getRole());
     }
-
 }

@@ -6,6 +6,7 @@ import com.FeedEmGreens.HealthyAura.dto.AddTagsRequest;
 import com.FeedEmGreens.HealthyAura.entity.Eatery;
 import com.FeedEmGreens.HealthyAura.service.EateryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,17 +32,31 @@ public class EateryController {
 
     // Get eateries from database (returns entities)
     @GetMapping("/fetchDb")
-    public ResponseEntity<List<Eatery>> getAllEateries(@RequestParam(required = false) String query){
+    public ResponseEntity<List<Eatery>> getAllEateries(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) List<String> tags) {
+
         List<Eatery> eateries;
 
-        if(query == null || query.isBlank()){
-            return ResponseEntity.ok(eateryService.getAllEateriesFromDatabase());
-        }
-        else{
+        if ((query == null || query.isBlank()) && (tags == null || tags.isEmpty())) {
+            eateries = eateryService.getAllEateriesFromDatabase();
+        } else if (tags == null || tags.isEmpty()) {
             eateries = eateryService.searchEateryFromDatabase(query);
+        } else if (query == null || query.isBlank()) {
+            eateries = eateryService.searchEateryByTags(tags);
+        } else {
+            eateries = eateryService.searchEateryByQueryAndTags(query, tags);
         }
 
         return ResponseEntity.ok(eateries);
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Eatery> getEateryById(@PathVariable Long id) {
+        return ResponseEntity.of(
+                eateryService.getEateryById(id) // returns Optional<Eatery>
+        );
     }
 
     // Sync API data to database
@@ -53,11 +68,34 @@ public class EateryController {
 
     // Add tags to an eatery
     @PostMapping("/{eateryId}/tags")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Eatery> addTags(
             @PathVariable Long eateryId,
             @RequestBody AddTagsRequest request
     ){
         Eatery updated = eateryService.addTagsToEatery(eateryId, request.getTags());
+        return ResponseEntity.ok(updated);
+    }
+
+    // Delete a tag from an eatery
+    @DeleteMapping("/{eateryId}/tags/{tag}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Eatery> deleteTag(
+            @PathVariable Long eateryId,
+            @PathVariable String tag
+    ){
+        Eatery updated = eateryService.deleteTagFromEatery(eateryId, tag);
+        return ResponseEntity.ok(updated);
+    }
+
+    // Edit/rename a tag for an eatery
+    @PutMapping("/{eateryId}/tags")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Eatery> editTag(
+            @PathVariable Long eateryId,
+            @RequestBody com.FeedEmGreens.HealthyAura.dto.UpdateTagRequest request
+    ){
+        Eatery updated = eateryService.editTagForEatery(eateryId, request.getOldTag(), request.getNewTag());
         return ResponseEntity.ok(updated);
     }
 }

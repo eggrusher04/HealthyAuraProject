@@ -4,7 +4,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 export default function Navbar() {
   const { user, signOut } = useAuth();
-
   return (
     <nav className="bg-white border-b shadow-sm">
       <div className="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -18,6 +17,35 @@ export default function Navbar() {
           <Link to="/rewards" className="text-sm text-gray-600">
             Rewards
           </Link>
+
+          {user?.role === 'ADMIN' && (
+              <Link
+                to="/auth/admin/signup"
+                className="text-sm font-semibold text-green-700 hover:underline"
+              >
+                Create Admin
+              </Link>
+          )}
+          {user?.role === 'ADMIN' && (
+              <Link
+                to="/admin/dashboard"
+                className="text-sm font-semibold text-green-700 hover:underline"
+              >
+                Activity Logs
+              </Link>
+            )}
+        {user?.role === "ADMIN" && (
+          <>
+            <a
+              href="/admin/tags"
+              className="text-sm font-semibold text-green-700 hover:underline"
+            >
+              Tag Manager
+            </a>
+          </>
+        )}
+
+
         </div>
 
         <div className="flex items-center gap-4">
@@ -32,13 +60,15 @@ export default function Navbar() {
               </button>
             </>
           ) : (
-            // ✨ CHANGED: replaced plain text with a clickable "Sign In" link
-            <Link
-              to="/auth"
-              className="text-sm text-green-700 font-semibold hover:underline"
-            >
-              Sign In
-            </Link>
+            <>
+              {/* Sign In Button */}
+              <Link
+                to="/auth"
+                className="text-sm text-green-700 font-semibold hover:underline"
+              >
+                Sign In
+              </Link>
+            </>
           )}
         </div>
       </div>
