@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eac02406-0ca9-43f0-adea-ea2cf5a23182" name="Changes" comment="" />
+    <list default="true" id="eac02406-0ca9-43f0-adea-ea2cf5a23182" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Lab3/backend/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Lab3/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/backend/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,7 +44,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "Rushaidy",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Modules",
@@ -106,5 +109,8 @@
       <updated>1759742855527</updated>
     </task>
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
 </project>
