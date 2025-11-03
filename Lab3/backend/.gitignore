@@ -1,0 +1,27 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+
+**/target/
+
+# IntelliJ / VSCode / IDE settings
+**/.idea/
+**/.vscode/
+*.iml
+
+# OS / temporary files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+/Lab3/HealthyAuraV2/HealthyAura/target/
+
+# === Frontend dependencies & builds ===
+**/node_modules/
+**/package-lock.json
+**/dist/
+**/build/
+
+# Environment files
+.env
