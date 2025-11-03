@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function Auth() {
   const { signIn, signUp } = useAuth();
@@ -8,6 +9,13 @@ export default function Auth() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+      if(location.state?.fromSignup){
+          setMode("login");
+      }
+  }, [location.state]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -15,14 +23,16 @@ export default function Auth() {
     try {
       if (mode === "login") {
         await signIn(form.username, form.password);
+        navigate("/");
       } else {
         await signUp({
           username: form.username,
           email: form.email,
           password: form.password,
         });
+        navigate("/auth", {state: {fromSignup: true} });
       }
-      navigate("/"); // redirect to home
+
     } catch (err) {
       setError(err.message);
     }
