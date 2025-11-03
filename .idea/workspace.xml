@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eac02406-0ca9-43f0-adea-ea2cf5a23182" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Lab3/backend/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Lab3/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Lab3/backend/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="eac02406-0ca9-43f0-adea-ea2cf5a23182" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
