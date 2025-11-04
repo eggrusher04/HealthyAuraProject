@@ -58,7 +58,11 @@ export default function Home() {
       }
     };
 
-    if (user) fetchRecommendations();
+    if (user === null) {
+        setLoading(false); // ensures shimmer disappears if not logged in
+      } else {
+        fetchRecommendations();
+      }
   }, [user, coords]);
 
   //loading animation when it is still fetching the recommendations
