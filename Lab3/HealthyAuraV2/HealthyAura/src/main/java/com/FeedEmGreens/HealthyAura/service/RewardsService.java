@@ -72,6 +72,26 @@ public class RewardsService {
         return pointsRepository.save(points);
     }
 
+    // Deduct points (can go negative - used when reviews are deleted)
+    // Note: This bypasses security check 
+    // (as in, we need to deduct the points from the user's points so we did not check the authenicated user matching the requested username) 
+    // it is to allow admin operations on it (since admin can deduct points from any user).
+    public Points deductPoints(String username, int pointsToDeduct) {
+        Points points = getUserPointsInternal(username);
+        // Allow negative points as per policy
+        points.setTotalPoints(points.getTotalPoints() - pointsToDeduct);
+        points.setLastUpdated(LocalDateTime.now());
+        return pointsRepository.save(points);
+    }
+
+    // Internal method to get user points without security check (for admin operations)
+    private Points getUserPointsInternal(String username) {
+        Users user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return pointsRepository.findByUser(user)
+                .orElseGet(() -> createNewUserPoints(user)); //auto-create if not found
+    }
+
     // Helper method for initializing new users' points
     private Points createNewUserPoints(Users user) {
         Points newPoints = new Points();

@@ -62,6 +62,9 @@ public class Review {
     @Column(name = "last_submission_date") // track for 7 days cooldown
     private LocalDateTime lastSubmissionDate;
 
+    @Column(name = "points_awarded")
+    private Integer pointsAwarded = 0; // Track points awarded for this review (for deduction if deleted)
+
     // Constructor
     public Review() {
         this.createdAt = LocalDateTime.now();
@@ -161,5 +164,8 @@ public class Review {
 
     public LocalDateTime getLastSubmissionDate() { return lastSubmissionDate; }
     public void setLastSubmissionDate(LocalDateTime lastSubmissionDate) { this.lastSubmissionDate = lastSubmissionDate; }
+
+    public Integer getPointsAwarded() { return pointsAwarded; }
+    public void setPointsAwarded(Integer pointsAwarded) { this.pointsAwarded = pointsAwarded; }
 }
 

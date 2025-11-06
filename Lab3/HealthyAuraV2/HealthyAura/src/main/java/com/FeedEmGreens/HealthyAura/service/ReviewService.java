@@ -27,6 +27,9 @@ public class ReviewService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RewardsService rewardsService;
+
     // Create or update a review for an eatery
     // If user has an existing review, it opens it for editing instead of creating a new one
     @Transactional
@@ -67,6 +70,13 @@ public class ReviewService {
             }
             review.setUpdatedAt(LocalDateTime.now());
         } else {
+            // PRIORITY 1: Global daily review limit (max 5 reviews per day per user)
+            LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
+            Long reviewsToday = reviewRepository.countReviewsCreatedTodayByUser(user, startOfDay);
+            if (reviewsToday != null && reviewsToday >= 5) {
+                throw new IllegalArgumentException("Daily review limit reached. You can only submit 5 reviews per day.");
+            }
+
             // check 7 days cooldown for new reviews
             LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
             List<Review> recentSubmissions = reviewRepository.findRecentSubmissions(eatery, user, sevenDaysAgo);
@@ -82,6 +92,13 @@ public class ReviewService {
                     throw new IllegalArgumentException("Maximum 3 photos allowed");
                 }
                 review.setPhotos(request.getPhotos());
+            }
+
+            // Award points for new review (only for new reviews, not edits)
+            int pointsAwarded = calculatePointsForReview(request);
+            if (pointsAwarded > 0) {
+                rewardsService.addPoints(username, pointsAwarded);
+                review.setPointsAwarded(pointsAwarded);
             }
         }
 
@@ -161,6 +178,9 @@ public class ReviewService {
         review.setModeratedByAdminUsername(admin);
         reviewRepository.save(review);
 
+        // Deduct points for hidden review (can go negative)
+        deductPointsForReview(review);
+
         // resolve all pending flags for this review as RESOLVED
         for (ReviewFlag rf : reviewFlagRepository.findByReviewId(reviewId)) {
             if ("PENDING".equals(rf.getStatus())) {
@@ -193,6 +213,9 @@ public class ReviewService {
         review.setIsDeleted(true);
         review.setModeratedByAdminUsername(admin);
         reviewRepository.save(review);
+
+        // Deduct points for deleted review (can go negative)
+        deductPointsForReview(review);
 
         // resolve all pending flags as RESOLVED
         for (ReviewFlag rf : reviewFlagRepository.findByReviewId(reviewId)) {
@@ -286,8 +309,16 @@ public class ReviewService {
             throw new IllegalArgumentException("You can only delete your own reviews");
         }
 
+        // Prevent users from deleting hidden reviews (admin moderation action)
+        if (Boolean.TRUE.equals(review.getIsHidden())) {
+            throw new IllegalArgumentException("Cannot delete a hidden review. Hidden reviews can only be deleted by administrators. Please contact support if you have concerns.");
+        }
+
         review.setIsDeleted(true);
         reviewRepository.save(review);
+
+        // Deduct points for user self-deletion (can go negative, same as admin deletion)
+        deductPointsForReview(review);
     }
 
     // Authenticated users can flag a review as inappropriate
@@ -351,6 +382,36 @@ public class ReviewService {
     // Get flagged reviews for admin moderation queue
     public List<ReviewFlag> getPendingFlags() {
         return reviewFlagRepository.findByStatusOrderByCreatedAtDesc("PENDING");
+    }
+
+    // Helper method to calculate points for a review
+    // Points structure:
+    // - Base points for new review: 10 points
+    // - Text feedback bonus: 5 points (if text exists and is at least 10 characters)
+    // - Photo bonus: 5 points per photo (up to 3 photos = 15 points max)
+    private int calculatePointsForReview(ReviewRequest request) {
+        int points = 10; // Base points for submitting a review
+
+        // Text feedback bonus (minimum 10 characters required)
+        if (request.getTextFeedback() != null && request.getTextFeedback().trim().length() >= 10) {
+            points += 5;
+        }
+
+        // Photo bonus (5 points per photo, up to 3 photos)
+        if (request.getPhotos() != null && !request.getPhotos().isEmpty()) {
+            int photoCount = Math.min(request.getPhotos().size(), 3);
+            points += photoCount * 5;
+        }
+
+        return points;
+    }
+
+    // Helper method to deduct points when review is deleted/hidden
+    private void deductPointsForReview(Review review) {
+        if (review.getPointsAwarded() != null && review.getPointsAwarded() > 0) {
+            // Deduct points (can go negative as per policy)
+            rewardsService.deductPoints(review.getUser().getUsername(), review.getPointsAwarded());
+        }
     }
 
     // Helper method to convert Review entity to ReviewResponse DTO
