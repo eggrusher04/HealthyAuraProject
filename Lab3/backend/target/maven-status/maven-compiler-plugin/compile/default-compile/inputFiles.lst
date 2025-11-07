@@ -6,7 +6,6 @@ D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\Hea
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\controller\AdminReviewModerationController.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\controller\CrowdController.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\controller\EateryController.java
-D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\controller\HealthController.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\controller\homeController.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\controller\loginController.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\controller\ProfileController.java
@@ -16,10 +15,8 @@ D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\Hea
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\AggregatedRatingsResponse.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\AuthResponse.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\CrowdDisplayDTO.java
-D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\EateryDTO.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\EateryRequest.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\LoginRequest.java
-D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\MessageResponse.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\PointsResponse.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\ProfileResponse.java
 D:\Documents\GitHub\2006-SCSD-16\Lab3\backend\src\main\java\com\FeedEmGreens\HealthyAura\dto\RecommendationDto.java

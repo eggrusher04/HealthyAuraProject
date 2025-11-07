@@ -3,7 +3,6 @@ com\FeedEmGreens\HealthyAura\entity\Reward.class
 com\FeedEmGreens\HealthyAura\repository\UserRepository.class
 com\FeedEmGreens\HealthyAura\dto\AggregatedRatingsResponse.class
 com\FeedEmGreens\HealthyAura\dto\CrowdDisplayDTO.class
-com\FeedEmGreens\HealthyAura\controller\HealthController.class
 com\FeedEmGreens\HealthyAura\repository\PointsRepository.class
 com\FeedEmGreens\HealthyAura\controller\AdminReviewModerationController.class
 com\FeedEmGreens\HealthyAura\service\AuthService.class
@@ -12,7 +11,6 @@ com\FeedEmGreens\HealthyAura\controller\AdminDashboardController.class
 com\FeedEmGreens\HealthyAura\dto\ReviewRequest.class
 com\FeedEmGreens\HealthyAura\controller\homeController.class
 com\FeedEmGreens\HealthyAura\controller\ReviewController.class
-com\FeedEmGreens\HealthyAura\dto\MessageResponse.class
 com\FeedEmGreens\HealthyAura\dto\AddTagsRequest.class
 com\FeedEmGreens\HealthyAura\dto\AuthResponse.class
 com\FeedEmGreens\HealthyAura\exception\GlobalExceptionHandler.class
@@ -36,7 +34,6 @@ com\FeedEmGreens\HealthyAura\dto\RecommendationDto.class
 com\FeedEmGreens\HealthyAura\dto\ReviewFlagRequest.class
 com\FeedEmGreens\HealthyAura\controller\loginController.class
 com\FeedEmGreens\HealthyAura\service\ProfileService.class
-com\FeedEmGreens\HealthyAura\dto\EateryDTO.class
 com\FeedEmGreens\HealthyAura\controller\CrowdController.class
 com\FeedEmGreens\HealthyAura\config\DatabaseSeeder.class
 com\FeedEmGreens\HealthyAura\repository\ReviewRepository.class

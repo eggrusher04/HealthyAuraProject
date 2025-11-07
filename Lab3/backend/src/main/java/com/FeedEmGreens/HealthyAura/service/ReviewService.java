@@ -12,6 +12,32 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service layer responsible for managing user reviews, ratings, and moderation workflows.
+ *
+ * <p>This class serves as the core business logic for the review system, providing
+ * functionality such as:</p>
+ * <ul>
+ *   <li>Submitting, editing, and deleting reviews</li>
+ *   <li>Awarding or deducting points via {@link RewardsService}</li>
+ *   <li>Administrative review moderation (approve, hide, delete)</li>
+ *   <li>Flagging inappropriate reviews for follow-up</li>
+ *   <li>Aggregating review statistics for analytics and recommendations</li>
+ * </ul>
+ *
+ * <p>It interacts closely with repositories for {@link Review}, {@link ReviewFlag},
+ * {@link Eatery}, and {@link Users} entities, ensuring transactional safety
+ * and data consistency during review submission or moderation.</p>
+ *
+ * @see com.FeedEmGreens.HealthyAura.repository.ReviewRepository
+ * @see com.FeedEmGreens.HealthyAura.repository.ReviewFlagRepository
+ * @see com.FeedEmGreens.HealthyAura.repository.EateryRepository
+ * @see com.FeedEmGreens.HealthyAura.repository.UserRepository
+ * @see com.FeedEmGreens.HealthyAura.service.RewardsService
+ *
+ * @version 1.0
+ * @since 2025-11-07
+ */
 @Service
 public class ReviewService {
 
@@ -30,30 +56,47 @@ public class ReviewService {
     @Autowired
     private RewardsService rewardsService;
 
-    // Create or update a review for an eatery
-    // If user has an existing review, it opens it for editing instead of creating a new one
+    @Autowired
+    private AdminActionLogRepository adminActionLogRepository;
+
+    /**
+     * Creates a new review or updates an existing one for a specific eatery.
+     *
+     * <p>Includes validation for:
+     * <ul>
+     *   <li>Score range (1–5)</li>
+     *   <li>Daily review submission limit (max 5/day)</li>
+     *   <li>7-day cooldown between reviews for the same eatery</li>
+     *   <li>Photo upload limit (max 3)</li>
+     * </ul>
+     * </p>
+     *
+     * <p>New reviews earn points, while edited ones do not.</p>
+     *
+     * @param eateryId the ID of the eatery being reviewed
+     * @param request the submitted review details
+     * @return a {@link ReviewResponse} DTO representing the created or updated review
+     * @throws RuntimeException if the user or eatery cannot be found
+     * @throws IllegalArgumentException if validation fails
+     */
     @Transactional
     public ReviewResponse createOrUpdateReview(Long eateryId, ReviewRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found: " + username));
-        
+
         Eatery eatery = eateryRepository.findById(eateryId)
                 .orElseThrow(() -> new IllegalArgumentException("Eatery not found: " + eateryId));
 
-        // Validate required fields
-        if (request.getHealthScore() == null || request.getHygieneScore() == null) {
+        // Validation
+        if (request.getHealthScore() == null || request.getHygieneScore() == null)
             throw new IllegalArgumentException("Health score and Hygiene score are required");
-        }
+
         if (request.getHealthScore() < 1 || request.getHealthScore() > 5 ||
-            request.getHygieneScore() < 1 || request.getHygieneScore() > 5) {
+                request.getHygieneScore() < 1 || request.getHygieneScore() > 5)
             throw new IllegalArgumentException("Scores must be between 1 and 5");
-        }
 
-        // Check if user already has a review for this eatery
-        Review existingReview = reviewRepository.findByEateryAndUserAndIsDeletedFalse(eatery, user)
-                .orElse(null);
-
+        Review existingReview = reviewRepository.findByEateryAndUserAndIsDeletedFalse(eatery, user).orElse(null);
         Review review;
 
         if (existingReview != null) {
@@ -63,38 +106,32 @@ public class ReviewService {
             review.setHygieneScore(request.getHygieneScore());
             review.setTextFeedback(request.getTextFeedback());
             if (request.getPhotos() != null) {
-                if (request.getPhotos().size() > 3) {
+                if (request.getPhotos().size() > 3)
                     throw new IllegalArgumentException("Maximum 3 photos allowed");
-                }
                 review.setPhotos(request.getPhotos());
             }
             review.setUpdatedAt(LocalDateTime.now());
         } else {
-            // PRIORITY 1: Global daily review limit (max 5 reviews per day per user)
+            // Validate daily and cooldown limits
             LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0).withNano(0);
             Long reviewsToday = reviewRepository.countReviewsCreatedTodayByUser(user, startOfDay);
-            if (reviewsToday != null && reviewsToday >= 5) {
+            if (reviewsToday != null && reviewsToday >= 5)
                 throw new IllegalArgumentException("Daily review limit reached. You can only submit 5 reviews per day.");
-            }
 
-            // check 7 days cooldown for new reviews
             LocalDateTime sevenDaysAgo = LocalDateTime.now().minusDays(7);
-            List<Review> recentSubmissions = reviewRepository.findRecentSubmissions(eatery, user, sevenDaysAgo);
-            if (!recentSubmissions.isEmpty()) {
+            if (!reviewRepository.findRecentSubmissions(eatery, user, sevenDaysAgo).isEmpty())
                 throw new IllegalArgumentException("You must wait 7 days before submitting a new review for this eatery");
-            }
 
-            // create new review
+            // Create new review
             review = new Review(eatery, user, request.getHealthScore(), request.getHygieneScore());
             review.setTextFeedback(request.getTextFeedback());
             if (request.getPhotos() != null) {
-                if (request.getPhotos().size() > 3) {
+                if (request.getPhotos().size() > 3)
                     throw new IllegalArgumentException("Maximum 3 photos allowed");
-                }
                 review.setPhotos(request.getPhotos());
             }
 
-            // Award points for new review (only for new reviews, not edits)
+            // Award points for new reviews
             int pointsAwarded = calculatePointsForReview(request);
             if (pointsAwarded > 0) {
                 rewardsService.addPoints(username, pointsAwarded);
@@ -106,36 +143,47 @@ public class ReviewService {
         return convertToResponse(saved, true);
     }
 
-    //Get all reviews for an eatery with sorting options
+    /**
+     * Retrieves all visible reviews for an eatery, supporting multiple sorting modes:
+     * <ul>
+     *   <li><b>RECENT</b> – newest first (default)</li>
+     *   <li><b>HEALTH</b> – highest health rating first</li>
+     *   <li><b>HYGIENE</b> – highest hygiene rating first</li>
+     * </ul>
+     *
+     * @param eateryId the target eatery’s ID
+     * @param sortBy sorting option
+     * @return a list of {@link ReviewResponse} DTOs
+     */
     public List<ReviewResponse> getReviewsForEatery(Long eateryId, String sortBy) {
         String username = SecurityContextHolder.getContext().getAuthentication() != null ?
                 SecurityContextHolder.getContext().getAuthentication().getName() : null;
-        Users currentUser = username != null ? 
-                userRepository.findByUsername(username).orElse(null) : null;
+        Users currentUser = username != null ? userRepository.findByUsername(username).orElse(null) : null;
 
         Eatery eatery = eateryRepository.findById(eateryId)
                 .orElseThrow(() -> new IllegalArgumentException("Eatery not found: " + eateryId));
 
         List<Review> reviews;
         switch (sortBy != null ? sortBy.toUpperCase() : "RECENT") {
-            case "HEALTH":
-                reviews = reviewRepository.findByEateryOrderByHealthScoreDesc(eatery);
-                break;
-            case "HYGIENE":
-                reviews = reviewRepository.findByEateryOrderByHygieneScoreDesc(eatery);
-                break;
-            default:
-                reviews = reviewRepository.findVisibleByEateryOrderByCreatedAtDesc(eatery);
-                break;
+            case "HEALTH" -> reviews = reviewRepository.findByEateryOrderByHealthScoreDesc(eatery);
+            case "HYGIENE" -> reviews = reviewRepository.findByEateryOrderByHygieneScoreDesc(eatery);
+            default -> reviews = reviewRepository.findVisibleByEateryOrderByCreatedAtDesc(eatery);
         }
 
         return reviews.stream()
-                .map(review -> convertToResponse(review, 
-                    currentUser != null && review.getUser().getId().equals(currentUser.getId())))
+                .map(r -> convertToResponse(r, currentUser != null && r.getUser().getId().equals(currentUser.getId())))
                 .collect(Collectors.toList());
     }
 
-    // Admin: approve a review (clears related flags, keeps it visible)
+    // ===== ADMIN MODERATION OPERATIONS =====
+
+    /**
+     * Approves a flagged review (clears flag as dismissed).
+     *
+     * @param reviewId the ID of the reviewed item
+     * @param flagId the associated flag to dismiss
+     * @param notes optional admin notes
+     */
     @Transactional
     public void approveReviewByAdmin(Long reviewId, Long flagId, String notes) {
         String admin = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -145,9 +193,9 @@ public class ReviewService {
         if (flagId != null) {
             ReviewFlag flag = reviewFlagRepository.findById(flagId)
                     .orElseThrow(() -> new IllegalArgumentException("Flag not found: " + flagId));
-            if (!"PENDING".equals(flag.getStatus())) {
+            if (!"PENDING".equals(flag.getStatus()))
                 throw new IllegalArgumentException("Flag has already been resolved");
-            }
+
             flag.setStatus("DISMISSED");
             flag.setAdminNotes(notes != null ? notes : ("Approved by: " + admin));
             flag.setReviewedAt(LocalDateTime.now());
@@ -158,19 +206,18 @@ public class ReviewService {
                 notes != null ? notes : "Approved review and dismissed flag");
     }
 
-    // Admin: hide a review (requires reason)
+    /** Hides a review (keeps in DB but invisible to public). */
     @Transactional
     public void hideReviewByAdmin(Long reviewId, String reason) {
         String admin = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (reason == null || reason.trim().isEmpty()) {
+        if (reason == null || reason.trim().isEmpty())
             throw new IllegalArgumentException("Reason is required to hide a review");
-        }
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("Review not found: " + reviewId));
-        if (Boolean.TRUE.equals(review.getIsDeleted())) {
+
+        if (Boolean.TRUE.equals(review.getIsDeleted()))
             throw new IllegalArgumentException("Cannot hide a deleted review");
-        }
 
         review.setIsHidden(true);
         review.setHiddenAt(LocalDateTime.now());
@@ -178,10 +225,9 @@ public class ReviewService {
         review.setModeratedByAdminUsername(admin);
         reviewRepository.save(review);
 
-        // Deduct points for hidden review (can go negative)
         deductPointsForReview(review);
 
-        // resolve all pending flags for this review as RESOLVED
+        // Resolve pending flags
         for (ReviewFlag rf : reviewFlagRepository.findByReviewId(reviewId)) {
             if ("PENDING".equals(rf.getStatus())) {
                 rf.setStatus("RESOLVED");
@@ -195,29 +241,25 @@ public class ReviewService {
                 "Hidden. Reason: " + reason);
     }
 
-    // Admin: delete a review (soft-delete) requires reason
+    /** Soft-deletes a review (user data remains for analytics but is hidden). */
     @Transactional
     public void deleteReviewByAdmin(Long reviewId, String reason) {
         String admin = SecurityContextHolder.getContext().getAuthentication().getName();
-        if (reason == null || reason.trim().isEmpty()) {
+        if (reason == null || reason.trim().isEmpty())
             throw new IllegalArgumentException("Reason is required to delete a review");
-        }
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("Review not found: " + reviewId));
 
-        if (Boolean.TRUE.equals(review.getIsDeleted())) {
+        if (Boolean.TRUE.equals(review.getIsDeleted()))
             throw new IllegalArgumentException("Review has already been deleted");
-        }
 
         review.setIsDeleted(true);
         review.setModeratedByAdminUsername(admin);
         reviewRepository.save(review);
 
-        // Deduct points for deleted review (can go negative)
         deductPointsForReview(review);
 
-        // resolve all pending flags as RESOLVED
         for (ReviewFlag rf : reviewFlagRepository.findByReviewId(reviewId)) {
             if ("PENDING".equals(rf.getStatus())) {
                 rf.setStatus("RESOLVED");
@@ -231,15 +273,9 @@ public class ReviewService {
                 "Deleted. Reason: " + reason);
     }
 
-    @Autowired
-    private AdminActionLogRepository adminActionLogRepository;
+    // ===== USER REVIEW OPERATIONS =====
 
-    private void logAdminAction(String adminUsername, String actionType, String targetType, Long targetId, Long eateryId, String details) {
-        AdminActionLog log = new AdminActionLog(adminUsername, actionType, targetType, targetId, eateryId, details, LocalDateTime.now());
-        adminActionLogRepository.save(log);
-    }
-
-    // Update an existing review (alternative endpoint for explicit updates)
+    /** Updates an existing review belonging to the current user. */
     @Transactional
     public ReviewResponse updateReview(Long reviewId, ReviewRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -249,48 +285,29 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("Review not found: " + reviewId));
 
-        if (review.getIsDeleted()) {
+        if (review.getIsDeleted())
             throw new IllegalArgumentException("Review has been deleted");
-        }
 
-        // Check ownership
-        if (!review.getUser().getId().equals(user.getId())) {
+        if (!review.getUser().getId().equals(user.getId()))
             throw new IllegalArgumentException("You can only edit your own reviews");
-        }
 
-        // Validate and update
-        if (request.getHealthScore() != null) {
-            if (request.getHealthScore() < 1 || request.getHealthScore() > 5) {
-                throw new IllegalArgumentException("Health score must be between 1 and 5");
-            }
+        if (request.getPhotos() != null && request.getPhotos().size() > 3)
+            throw new IllegalArgumentException("Maximum 3 photos allowed");
+
+        if (request.getHealthScore() != null)
             review.setHealthScore(request.getHealthScore());
-        }
-
-        if (request.getHygieneScore() != null) {
-            if (request.getHygieneScore() < 1 || request.getHygieneScore() > 5) {
-                throw new IllegalArgumentException("Hygiene score must be between 1 and 5");
-            }
+        if (request.getHygieneScore() != null)
             review.setHygieneScore(request.getHygieneScore());
-        }
-
-        if (request.getTextFeedback() != null) {
+        if (request.getTextFeedback() != null)
             review.setTextFeedback(request.getTextFeedback());
-        }
-
-        if (request.getPhotos() != null) {
-            if (request.getPhotos().size() > 3) {
-                throw new IllegalArgumentException("Maximum 3 photos allowed");
-            }
+        if (request.getPhotos() != null)
             review.setPhotos(request.getPhotos());
-        }
 
         review.setUpdatedAt(LocalDateTime.now());
-        Review saved = reviewRepository.save(review);
-        return convertToResponse(saved, true);
+        return convertToResponse(reviewRepository.save(review), true);
     }
 
-    // Delete a review (soft delete which means it is not deleted from the database, but is marked as deleted)
-    // Can only be done by the user who created the review
+    /** Soft-deletes a user’s own review. */
     @Transactional
     public void deleteReview(Long reviewId) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -300,28 +317,21 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("Review not found: " + reviewId));
 
-        if (review.getIsDeleted()) {
+        if (review.getIsDeleted())
             throw new IllegalArgumentException("Review has already been deleted");
-        }
 
-        // Check ownership
-        if (!review.getUser().getId().equals(user.getId())) {
+        if (!review.getUser().getId().equals(user.getId()))
             throw new IllegalArgumentException("You can only delete your own reviews");
-        }
 
-        // Prevent users from deleting hidden reviews (admin moderation action)
-        if (Boolean.TRUE.equals(review.getIsHidden())) {
-            throw new IllegalArgumentException("Cannot delete a hidden review. Hidden reviews can only be deleted by administrators. Please contact support if you have concerns.");
-        }
+        if (Boolean.TRUE.equals(review.getIsHidden()))
+            throw new IllegalArgumentException("Cannot delete a hidden review. Please contact support.");
 
         review.setIsDeleted(true);
         reviewRepository.save(review);
-
-        // Deduct points for user self-deletion (can go negative, same as admin deletion)
         deductPointsForReview(review);
     }
 
-    // Authenticated users can flag a review as inappropriate
+    /** Allows a user to flag an inappropriate review for admin moderation. */
     @Transactional
     public void flagReview(Long reviewId, ReviewFlagRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -331,24 +341,19 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("Review not found: " + reviewId));
 
-        if (review.getIsDeleted()) {
+        if (review.getIsDeleted())
             throw new IllegalArgumentException("Cannot flag a deleted review");
-        }
 
-        // Check if user already flagged this review
-        if (reviewFlagRepository.existsByReviewIdAndUserId(reviewId, user.getId())) {
+        if (reviewFlagRepository.existsByReviewIdAndUserId(reviewId, user.getId()))
             throw new IllegalArgumentException("You have already flagged this review");
-        }
 
-        if (request.getReason() == null || request.getReason().trim().isEmpty()) {
+        if (request.getReason() == null || request.getReason().trim().isEmpty())
             throw new IllegalArgumentException("Flag reason is required");
-        }
 
-        ReviewFlag flag = new ReviewFlag(review, user, request.getReason());
-        reviewFlagRepository.save(flag);
+        reviewFlagRepository.save(new ReviewFlag(review, user, request.getReason()));
     }
 
-    // Get aggregated ratings for an eatery
+    /** Retrieves aggregated review metrics for display on eatery profiles. */
     public AggregatedRatingsResponse getAggregatedRatings(Long eateryId) {
         Eatery eatery = eateryRepository.findById(eateryId)
                 .orElseThrow(() -> new IllegalArgumentException("Eatery not found: " + eateryId));
@@ -360,7 +365,7 @@ public class ReviewService {
         return new AggregatedRatingsResponse(avgHealth, avgHygiene, count);
     }
 
-    // Get user's review for a specific eatery (if exists)
+    /** Fetches the logged-in user’s own review for a specific eatery, if present. */
     public ReviewResponse getUserReview(Long eateryId) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Users user = userRepository.findByUsername(username)
@@ -369,52 +374,34 @@ public class ReviewService {
         Eatery eatery = eateryRepository.findById(eateryId)
                 .orElseThrow(() -> new IllegalArgumentException("Eatery not found: " + eateryId));
 
-        Review review = reviewRepository.findByEateryAndUserAndIsDeletedFalse(eatery, user)
-                .orElse(null);
-
-        if (review == null) {
-            return null;
-        }
-
-        return convertToResponse(review, true);
+        Review review = reviewRepository.findByEateryAndUserAndIsDeletedFalse(eatery, user).orElse(null);
+        return review == null ? null : convertToResponse(review, true);
     }
 
-    // Get flagged reviews for admin moderation queue
+    /** Returns a list of all pending review flags for admin moderation. */
     public List<ReviewFlag> getPendingFlags() {
         return reviewFlagRepository.findByStatusOrderByCreatedAtDesc("PENDING");
     }
 
-    // Helper method to calculate points for a review
-    // Points structure:
-    // - Base points for new review: 10 points
-    // - Text feedback bonus: 5 points (if text exists and is at least 10 characters)
-    // - Photo bonus: 5 points per photo (up to 3 photos = 15 points max)
+    // ===== HELPER METHODS =====
+
+    /** Calculates total points earned from a review submission. */
     private int calculatePointsForReview(ReviewRequest request) {
-        int points = 10; // Base points for submitting a review
-
-        // Text feedback bonus (minimum 10 characters required)
-        if (request.getTextFeedback() != null && request.getTextFeedback().trim().length() >= 10) {
+        int points = 10;
+        if (request.getTextFeedback() != null && request.getTextFeedback().trim().length() >= 10)
             points += 5;
-        }
-
-        // Photo bonus (5 points per photo, up to 3 photos)
-        if (request.getPhotos() != null && !request.getPhotos().isEmpty()) {
-            int photoCount = Math.min(request.getPhotos().size(), 3);
-            points += photoCount * 5;
-        }
-
+        if (request.getPhotos() != null && !request.getPhotos().isEmpty())
+            points += Math.min(request.getPhotos().size(), 3) * 5;
         return points;
     }
 
-    // Helper method to deduct points when review is deleted/hidden
+    /** Deducts points when a review is deleted or hidden. */
     private void deductPointsForReview(Review review) {
-        if (review.getPointsAwarded() != null && review.getPointsAwarded() > 0) {
-            // Deduct points (can go negative as per policy)
+        if (review.getPointsAwarded() != null && review.getPointsAwarded() > 0)
             rewardsService.deductPoints(review.getUser().getUsername(), review.getPointsAwarded());
-        }
     }
 
-    // Helper method to convert Review entity to ReviewResponse DTO
+    /** Converts a {@link Review} entity into a simplified {@link ReviewResponse} DTO. */
     private ReviewResponse convertToResponse(Review review, boolean isOwnReview) {
         ReviewResponse response = new ReviewResponse();
         response.setId(review.getId());
@@ -431,5 +418,10 @@ public class ReviewService {
         response.setIsOwnReview(isOwnReview);
         return response;
     }
-}
 
+    /** Logs an administrative action into the audit trail. */
+    private void logAdminAction(String adminUsername, String actionType, String targetType, Long targetId, Long eateryId, String details) {
+        AdminActionLog log = new AdminActionLog(adminUsername, actionType, targetType, targetId, eateryId, details, LocalDateTime.now());
+        adminActionLogRepository.save(log);
+    }
+}
