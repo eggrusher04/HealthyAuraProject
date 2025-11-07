@@ -1,0 +1,9 @@
+com.FeedEmGreens.HealthyAura
+com.FeedEmGreens.HealthyAura.config
+com.FeedEmGreens.HealthyAura.controller
+com.FeedEmGreens.HealthyAura.dto
+com.FeedEmGreens.HealthyAura.entity
+com.FeedEmGreens.HealthyAura.exception
+com.FeedEmGreens.HealthyAura.repository
+com.FeedEmGreens.HealthyAura.security
+com.FeedEmGreens.HealthyAura.service

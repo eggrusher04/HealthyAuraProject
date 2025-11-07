@@ -18,16 +18,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Controller that provides REST endpoints for the admin dashboard.
+ *
+ * <p>This controller is accessible only to users with the <strong>ADMIN</strong> role and provides:
+ * <ul>
+ *     <li>Viewing and filtering of flagged reviews</li>
+ *     <li>Review flag analytics (metrics by status, reason, or keyword)</li>
+ *     <li>Retrieval of recent administrative actions</li>
+ * </ul>
+ *
+ * <p>All responses are wrapped in {@link ResponseEntity} with appropriate HTTP statuses
+ * to handle both success and failure cases gracefully.</p>
+ *
+ * @version 1.0
+ * @since 2025-11-07
+ */
+
 @RestController
 @RequestMapping("/admin/dashboard")
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminDashboardController {
 
+    /**
+     * Repository for accessing and managing {@link ReviewFlag} data.
+     */
     @Autowired
     private ReviewFlagRepository reviewFlagRepository;
 
+    /**
+     * Repository for retrieving {@link AdminActionLog} records of administrative activities.
+     */
     @Autowired
     private AdminActionLogRepository adminActionLogRepository;
+
+    /**
+     * Retrieves a list of flagged reviews, optionally filtered by their status.
+     *
+     * <p>If no status is provided, it defaults to <code>PENDING</code>. The flags are returned
+     * in descending order based on their creation time. Each flag is represented as a simplified
+     * map containing essential fields (ID, reason, status, timestamps, and linked review ID).</p>
+     *
+     * @param status optional status filter (e.g., <code>PENDING</code>, <code>RESOLVED</code>)
+     * @return a {@link ResponseEntity} containing a list of flagged review maps or an error message
+     */
 
     // List flags, optionally by status (defaults to PENDING)
     @GetMapping("/flags")
@@ -58,6 +92,18 @@ public class AdminDashboardController {
     }
 
 
+    /**
+     * Retrieves flagged reviews filtered by a specific reason and optional status.
+     *
+     * <p>This endpoint allows admins to focus on high-risk flags related to
+     * <em>health</em>, <em>hygiene</em>, or other serious issues that require
+     * faster verification compared to general flags (e.g., spam or offensive content).</p>
+     *
+     * @param reason the keyword used to match flag reasons (e.g., <code>hygiene</code>, <code>health</code>)
+     * @param status optional status filter (defaults to <code>PENDING</code>)
+     * @return a {@link ResponseEntity} containing a list of matching {@link ReviewFlag} entities or an error message
+     */
+
     // Hygiene/health reported flags: use generic by-reason endpoint below
 
     // Generic by-reason filter (e.g., reason=health, reason=hygiene) 
@@ -80,6 +126,22 @@ public class AdminDashboardController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
+
+    /**
+     * Provides a summarized snapshot of key metrics related to review flags.
+     *
+     * <p>The metrics include:
+     * <ul>
+     *     <li>Total number of pending flags</li>
+     *     <li>Grouping of pending flags by reason</li>
+     *     <li>Keyword-based classification (e.g., hygiene, health, offensive, spam, other)</li>
+     * </ul>
+     *
+     * <p>This endpoint helps administrators quickly assess the current moderation workload
+     * and identify trends in reported reviews.</p>
+     *
+     * @return a {@link ResponseEntity} containing aggregated metric data or an error message
+     */
 
     // Simple metrics snapshot
     @GetMapping("/metrics")
@@ -127,6 +189,16 @@ public class AdminDashboardController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
+
+    /**
+     * Retrieves a summary of recent administrative actions performed by the currently logged-in admin.
+     *
+     * <p>This endpoint returns the latest 10 entries from the {@link AdminActionLogRepository},
+     * allowing administrators to review their recent moderation history and ensure transparency
+     * in administrative activities.</p>
+     *
+     * @return a {@link ResponseEntity} containing the 10 most recent {@link AdminActionLog} entries or an error message
+     */
 
     // Recent admin actions - latest 10 for current admin
     @GetMapping("/recent-summary")

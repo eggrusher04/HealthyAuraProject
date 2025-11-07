@@ -5,26 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d5e015df-1ed0-4fff-97e4-1cef680180fe" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/client/GovLicensedEatingApiClient.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/GovApiTestController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/dto/AdminActivityLogDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/Admin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/entity/AdminActivityLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/mapper/GovLicensedEatingMapper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/model/GovLicensedEatingResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/repository/AdminActivityLogRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/service/AdminActivityLogService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/util/EateryDataCleaner.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/backend/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/.eslintcache" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/.eslintcache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/0.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/0.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/node_modules/.cache/default-development/index.pack.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/config/DatabaseSeeder.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/config/DatabaseSeeder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminDashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminDashboardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminLogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminReviewModerationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/AdminReviewModerationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/CrowdController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/CrowdController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/EateryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/EateryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/HealthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/ReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/ReviewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/homeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/homeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/loginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/FeedEmGreens/HealthyAura/controller/loginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
