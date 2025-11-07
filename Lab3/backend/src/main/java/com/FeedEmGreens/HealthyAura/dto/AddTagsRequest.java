@@ -13,6 +13,3 @@ public class AddTagsRequest {
 		this.tags = tags;
 	}
 }
-
-
-
