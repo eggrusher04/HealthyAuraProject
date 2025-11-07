@@ -53,5 +53,11 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.eatery = :eatery AND r.isDeleted = false AND r.isHidden = false " +
            "ORDER BY r.hygieneScore DESC, r.createdAt DESC")
     List<Review> findByEateryOrderByHygieneScoreDesc(@Param("eatery") Eatery eatery);
+    
+    // Count reviews created by user today (for global daily limit - max 5 reviews/day)
+    @Query("SELECT COUNT(r) FROM Review r WHERE r.user = :user " +
+           "AND r.createdAt >= :startOfDay")
+    Long countReviewsCreatedTodayByUser(@Param("user") Users user, 
+                                        @Param("startOfDay") java.time.LocalDateTime startOfDay);
 }
 
