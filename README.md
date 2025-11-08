@@ -1,7 +1,7 @@
 # HealthyAura — Full-Stack Healthy Food Finder
 
 HealthyAura is a **full-stack web application** that helps users discover affordable healthy eateries, view recommendations, manage profiles, and redeem health rewards.
-
+Note: The application resides in Lab3
 ---
 
 ## Features
