@@ -1,6 +1,34 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+/**
+ * Administrative dashboard for the HealthyAura web application.
+ *
+ * <p>The `AdminDashboard` component provides a centralized interface for platform administrators
+ * to monitor system metrics, flagged user reviews, and recent moderation activity.
+ * It also serves as an entry point for deeper moderation tools (e.g., review flag resolution and
+ * administrative log auditing).</p>
+ *
+ * <p>Key functionalities include:
+ * <ul>
+ *   <li>Fetching and displaying key system metrics (pending flags, keywords, and categories)</li>
+ *   <li>Filtering flagged reviews by reason or status</li>
+ *   <li>Displaying recent and historical admin action logs</li>
+ *   <li>Real-time data refresh using secured JWT authorization</li>
+ *   <li>Link to the moderation management panel</li>
+ * </ul>
+ * </p>
+ *
+ * @component
+ * @example
+ * // Used in admin route for management overview
+ * <Route path="/admin/dashboard" element={<AdminDashboard />} />
+ *
+ * @returns {JSX.Element} The rendered administrative dashboard view with metrics, flags, and logs.
+ *
+ * @since 2025-11-07
+ * @version 1.0
+ */
 export default function AdminDashboard() {
   const [metrics, setMetrics] = useState(null);
   const [flags, setFlags] = useState([]);
@@ -20,6 +48,20 @@ export default function AdminDashboard() {
     loadDashboard();
   }, []);
 
+  /**
+   * Loads all admin dashboard data concurrently.
+   *
+   * <p>This method performs multiple authenticated `GET` requests using {@link axios} to retrieve:</p>
+   * <ul>
+   *   <li>System metrics summary</li>
+   *   <li>Pending or resolved review flags</li>
+   *   <li>Recent admin actions summary</li>
+   *   <li>All administrative logs</li>
+   * </ul>
+   *
+   * @async
+   * @returns {Promise<void>} Resolves after all dashboard data is fetched and stored in state.
+   */
   const loadDashboard = async () => {
     setLoading(true);
     try {
@@ -51,6 +93,15 @@ export default function AdminDashboard() {
     }
   };
 
+  /**
+   * Filters flagged reviews by reason and status.
+   *
+   * <p>When a reason is entered, this function queries the backend using
+   * the `/admin/dashboard/flags/by-reason` endpoint and updates the table view.</p>
+   *
+   * @async
+   * @returns {Promise<void>} Resolves after flags are filtered or resets to default view.
+   */
   const handleReasonSearch = async () => {
     if (!reasonFilter.trim()) {
       loadDashboard();
@@ -73,6 +124,12 @@ export default function AdminDashboard() {
     }
   };
 
+  /**
+   * Utility function to format ISO timestamps into localized Singapore date-time strings.
+   *
+   * @param {string|Date} d - The date or timestamp to format.
+   * @returns {string} Formatted date-time string or "N/A" if unavailable.
+   */
   const formatDate = (d) =>
     d
       ? new Date(d).toLocaleString("en-SG", {
@@ -95,7 +152,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
+      {/* === Header Section === */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div>
@@ -111,6 +168,7 @@ export default function AdminDashboard() {
         </div>
       </header>
 
+      {/* === Main Content === */}
       <main className="max-w-7xl mx-auto px-6 py-8">
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
@@ -118,7 +176,7 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* === Metrics Summary === */}
+        {/* === System Metrics === */}
         {metrics && (
           <>
             <h2 className="text-xl font-semibold text-gray-800 mb-3">
@@ -155,11 +213,12 @@ export default function AdminDashboard() {
           </>
         )}
 
-        {/* === Flagged Reviews === */}
+        {/* === Flagged Reviews Section === */}
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Flagged Reviews
         </h2>
 
+        {/* Filters */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <select
             value={statusFilter}
@@ -186,6 +245,7 @@ export default function AdminDashboard() {
           </button>
         </div>
 
+        {/* Flags Table */}
         <div className="bg-white rounded-xl shadow overflow-x-auto mb-10">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
@@ -249,18 +309,10 @@ export default function AdminDashboard() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
-                  Action Type
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
-                  Target
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
-                  Details
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
-                  Timestamp
-                </th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Action Type</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Target</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Details</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Timestamp</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
@@ -346,7 +398,7 @@ export default function AdminDashboard() {
         </div>
       </main>
 
-      {/* === Moderation Redirect === */}
+      {/* === Moderation Redirect Section === */}
       <div className="mt-12 flex justify-center">
         <div className="bg-white shadow-md rounded-xl p-6 text-center w-full sm:w-2/3 lg:w-1/2">
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
@@ -363,8 +415,6 @@ export default function AdminDashboard() {
           </a>
         </div>
       </div>
-
-
     </div>
   );
 }

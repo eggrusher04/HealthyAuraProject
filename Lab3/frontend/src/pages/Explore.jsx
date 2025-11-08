@@ -15,25 +15,73 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
+/**
+ * Explore Page
+ *
+ * <p>The `Explore` component provides users with an interactive interface to
+ * discover healthy eateries available in the HealthyAura database. It features:
+ * <ul>
+ *   <li>Dynamic search by name or location</li>
+ *   <li>Filter by dietary tags (Vegan, Vegetarian, Halal, etc.)</li>
+ *   <li>Map preview powered by <b>OneMap Singapore</b> (Leaflet integration)</li>
+ *   <li>Navigation to detailed eatery pages (`/details/:id`)</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Data is fetched from the backend through the endpoint:
+ * <b>`GET /api/eateries/fetchDb`</b>, which supports optional query parameters:
+ * <ul>
+ *   <li>`query`: Text-based search for eatery names or addresses</li>
+ *   <li>`tags`: Filter list of selected dietary tags</li>
+ * </ul>
+ * </p>
+ *
+ * @component
+ * @example
+ * // Example route
+ * <Route path="/explore" element={<Explore />} />
+ *
+ * @returns {JSX.Element} The Explore page displaying eateries and map directions.
+ * @since 2025-11-07
+ * @version 1.0
+ */
 export default function Explore() {
-  const [q, setQ] = useState("");
-  const [stalls, setStalls] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [sortBy, setSortBy] = useState("distance");
-  const [selectedStall, setSelectedStall] = useState(null);
+  // === State Management ===
+  const [q, setQ] = useState(""); // Search query input
+  const [stalls, setStalls] = useState([]); // List of fetched eateries
+  const [tags, setTags] = useState([]); // Selected dietary tags
+  const [sortBy, setSortBy] = useState("distance"); // (Reserved for sorting feature)
+  const [selectedStall, setSelectedStall] = useState(null); // Stall currently shown on map
   const [map, setMap] = useState(null);
   const navigate = useNavigate();
 
+  /**
+   * Loads all eateries from the database on initial render.
+   *
+   * @effect
+   * @returns {void}
+   */
   useEffect(() => {
     search();
   }, []);
 
+  /**
+   * Toggles a dietary tag in the filter list.
+   *
+   * @param {string} t - The tag to toggle (e.g., "Vegan", "Halal")
+   */
   const toggleTag = (t) => {
     setTags((prev) =>
       prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]
     );
   };
 
+  /**
+   * Fetches eateries from the backend with optional filters.
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const search = async () => {
     try {
       const params = {};
@@ -55,8 +103,14 @@ export default function Explore() {
     }
   };
 
-
-
+  /**
+   * Renders a map centered on a selected eatery using OneMap tiles.
+   *
+   * <p>Destroys previous Leaflet map instance before rendering the new one
+   * to prevent duplicate layers.</p>
+   *
+   * @param {Object} stall - The eatery object containing coordinates and name.
+   */
   const showMap = (stall) => {
     setSelectedStall(stall);
 
@@ -82,13 +136,14 @@ export default function Explore() {
     }, 200);
   };
 
+  // === Render UI ===
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4 text-green-800">
         Explore Eateries
       </h1>
 
-      {/* Search bar */}
+      {/* === Search Bar === */}
       <div className="flex gap-3 mb-3">
         <input
           value={q}
@@ -104,7 +159,7 @@ export default function Explore() {
         </button>
       </div>
 
-      {/* Tag filters and sorting */}
+      {/* === Tag Filters === */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <div className="space-x-2">
           {["Vegan", "Vegetarian", "Halal", "Healthy", "High Protein"].map(
@@ -134,7 +189,7 @@ export default function Explore() {
         )}
       </div>
 
-      {/* Results */}
+      {/* === Results List === */}
       {Array.isArray(stalls) && stalls.length > 0 ? (
         <div className="grid gap-3">
           {stalls.map((s) => (
@@ -148,7 +203,7 @@ export default function Explore() {
                   {s.address || s.fullAddress}
                 </div>
 
-                {/* Tag display */}
+                {/* Display Tags for Each Eatery */}
                 {Array.isArray(s.tags) && s.tags.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1">
                     {s.tags.map((tag, i) => (
@@ -181,7 +236,7 @@ export default function Explore() {
         <div className="text-gray-500 text-sm">No results found.</div>
       )}
 
-      {/* Map Display */}
+      {/* === Map Section === */}
       {selectedStall && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-2 text-green-800">

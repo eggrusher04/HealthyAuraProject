@@ -1,23 +1,78 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { useAuth } from "../contexts/AuthContext";
-import API from "../services/api"; // Assuming your API service is correctly configured
+import API from "../services/api";
 
+/**
+ * Profile Page
+ *
+ * <p>The `Profile` component allows authenticated users to view and update
+ * their personal account details. It integrates with the backend API and
+ * the AuthContext to manage user data such as:</p>
+ *
+ * <ul>
+ *   <li><b>Email address</b> – editable with backend update</li>
+ *   <li><b>Dietary preferences</b> – used for personalized recommendations</li>
+ *   <li><b>Password</b> – securely updated via backend endpoint</li>
+ *   <li><b>Total Points</b> – reward system placeholder (read-only)</li>
+ * </ul>
+ *
+ * <p>Key Functionalities:</p>
+ * <ul>
+ *   <li>Uses the <code>useAuth()</code> hook for session context</li>
+ *   <li>Synchronizes data between frontend and backend via API</li>
+ *   <li>Provides edit/save/cancel interactions for each editable field</li>
+ *   <li>Includes fallback behavior if AuthContext lacks complete profile data</li>
+ * </ul>
+ *
+ * <p>Backend Endpoints:</p>
+ * <ul>
+ *   <li><code>GET /profile/me</code> → Fetch user profile</li>
+ *   <li><code>PUT /profile/me</code> → Update dietary preferences</li>
+ *   <li><code>PUT /profile/me/email</code> → Update email</li>
+ *   <li><code>PUT /profile/me/password</code> → Change password</li>
+ * </ul>
+ *
+ * @component
+ * @example
+ * // Example route
+ * <Route path="/profile" element={<Profile />} />
+ *
+ * @returns {JSX.Element} User profile page with editable fields.
+ *
+ * @since 2025-11-07
+ * @version 1.0
+ */
 export default function Profile() {
-  const { user, signOut, loadingUser } = useAuth(); // Use loadingUser state
+  const { user, signOut, loadingUser } = useAuth();
+
+  // === State Management ===
   const [profile, setProfile] = useState(null);
   const [form, setForm] = useState({ email: "", preferences: "", password: "" });
   const [editingPrefs, setEditingPrefs] = useState(false);
   const [editingEmail, setEditingEmail] = useState(false);
   const [editingPwd, setEditingPwd] = useState(false);
   const [showPwd, setShowPwd] = useState(false);
-  const [loading, setLoading] = useState(true); // Local loading for API calls
+  const [loading, setLoading] = useState(true);
 
-  // Combine initial load and subsequent profile updates
+  /**
+   * Fetches the user profile data from either AuthContext or the backend.
+   *
+   * <p>Steps:
+   * <ol>
+   *   <li>If `AuthContext` already provides user details, use that directly.</li>
+   *   <li>If incomplete, make an API call to `/profile/me` to fetch full profile.</li>
+   *   <li>Populates the form state and sets loading to false.</li>
+   * </ol>
+   * </p>
+   *
+   * @effect
+   * @returns {Promise<void>}
+   */
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // Case 1: AuthContext already provided user
+        // Case 1: User data available from context
         if (user && user.email) {
           setProfile(user);
           setForm({
@@ -29,7 +84,7 @@ export default function Profile() {
           return;
         }
 
-        // Case 2: Fetch from backend if AuthContext has no full profile yet
+        // Case 2: Fallback – Fetch from backend
         const res = await API.get("/profile/me");
         const profileData = res.data;
         setProfile(profileData);
@@ -41,7 +96,7 @@ export default function Profile() {
       } catch (err) {
         console.error("Error fetching profile data:", err);
         if (user) {
-          // Fallback to minimal user
+          // Minimal fallback if backend fails
           setProfile({
             ...user,
             email: user.email || "Email not found",
@@ -54,13 +109,17 @@ export default function Profile() {
       }
     };
 
-    // Wait until loadingUser is done before trying to fetch
-    if (!loadingUser) {
-      fetchProfile();
-    }
+    if (!loadingUser) fetchProfile();
   }, [user, loadingUser]);
 
-  // ====== Handlers ======
+  // === Update Handlers ===
+
+  /**
+   * Updates user dietary preferences in the backend.
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleSavePrefs = async () => {
     try {
       const res = await API.put("/profile/me", { preferences: form.preferences });
@@ -73,6 +132,12 @@ export default function Profile() {
     }
   };
 
+  /**
+   * Updates user email in the backend.
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleSaveEmail = async () => {
     try {
       const res = await API.put("/profile/me/email", { email: form.email });
@@ -85,6 +150,12 @@ export default function Profile() {
     }
   };
 
+  /**
+   * Updates the user's password.
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleChangePassword = async () => {
     try {
       await API.put("/profile/me/password", { password: form.password });
@@ -97,6 +168,7 @@ export default function Profile() {
     }
   };
 
+  // === Conditional Rendering ===
   if (loading || loadingUser) {
     return (
       <Layout>
@@ -115,11 +187,11 @@ export default function Profile() {
     );
   }
 
+  // === Render Profile Page ===
   return (
     <Layout>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
-        {/* Header */}
+        {/* === Header Section === */}
         <div className="bg-white rounded-2xl shadow overflow-hidden mb-6">
           <div className="h-24 bg-gradient-to-r from-green-600 to-emerald-500" />
           <div className="flex flex-col items-center -mt-10 pb-5 px-5">
@@ -158,7 +230,7 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* ===== Edit Email ===== */}
+        {/* === Email Editing === */}
         <div className="bg-white rounded-2xl shadow p-5 mb-6">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold text-gray-900">Email</h3>
@@ -204,7 +276,7 @@ export default function Profile() {
           )}
         </div>
 
-        {/* ===== Preferences ===== */}
+        {/* === Preferences Editing === */}
         <div className="bg-white rounded-2xl shadow p-5 mb-6">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold text-gray-900">Preferences</h3>
@@ -250,7 +322,7 @@ export default function Profile() {
           )}
         </div>
 
-        {/* ===== Password ===== */}
+        {/* === Password Editing === */}
         <div className="bg-white rounded-2xl shadow p-5 mb-6">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold text-gray-900">Change Password</h3>
@@ -305,7 +377,7 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Sign Out */}
+        {/* === Sign Out Button === */}
         <div className="flex justify-center">
           <button
             onClick={signOut}

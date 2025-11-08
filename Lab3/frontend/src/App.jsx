@@ -1,23 +1,28 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Explore from './pages/Explore';
-import Rewards from './pages/Rewards';
-import Profile from './pages/Profile';
-import Auth from './pages/Auth';
-import DetailsPage from './pages/DetailsPage';
-import AdminAuth from './pages/AdminAuth';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminModeration from './pages/AdminModeration';
-import AdminTagManager from './pages/AdminTagManager';
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Explore from "./pages/Explore";
+import Rewards from "./pages/Rewards";
+import Profile from "./pages/Profile";
+import Auth from "./pages/Auth";
+import DetailsPage from "./pages/DetailsPage";
+import AdminAuth from "./pages/AdminAuth";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminModeration from "./pages/AdminModeration";
+import AdminTagManager from "./pages/AdminTagManager";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
-import { AuthProvider, useAuth } from './contexts/AuthContext';
-
+/**
+ * Protected route wrapper
+ *
+ * Ensures that only authenticated users can access certain routes (e.g., Profile).
+ * If the authentication state is still loading, a loading screen is shown.
+ * If the user is not logged in, they are redirected to the login page.
+ */
 function Protected({ children }) {
   const { user, loadingUser } = useAuth();
 
-  // Still loading user info (from localStorage or backend)
   if (loadingUser) {
     return (
       <div className="flex justify-center items-center min-h-screen text-gray-600">
@@ -26,17 +31,21 @@ function Protected({ children }) {
     );
   }
 
-  // No user after loading — redirect to login
   if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
-  // User is loaded and authenticated
   return children;
 }
 
-
-export default function App(){
+/**
+ * Main application component
+ *
+ * Defines all routes, including protected and admin routes.
+ * Wraps the app with the AuthProvider for global authentication context.
+ * Displays the Navbar across all pages.
+ */
+export default function App() {
   return (
     <AuthProvider>
       <div className="min-h-screen bg-gray-50">

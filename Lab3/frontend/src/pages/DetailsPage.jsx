@@ -17,6 +17,23 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
+/**
+ * DetailsPage Component
+ *
+ * Displays detailed information for a single eatery, including:
+ * - Location map (Leaflet + OneMap)
+ * - Real-time crowd and queue info
+ * - Average health/hygiene ratings
+ * - User reviews (create, edit, delete, flag)
+ * - "Open in Google Maps" navigation
+ *
+ * @component
+ * @example
+ * <Route path="/details/:id" element={<DetailsPage />} />
+ *
+ * @returns {JSX.Element} The eatery details view with map, crowd data, ratings, and reviews.
+ */
+
 export default function DetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -32,6 +49,10 @@ export default function DetailsPage() {
   const [submitting, setSubmitting] = useState(false);
   const [editingReviewId, setEditingReviewId] = useState(null);
 
+  /**
+   * Fetches the eatery details such as name, address, and coordinates.
+   * Triggered once on mount or when the ID changes.
+   */
   useEffect(() => {
     const fetchStall = async () => {
       try {
@@ -44,6 +65,9 @@ export default function DetailsPage() {
     fetchStall();
   }, [id]);
 
+  /**
+     * Fetches current crowd and queue data for the eatery.
+     */
   useEffect(() => {
     const fetchCrowd = async () => {
       try {
@@ -56,6 +80,12 @@ export default function DetailsPage() {
     fetchCrowd();
   }, [id]);
 
+  /**
+     * Retrieves all user reviews for this eatery.
+     *
+     * @async
+     * @returns {Promise<void>}
+     */
   const fetchReviews = async () => {
     try {
       const res = await API.get(`/api/eateries/${id}/reviews`);
@@ -65,6 +95,12 @@ export default function DetailsPage() {
     }
   };
 
+  /**
+    * Retrieves average health and hygiene ratings across all reviews.
+    *
+    * @async
+    * @returns {Promise<void>}
+    */
   const fetchAverageRatings = async () => {
     try {
       const res = await API.get(`/api/eateries/${id}/reviews/ratings`);
@@ -74,11 +110,19 @@ export default function DetailsPage() {
     }
   };
 
+  /**
+    * Fetch reviews and ratings whenever the eatery ID changes.
+    */
   useEffect(() => {
     fetchReviews();
     fetchAverageRatings();
   }, [id]);
 
+
+  /**
+     * Initializes a Leaflet map displaying the eatery's location.
+     * Runs whenever the stall data is loaded.
+     */
   // Map setup
   useEffect(() => {
     if (!stall || !stall.latitude || !stall.longitude) return;
@@ -103,6 +147,12 @@ export default function DetailsPage() {
     return () => map.remove();
   }, [stall]);
 
+   /**
+     * Handles new review submission or inline review updates.
+     *
+     * @param {React.FormEvent} e - Form submission event
+     * @returns {Promise<void>}
+     */
   // Submit or update review
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -141,6 +191,11 @@ export default function DetailsPage() {
     }
   };
 
+  /**
+     * Deletes an existing review after user confirmation.
+     *
+     * @param {number} reviewId - The unique review ID
+     */
   const handleDelete = async (reviewId) => {
     if (!window.confirm("Are you sure you want to delete this review?")) return;
     try {
@@ -153,6 +208,11 @@ export default function DetailsPage() {
     }
   };
 
+  /**
+     * Flags a review for moderation by admins.
+     *
+     * @param {number} reviewId - The review ID to flag
+     */
   const handleFlag = async (reviewId) => {
     try {
       const reason = prompt("Enter reason for flagging this review:");
@@ -164,6 +224,11 @@ export default function DetailsPage() {
     }
   };
 
+  /**
+     * Enables inline editing mode for an existing review.
+     *
+     * @param {Object} r - The review object
+     */
   const startEditInline = (r) => {
     setEditingReviewId(r.id);
     setHealthScore(r.healthScore);
@@ -171,6 +236,9 @@ export default function DetailsPage() {
     setReviewText(r.textFeedback);
   };
 
+  /**
+     * Cancels inline edit mode and resets review form fields.
+     */
   const cancelEdit = () => {
     setEditingReviewId(null);
     setHealthScore(0);
@@ -178,6 +246,13 @@ export default function DetailsPage() {
     setReviewText("");
   };
 
+  /**
+     * Renders a star rating row (filled vs empty stars).
+     *
+     * @param {number} count - Total stars (e.g. 5)
+     * @param {number} activeCount - Number of filled stars
+     * @returns {JSX.Element}
+     */
   const renderStars = (count, activeCount) => (
     <div className="flex">
       {[...Array(count)].map((_, i) => (
@@ -192,6 +267,12 @@ export default function DetailsPage() {
     </div>
   );
 
+  /**
+     * Displays average star ratings with partial fill (fractional stars).
+     *
+     * @param {number} avg - Average rating value (e.g. 3.5)
+     * @returns {JSX.Element}
+     */
   // Render average stars (with fractional fill)
   const renderAverageStars = (avg) => {
     const full = Math.floor(avg);
