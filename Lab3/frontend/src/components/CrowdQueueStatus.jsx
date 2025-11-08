@@ -2,6 +2,32 @@ import React from "react";
 import { ArrowLeft, Users, Hourglass } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 
+/**
+ * Displays the real-time crowd and queue status for a specific eatery.
+ *
+ * <p>This component provides users with a visual and textual summary of
+ * the current crowd conditions and estimated queue wait time for an eatery.
+ * It retrieves the eatery ID dynamically from the URL via React Router parameters.</p>
+ *
+ * <p>Features include:
+ * <ul>
+ *   <li>Header with back navigation to the eatery detail page</li>
+ *   <li>Eatery image and metadata (name, address, dietary tags)</li>
+ *   <li>Queue status section with estimated waiting time</li>
+ *   <li>Crowd level visualization using color-coded labels</li>
+ * </ul>
+ * </p>
+ *
+ * @component
+ * @example
+ * // Renders the crowd and queue status for a specific eatery (id provided in URL)
+ * <Route path="/eatery/:id/crowd" element={<CrowdQueueStatus />} />
+ *
+ * @returns {JSX.Element} The rendered UI for the Crowd & Queue Status screen.
+ *
+ * @version 1.0
+ * @since 2025-11-07
+ */
 export default function CrowdQueueStatus() {
   const { id } = useParams(); // get eatery ID from URL
   const navigate = useNavigate(); // for back navigation

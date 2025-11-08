@@ -1,6 +1,33 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Admin account creation page for the HealthyAura web platform.
+ *
+ * <p>The `AdminAuth` component allows existing authenticated administrators to
+ * register new admin accounts. It sends a POST request to the backend endpoint
+ * `/auth/admin/signup` and requires a valid JWT token from the logged-in admin.</p>
+ *
+ * <p>Key functionalities include:
+ * <ul>
+ *   <li>JWT-based authorization for protected admin creation</li>
+ *   <li>Form state management for username, email, and password</li>
+ *   <li>Client-side validation and error display</li>
+ *   <li>Loading feedback during async API requests</li>
+ *   <li>Navigation back to the main page using React Router</li>
+ * </ul>
+ * </p>
+ *
+ * @component
+ * @example
+ * // Used for creating admin accounts in the frontend
+ * <Route path="/auth/admin/signup" element={<AdminAuth />} />
+ *
+ * @returns {JSX.Element} The rendered admin signup page with a form and navigation.
+ *
+ * @since 2025-11-07
+ * @version 1.0
+ */
 export default function AdminAuth() {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
@@ -8,6 +35,17 @@ export default function AdminAuth() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
+  /**
+   * Handles the submission of the admin creation form.
+   *
+   * <p>This function validates input fields, sends a `POST` request to the backend
+   * to register a new admin, and handles success/error responses. On success,
+   * the form resets while keeping the user on the page.</p>
+   *
+   * @async
+   * @param {React.FormEvent} e - The form submission event.
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -16,8 +54,10 @@ export default function AdminAuth() {
     try {
       const response = await fetch("http://localhost:8080/auth/admin/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`},
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(form),
       });
 
@@ -25,7 +65,7 @@ export default function AdminAuth() {
 
       if (response.ok) {
         alert(`Admin account "${data.username}" created successfully!`);
-        // reset form but stay on page
+        // Reset form but stay on page
         setForm({ username: "", email: "", password: "" });
       } else {
         setError(data.message || "Failed to create admin account");

@@ -1,8 +1,40 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+/**
+ * Admin Moderation Panel for handling flagged reviews and moderation actions.
+ *
+ * <p>The `AdminModeration` component provides the administrator interface to manage
+ * user-submitted review flags. It enables resolving flags (either removing or dismissing them),
+ * hiding reviews with moderation reasons, and permanently deleting inappropriate reviews.</p>
+ *
+ * <p>All operations are secured using JWT-based authorization, requiring a valid token stored in
+ * `localStorage`. Each API call targets the backend moderation endpoints under
+ * `/admin/review-moderation` and logs administrative actions for auditing.</p>
+ *
+ * <p>Key functionalities include:
+ * <ul>
+ *   <li>Resolving review flags with administrative notes</li>
+ *   <li>Hiding flagged reviews with recorded moderation reasons</li>
+ *   <li>Deleting reviews that violate community guidelines</li>
+ *   <li>Displaying a summary of resolved flags with auto-fill on selection</li>
+ * </ul>
+ * </p>
+ *
+ * @component
+ * @example
+ * // Example route setup for admin-only access
+ * <Route path="/admin/review-moderation" element={<AdminModeration />} />
+ *
+ * @returns {JSX.Element} The rendered moderation panel with flag management controls.
+ *
+ * @since 2025-11-07
+ * @version 1.0
+ */
 export default function AdminModeration() {
   const token = localStorage.getItem("token");
+
+  // === State Management ===
   const [selectedFlagId, setSelectedFlagId] = useState("");
   const [resolveAction, setResolveAction] = useState("REMOVE");
   const [adminNotes, setAdminNotes] = useState("");
@@ -12,13 +44,30 @@ export default function AdminModeration() {
   const [feedback, setFeedback] = useState("");
   const [pendingFlags, setPendingFlags] = useState([]);
 
+  /**
+   * Resolves a specific review flag by its ID.
+   *
+   * <p>Depending on the selected action, the flag can be:
+   * <ul>
+   *   <li><b>REMOVE</b>: Indicates that the flagged content should be moderated (hide or delete)</li>
+   *   <li><b>DISMISS</b>: Marks the flag as invalid or reviewed without further action</li>
+   * </ul>
+   * </p>
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleResolveFlag = async () => {
     if (!selectedFlagId) return alert("Please enter a flag ID to resolve.");
     try {
-      const url = `http://localhost:8080/admin/review-moderation/flags/${selectedFlagId}/resolve?action=${resolveAction}&notes=${encodeURIComponent(adminNotes)}`;
-      await axios.put(url, {}, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const url = `http://localhost:8080/admin/review-moderation/flags/${selectedFlagId}/resolve?action=${resolveAction}&notes=${encodeURIComponent(
+        adminNotes
+      )}`;
+      await axios.put(
+        url,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setFeedback(`Flag #${selectedFlagId} resolved as ${resolveAction}.`);
     } catch (err) {
       console.error(err);
@@ -26,14 +75,27 @@ export default function AdminModeration() {
     }
   };
 
+  /**
+   * Hides a review and records the moderation reason.
+   *
+   * <p>This sets the review’s `isHidden` status to `true` and requires that
+   * the flag associated with the review has already been resolved as “REMOVE”.</p>
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleHideReview = async () => {
     if (!reviewId || !hideReason.trim())
       return alert("Review ID and reason are required.");
     try {
-      const url = `http://localhost:8080/admin/review-moderation/reviews/${reviewId}/hide?reason=${encodeURIComponent(hideReason)}`;
-      await axios.put(url, {}, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const url = `http://localhost:8080/admin/review-moderation/reviews/${reviewId}/hide?reason=${encodeURIComponent(
+        hideReason
+      )}`;
+      await axios.put(
+        url,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setFeedback(`Review #${reviewId} hidden successfully.`);
     } catch (err) {
       console.error(err);
@@ -41,11 +103,22 @@ export default function AdminModeration() {
     }
   };
 
+  /**
+   * Permanently deletes a review.
+   *
+   * <p>This is an irreversible administrative action. The deletion also logs the event
+   * for auditing and deducts user reward points as per system policy.</p>
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleDeleteReview = async () => {
     if (!reviewId || !deleteReason.trim())
       return alert("Review ID and reason are required.");
     try {
-      const url = `http://localhost:8080/admin/review-moderation/reviews/${reviewId}?reason=${encodeURIComponent(deleteReason)}`;
+      const url = `http://localhost:8080/admin/review-moderation/reviews/${reviewId}?reason=${encodeURIComponent(
+        deleteReason
+      )}`;
       await axios.delete(url, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -56,22 +129,35 @@ export default function AdminModeration() {
     }
   };
 
-useEffect(() => {
-  fetchResolvedFlags();
-}, []);
+  useEffect(() => {
+    fetchResolvedFlags();
+  }, []);
 
-const fetchResolvedFlags = async () => {
-  try {
-    const res = await axios.get("http://localhost:8080/admin/dashboard/flags?status=RESOLVED", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setPendingFlags(res.data);
-  } catch (err) {
-    console.error("Error fetching pending flags:", err);
-  }
-};
+  /**
+   * Fetches all resolved review flags for administrative reference.
+   *
+   * <p>Resolved flags provide an overview of previously moderated content.
+   * Clicking on a table row automatically fills in the `Flag ID` and corresponding
+   * `Review ID` for easier re-moderation.</p>
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
+  const fetchResolvedFlags = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8080/admin/dashboard/flags?status=RESOLVED",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setPendingFlags(res.data);
+    } catch (err) {
+      console.error("Error fetching pending flags:", err);
+    }
+  };
 
-
+  // === Render ===
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-6">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-xl p-8">
@@ -82,13 +168,14 @@ const fetchResolvedFlags = async () => {
           Use this panel to resolve flags, hide, or delete reviews.
         </p>
 
+        {/* Feedback Notification */}
         {feedback && (
           <div className="bg-gray-100 border-l-4 border-green-500 text-gray-700 p-3 rounded mb-6">
             {feedback}
           </div>
         )}
 
-        {/* Resolve Flag */}
+        {/* === Resolve Flag Section === */}
         <section className="mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Resolve a Flag
@@ -163,11 +250,15 @@ const fetchResolvedFlags = async () => {
                         if (flag.reviewId) setReviewId(flag.reviewId);
                       }}
                     >
-                      <td className="px-4 py-2 text-sm text-gray-700">{flag.id}</td>
+                      <td className="px-4 py-2 text-sm text-gray-700">
+                        {flag.id}
+                      </td>
                       <td className="px-4 py-2 text-sm text-gray-700">
                         {flag.reviewId || "—"}
                       </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">{flag.reason}</td>
+                      <td className="px-4 py-2 text-sm text-gray-600">
+                        {flag.reason}
+                      </td>
                       <td className="px-4 py-2 text-sm text-gray-500">
                         {new Date(flag.createdAt).toLocaleString("en-SG")}
                       </td>
@@ -191,10 +282,9 @@ const fetchResolvedFlags = async () => {
           </p>
         </section>
 
-
         <hr className="my-6" />
 
-        {/* Hide Review */}
+        {/* === Hide Review Section === */}
         <section className="mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Hide a Review
@@ -228,7 +318,7 @@ const fetchResolvedFlags = async () => {
 
         <hr className="my-6" />
 
-        {/* Delete Review */}
+        {/* === Delete Review Section === */}
         <section>
           <h2 className="text-lg font-semibold text-gray-800 mb-2">
             Delete a Review
@@ -260,6 +350,7 @@ const fetchResolvedFlags = async () => {
           </p>
         </section>
 
+        {/* === Navigation Back Link === */}
         <div className="mt-10 text-center">
           <a
             href="/admin/dashboard"

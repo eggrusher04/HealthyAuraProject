@@ -1,8 +1,41 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+/**
+ * Admin Tag Management Panel
+ *
+ * <p>The `AdminTagManager` component provides administrators with full CRUD operations
+ * for managing **dietary tags** associated with specific eateries. These tags
+ * are used to describe health-related attributes of food options
+ * (e.g. "Low Sodium", "High Protein", "Vegetarian").</p>
+ *
+ * <p>Accessible only to admins via JWT-secured endpoints, this panel interacts with
+ * the backend `/api/eateries/{id}/tags` endpoints to:
+ * <ul>
+ *   <li>Retrieve the list of existing tags for a given eatery</li>
+ *   <li>Add new tags dynamically</li>
+ *   <li>Rename existing tags</li>
+ *   <li>Delete tags from an eatery record</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Each modification updates the database through the HealthyAura Spring Boot backend
+ * and provides visual feedback for administrative confirmation.</p>
+ *
+ * @component
+ * @example
+ * // Example route setup for admin access
+ * <Route path="/admin/tags" element={<AdminTagManager />} />
+ *
+ * @returns {JSX.Element} A full-page interface for tag creation, renaming, and deletion.
+ *
+ * @since 2025-11-07
+ * @version 1.0
+ */
 export default function AdminTagManager() {
   const token = localStorage.getItem("token");
+
+  // === State Management ===
   const [eateryId, setEateryId] = useState("");
   const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
@@ -10,7 +43,15 @@ export default function AdminTagManager() {
   const [renameTo, setRenameTo] = useState("");
   const [feedback, setFeedback] = useState("");
 
-  // Fetch tags for eatery
+  /**
+   * Fetches all dietary tags associated with the specified eatery.
+   *
+   * <p>Triggers a GET request to `/api/eateries/{eateryId}` and updates
+   * the tag list displayed in the UI. Requires a valid JWT token.</p>
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const fetchTags = async () => {
     if (!eateryId) return alert("Enter an eatery ID first");
     try {
@@ -25,14 +66,19 @@ export default function AdminTagManager() {
     }
   };
 
-  // Add new tag
+  /**
+   * Adds a new tag to the specified eatery.
+   *
+   * <p>Sends a POST request to `/api/eateries/{eateryId}/tags` with the payload
+   * `{ tags: [newTag] }`. On success, the UI updates with the newly added tag.</p>
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleAddTag = async () => {
     if (!newTag.trim()) return alert("Please enter a tag name.");
     try {
-      // Always send the exact format backend expects
       const payload = { tags: [newTag.trim()] };
-
-      console.log("Sending payload:", payload);
 
       const response = await axios.post(
         `http://localhost:8080/api/eateries/${eateryId}/tags`,
@@ -40,7 +86,6 @@ export default function AdminTagManager() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Assuming backend returns updated tags array
       setTags(response.data.tags || [...tags, newTag.trim()]);
       setNewTag("");
       setFeedback(`Tag "${newTag}" added successfully.`);
@@ -50,38 +95,52 @@ export default function AdminTagManager() {
     }
   };
 
-
-
-  // Rename tag
+  /**
+   * Renames an existing tag on a specific eatery.
+   *
+   * <p>Sends a PUT request to `/api/eateries/{eateryId}/tags`
+   * with payload `{ oldTag, newTag }` to update the tag mapping in the backend.</p>
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   const handleRenameTag = async () => {
-      const oldVal = (oldTag || "").trim();
-      const newVal = (renameTo || "").trim();
+    const oldVal = (oldTag || "").trim();
+    const newVal = (renameTo || "").trim();
 
-      if (!oldVal || !newVal) {
-        alert("Please enter both old and new tag names.");
-        return;
-      }
+    if (!oldVal || !newVal) {
+      alert("Please enter both old and new tag names.");
+      return;
+    }
 
-      try {
-        const payload = { oldTag: oldVal, newTag: newVal };
-        const res = await axios.put(
-          `http://localhost:8080/api/eateries/${eateryId}/tags`,
-          payload,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+    try {
+      const payload = { oldTag: oldVal, newTag: newVal };
+      const res = await axios.put(
+        `http://localhost:8080/api/eateries/${eateryId}/tags`,
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-        setTags(res.data.dietaryTags || res.data.tags || []);
-        setFeedback(`Tag "${oldVal}" renamed to "${newVal}".`);
-        setOldTag("");
-        setRenameTo("");
-      } catch (err) {
-        console.error("Rename tag error:", err.response?.data || err.message);
-        setFeedback("Failed to rename tag. Please check backend logs.");
-      }
-    };
+      setTags(res.data.dietaryTags || res.data.tags || []);
+      setFeedback(`Tag "${oldVal}" renamed to "${newVal}".`);
+      setOldTag("");
+      setRenameTo("");
+    } catch (err) {
+      console.error("Rename tag error:", err.response?.data || err.message);
+      setFeedback("Failed to rename tag. Please check backend logs.");
+    }
+  };
 
-
-  // Delete tag
+  /**
+   * Deletes a tag from a specific eatery.
+   *
+   * <p>Sends a DELETE request to `/api/eateries/{eateryId}/tags/{tag}`
+   * to remove the tag from the eatery’s record in the database.</p>
+   *
+   * @async
+   * @param {string} tag - The name of the tag to delete.
+   * @returns {Promise<void>}
+   */
   const handleDeleteTag = async (tag) => {
     if (!window.confirm(`Delete tag '${tag}'?`)) return;
     try {
@@ -97,6 +156,7 @@ export default function AdminTagManager() {
     }
   };
 
+  // === Render ===
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-6">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow p-8">
@@ -104,13 +164,14 @@ export default function AdminTagManager() {
           Admin Tag Management
         </h1>
 
+        {/* Feedback Messages */}
         {feedback && (
           <div className="bg-green-50 text-green-700 p-3 rounded mb-4">
             {feedback}
           </div>
         )}
 
-        {/* Eatery ID + Fetch */}
+        {/* === Eatery ID Input and Fetch === */}
         <div className="flex gap-3 mb-6">
           <input
             type="number"
@@ -127,9 +188,11 @@ export default function AdminTagManager() {
           </button>
         </div>
 
-        {/* Display Tags */}
+        {/* === Display Current Tags === */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-2 text-gray-700">Current Tags</h2>
+          <h2 className="text-lg font-semibold mb-2 text-gray-700">
+            Current Tags
+          </h2>
           {tags.map((t, idx) => (
             <li
               key={t.id || idx}
@@ -144,10 +207,9 @@ export default function AdminTagManager() {
               </button>
             </li>
           ))}
-
         </div>
 
-        {/* Add Tag */}
+        {/* === Add Tag Section === */}
         <div className="mb-6">
           <h2 className="text-lg font-semibold mb-2 text-gray-700">Add Tag</h2>
           <div className="flex gap-3">
@@ -167,7 +229,7 @@ export default function AdminTagManager() {
           </div>
         </div>
 
-        {/* Rename Tag */}
+        {/* === Rename Tag Section === */}
         <div>
           <h2 className="text-lg font-semibold mb-2 text-gray-700">Rename Tag</h2>
           <div className="flex flex-wrap gap-3">

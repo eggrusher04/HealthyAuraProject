@@ -11,261 +11,298 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Service responsible for generating eatery recommendations based on
+ * user preferences, distance, dietary tags, and review metrics.
+ *
+ * <p>This class serves as the recommendation engine for HealthyAura.
+ * It integrates multiple factors such as:
+ * <ul>
+ *   <li>User personalization (dietary preferences)</li>
+ *   <li>Geolocation (distance from user)</li>
+ *   <li>Eatery metadata (tags, postal code, etc.)</li>
+ *   <li>Community review data (health & hygiene scores, popularity)</li>
+ * </ul>
+ * </p>
+ *
+ * <p>It supports both <b>general recommendations</b> (for all users)
+ * and <b>personalized recommendations</b> (for logged-in users).</p>
+ *
+ * @see com.FeedEmGreens.HealthyAura.dto.RecommendationDto
+ * @see com.FeedEmGreens.HealthyAura.entity.Eatery
+ * @see com.FeedEmGreens.HealthyAura.entity.Users
+ * @see com.FeedEmGreens.HealthyAura.repository.EateryRepository
+ * @see com.FeedEmGreens.HealthyAura.repository.ReviewRepository
+ *
+ * @version 1.0
+ * @since 2025-11-07
+ */
 @Service
 public class RecManager {
-    
+
     private final EateryRepository eateryRepository;
     private final UserRepository userRepository;
     private final ReviewRepository reviewRepository;
 
+    /**
+     * Constructs the recommendation manager with all required repositories.
+     *
+     * @param eateryRepository repository for retrieving eatery data
+     * @param userRepository repository for accessing user profile and preferences
+     * @param reviewRepository repository for computing average ratings and review stats
+     */
     public RecManager(EateryRepository eateryRepository, UserRepository userRepository, ReviewRepository reviewRepository) {
         this.eateryRepository = eateryRepository;
         this.userRepository = userRepository;
         this.reviewRepository = reviewRepository;
     }
 
-    // Generate general recommendations (sorted by score, top 5)
+    /**
+     * Generates a general (non-personalized) list of top eateries across the platform.
+     *
+     * <p>Recommendations are sorted by an internal composite score derived from:
+     * <ul>
+     *   <li>Number of dietary tags</li>
+     *   <li>Review scores (health, hygiene, popularity)</li>
+     *   <li>Proximity if available</li>
+     * </ul>
+     * </p>
+     *
+     * @return top 5 {@link RecommendationDto} objects ranked by total score
+     */
     public List<RecommendationDto> generateRecommendations() {
         List<Eatery> eateries = eateryRepository.findAll();
         return eateries.stream()
                 .map(RecommendationDto::fromEatery)
                 .map(dto -> {
-                    // Calculate basic score based on tags and distance
                     double score = calculateBasicScore(dto);
                     dto.setScore(score);
                     return dto;
                 })
                 .sorted((a, b) -> Double.compare(b.getScore(), a.getScore()))
-                .limit(5) // Return top 5 recommendations
+                .limit(5)
                 .collect(Collectors.toList());
     }
 
-    // Generate recommendations with user location (sorted by score, top 5)
+    /**
+     * Generates general recommendations while factoring in user location for proximity scoring.
+     *
+     * @param userLat the user’s current latitude
+     * @param userLng the user’s current longitude
+     * @return a ranked list of top 5 nearby eateries
+     */
     public List<RecommendationDto> generateRecommendations(Double userLat, Double userLng) {
         List<Eatery> eateries = eateryRepository.findAll();
         return eateries.stream()
                 .map(eatery -> RecommendationDto.fromEatery(eatery, userLat, userLng))
                 .map(dto -> {
-                    // Calculate score based on distance and tags
                     double score = calculateBasicScore(dto);
                     dto.setScore(score);
                     return dto;
                 })
                 .sorted((a, b) -> Double.compare(b.getScore(), a.getScore()))
-                .limit(5) // Return top 5 recommendations
+                .limit(5)
                 .collect(Collectors.toList());
     }
 
-    // Generate recommendations by dietary tags
+    /**
+     * Generates recommendations filtered by one or more dietary tags.
+     *
+     * @param tags list of dietary tags to match (e.g. “vegan”, “low-sugar”)
+     * @return a list of eateries matching any of the given tags
+     */
     public List<RecommendationDto> generateRecommendationsByTags(List<String> tags) {
         List<Eatery> eateries = eateryRepository.findByDietaryTagsIn(tags);
-        return eateries.stream()
-                .map(RecommendationDto::fromEatery)
-                .collect(Collectors.toList());
+        return eateries.stream().map(RecommendationDto::fromEatery).collect(Collectors.toList());
     }
 
-    // Generate recommendations by dietary tags with user location
+    /**
+     * Generates tag-based recommendations and ranks them by proximity.
+     *
+     * @param tags list of dietary tags to match
+     * @param userLat user’s latitude
+     * @param userLng user’s longitude
+     * @return a list of nearby eateries filtered by dietary tags
+     */
     public List<RecommendationDto> generateRecommendationsByTags(List<String> tags, Double userLat, Double userLng) {
         List<Eatery> eateries = eateryRepository.findByDietaryTagsIn(tags);
         return eateries.stream()
                 .map(eatery -> RecommendationDto.fromEatery(eatery, userLat, userLng))
-                .sorted((a, b) -> {
-                    if (a.getDistance() != null && b.getDistance() != null) {
-                        return Double.compare(a.getDistance(), b.getDistance());
-                    }
-                    return a.getName().compareTo(b.getName());
-                })
+                .sorted(Comparator.comparing(RecommendationDto::getDistance, Comparator.nullsLast(Double::compareTo)))
                 .collect(Collectors.toList());
     }
 
-    // Generate recommendations by single tag
+    /** Generates recommendations for a single tag (no location). */
     public List<RecommendationDto> generateRecommendationsByTag(String tag) {
         List<Eatery> eateries = eateryRepository.findByDietaryTag(tag);
-        return eateries.stream()
-                .map(RecommendationDto::fromEatery)
-                .collect(Collectors.toList());
+        return eateries.stream().map(RecommendationDto::fromEatery).collect(Collectors.toList());
     }
 
-    // Generate recommendations by single tag with user location
+    /** Generates single-tag recommendations with distance sorting. */
     public List<RecommendationDto> generateRecommendationsByTag(String tag, Double userLat, Double userLng) {
         List<Eatery> eateries = eateryRepository.findByDietaryTag(tag);
         return eateries.stream()
                 .map(eatery -> RecommendationDto.fromEatery(eatery, userLat, userLng))
-                .sorted((a, b) -> {
-                    if (a.getDistance() != null && b.getDistance() != null) {
-                        return Double.compare(a.getDistance(), b.getDistance());
-                    }
-                    return a.getName().compareTo(b.getName());
-                })
+                .sorted(Comparator.comparing(RecommendationDto::getDistance, Comparator.nullsLast(Double::compareTo)))
                 .collect(Collectors.toList());
     }
 
-    // Generate personalized recommendations based on user preferences
+    /**
+     * Generates personalized recommendations based on user preferences and proximity.
+     *
+     * <p>When user preferences are not set, the algorithm falls back to a
+     * <b>cold start strategy</b> that emphasizes distance and general popularity.</p>
+     *
+     * @param username the current user’s username
+     * @param userLat user’s latitude (optional)
+     * @param userLng user’s longitude (optional)
+     * @return top 5 personalized {@link RecommendationDto} objects ranked by score
+     */
     public List<RecommendationDto> generatePersonalizedRecommendations(String username, Double userLat, Double userLng) {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found: " + username));
-        
+
         List<Eatery> eateries = eateryRepository.findAll();
-        List<RecommendationDto> recommendations = new ArrayList<>();
-        
-        // Check if user has preferences set (cold start detection)
         List<String> userPreferences = parseUserPreferences(user.getPreferences());
-        
+        List<RecommendationDto> recommendations = new ArrayList<>();
+
         for (Eatery eatery : eateries) {
             RecommendationDto dto = RecommendationDto.fromEatery(eatery, userLat, userLng);
-            
-            // Calculate score based on whether user has preferences
-            double score;
-            if (userPreferences.isEmpty()) {
-                // Cold start - score mainly based on distance
-                score = calculateColdStartScore(dto);
-            } else {
-                // Personalized - score based on preferences and distance
-                score = calculatePersonalizedScore(dto, userPreferences, userLat, userLng);
-            }
+            double score = userPreferences.isEmpty()
+                    ? calculateColdStartScore(dto)
+                    : calculatePersonalizedScore(dto, userPreferences, userLat, userLng);
             dto.setScore(score);
             recommendations.add(dto);
         }
-        
-        // Sort by score (highest first) and return top recommendations
+
         return recommendations.stream()
                 .sorted((a, b) -> Double.compare(b.getScore(), a.getScore()))
-                .limit(5) // Return top 5 recommendations
+                .limit(5)
                 .collect(Collectors.toList());
     }
 
-    // Generate recommendations by postal code
+    /** Returns all eateries located at a specific postal code. */
     public List<RecommendationDto> generateRecommendationsByPostalCode(Long postalCode) {
         List<Eatery> eateries = eateryRepository.findByPostalCode(postalCode);
-        return eateries.stream()
-                .map(RecommendationDto::fromEatery)
-                .collect(Collectors.toList());
+        return eateries.stream().map(RecommendationDto::fromEatery).collect(Collectors.toList());
     }
 
-    // Generate recommendations by postal code with user location
+    /** Returns and ranks eateries by postal code and distance. */
     public List<RecommendationDto> generateRecommendationsByPostalCode(Long postalCode, Double userLat, Double userLng) {
         List<Eatery> eateries = eateryRepository.findByPostalCode(postalCode);
         return eateries.stream()
                 .map(eatery -> RecommendationDto.fromEatery(eatery, userLat, userLng))
-                .sorted((a, b) -> {
-                    if (a.getDistance() != null && b.getDistance() != null) {
-                        return Double.compare(a.getDistance(), b.getDistance());
-                    }
-                    return a.getName().compareTo(b.getName());
-                })
+                .sorted(Comparator.comparing(RecommendationDto::getDistance, Comparator.nullsLast(Double::compareTo)))
                 .collect(Collectors.toList());
     }
 
-    // Parse user preferences string into list of tags
+    /**
+     * Splits a comma-separated user preference string into individual normalized tags.
+     *
+     * @param preferences the user’s raw preference string
+     * @return list of trimmed lowercase preference keywords
+     */
     private List<String> parseUserPreferences(String preferences) {
-        if (preferences == null || preferences.trim().isEmpty()) {
-            return new ArrayList<>();
-        }
-        
+        if (preferences == null || preferences.trim().isEmpty()) return new ArrayList<>();
         return Arrays.stream(preferences.split(","))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .collect(Collectors.toList());
     }
 
-    // Calculate personalized score based on user preferences and location
+    /**
+     * Calculates a personalized recommendation score combining:
+     * <ul>
+     *   <li>Preference matching</li>
+     *   <li>Distance proximity</li>
+     *   <li>Average review scores and popularity</li>
+     * </ul>
+     *
+     * @param dto eatery recommendation object
+     * @param userPreferences user’s list of preferred tags
+     * @param userLat latitude of the user (nullable)
+     * @param userLng longitude of the user (nullable)
+     * @return a bounded score between 0 and 100
+     */
     private double calculatePersonalizedScore(RecommendationDto dto, List<String> userPreferences, Double userLat, Double userLng) {
-        double score = 0.0;
-        
-        // Base score for any eatery
-        score += 10.0;
-        
-        // Score for dietary preferences match (50% of total score)
-        int matches = 0;
-        for (String preference : userPreferences) {
-            if (dto.getTags().stream().anyMatch(tag -> tag.toLowerCase().contains(preference.toLowerCase()))) {
-                matches++;
-            }
-        }
-        if (matches > 0) {
-            score += (matches * 20.0); // 20 points per matching preference
-        }
-        
-        // Score for distance (40% of total score)
-        if (dto.getDistance() != null) {
-            if (dto.getDistance() < 0.5) {
-                score += 30.0; // Very close
-            } else if (dto.getDistance() < 1.0) {
-                score += 25.0; // Close
-            } else if (dto.getDistance() < 2.0) {
-                score += 20.0; // Reasonable distance
-            } else if (dto.getDistance() < 5.0) {
-                score += 15.0; // Far but accessible
-            } else {
-                score += 10.0; // Very far
-            }
-        }
-        
-        // Ratings contribution (and populate dto ratings fields)
-        score += ratingScoreAndPopulate(dto);
+        double score = 10.0;
 
-        // Ensure score is between 0 and 100
+        // Preference match contribution
+        long matches = dto.getTags().stream()
+                .filter(tag -> userPreferences.stream().anyMatch(pref -> tag.toLowerCase().contains(pref.toLowerCase())))
+                .count();
+        score += matches * 20.0;
+
+        // Distance contribution
+        if (dto.getDistance() != null) {
+            if (dto.getDistance() < 0.5) score += 30.0;
+            else if (dto.getDistance() < 1.0) score += 25.0;
+            else if (dto.getDistance() < 2.0) score += 20.0;
+            else if (dto.getDistance() < 5.0) score += 15.0;
+            else score += 10.0;
+        }
+
+        // Review contribution
+        score += ratingScoreAndPopulate(dto);
         return Math.min(100.0, Math.max(0.0, score));
     }
 
-    // Calculate basic score for general recommendations
+    /** Calculates a general score based on distance, tags, and ratings. */
     private double calculateBasicScore(RecommendationDto dto) {
-        double score = 10.0; // Base score
-        
-        // Score based on distance
+        double score = 10.0;
+
+        // Distance-based weight
         if (dto.getDistance() != null) {
-            if (dto.getDistance() < 0.5) {
-                score += 30.0; // Very close
-            } else if (dto.getDistance() < 1.0) {
-                score += 25.0; // Close
-            } else if (dto.getDistance() < 2.0) {
-                score += 20.0; // Reasonable distance
-            } else if (dto.getDistance() < 5.0) {
-                score += 15.0; // Far but accessible
-            } else {
-                score += 10.0; // Very far
-            }
+            if (dto.getDistance() < 0.5) score += 30.0;
+            else if (dto.getDistance() < 1.0) score += 25.0;
+            else if (dto.getDistance() < 2.0) score += 20.0;
+            else if (dto.getDistance() < 5.0) score += 15.0;
+            else score += 10.0;
         }
-        
-        // Score based on number of tags (more tags = more options)
+
+        // Tag diversity reward
         score += dto.getTags().size() * 5.0;
 
-        // Ratings contribution (and populate dto ratings fields)
+        // Ratings contribution
         score += ratingScoreAndPopulate(dto);
-
         return Math.min(100.0, Math.max(0.0, score));
     }
 
-    // Calculate cold start score (mainly distance-based)
+    /** Handles cold-start users (no preferences) using mainly distance and basic metadata. */
     private double calculateColdStartScore(RecommendationDto dto) {
-        double score = 10.0; // Base score
-        
-        // Score mainly based on distance for cold start
+        double score = 10.0;
         if (dto.getDistance() != null) {
-            if (dto.getDistance() < 0.5) {
-                score += 40.0; // Very close
-            } else if (dto.getDistance() < 1.0) {
-                score += 35.0; // Close
-            } else if (dto.getDistance() < 2.0) {
-                score += 30.0; // Reasonable distance
-            } else if (dto.getDistance() < 5.0) {
-                score += 20.0; // Far but accessible
-            } else {
-                score += 10.0; // Very far
-            }
+            if (dto.getDistance() < 0.5) score += 40.0;
+            else if (dto.getDistance() < 1.0) score += 35.0;
+            else if (dto.getDistance() < 2.0) score += 30.0;
+            else if (dto.getDistance() < 5.0) score += 20.0;
+            else score += 10.0;
         } else {
-            // No location provided - score based on number of tags and general appeal
-            score += 20.0; // Base score for no location
-            score += dto.getTags().size() * 8.0; // More tags = more options
+            score += 20.0 + dto.getTags().size() * 8.0;
         }
-        
         return Math.min(100.0, Math.max(0.0, score));
     }
 
-    // Compute a bounded score contribution from reviews (averages and volume) and set dto fields
+    /**
+     * Computes a review-based quality and popularity score for an eatery.
+     *
+     * <p>The method updates the provided {@link RecommendationDto} with average
+     * health and hygiene ratings and total review count.</p>
+     *
+     * <p>It also returns a score contribution between <b>0 and ~50</b> based on:
+     * <ul>
+     *   <li>Average review rating (scaled to 0–40)</li>
+     *   <li>Popularity (log-scaled review volume)</li>
+     * </ul>
+     * </p>
+     *
+     * @param dto the eatery recommendation object to enrich
+     * @return the computed rating contribution to the final recommendation score
+     */
     private double ratingScoreAndPopulate(RecommendationDto dto) {
         Long eateryId = dto.getId();
         if (eateryId == null) return 0.0;
+
         Eatery eatery = eateryRepository.findById(eateryId).orElse(null);
         if (eatery == null) return 0.0;
 
@@ -277,17 +314,16 @@ public class RecManager {
         dto.setAverageHygiene(avgHygiene);
         dto.setReviewCount(count);
 
-        double avg = 0.0;
+        double avgScore = 0.0;
         int parts = 0;
-        if (avgHealth != null) { avg += avgHealth; parts++; }
-        if (avgHygiene != null) { avg += avgHygiene; parts++; }
-        double avgScore = parts > 0 ? (avg / parts) : 0.0; // 0..5
+        if (avgHealth != null) { avgScore += avgHealth; parts++; }
+        if (avgHygiene != null) { avgScore += avgHygiene; parts++; }
+        avgScore = parts > 0 ? avgScore / parts : 0.0;
 
-        // Map average 0..5 → 0..40
+        // Scale quality (0–5) → (0–40)
         double quality = (avgScore / 5.0) * 40.0;
 
-        // Popularity bonus based on volume, bounded ~0..10 and scaled by quality 
-        //(penalise low-rated eateries by using avgScore/5.0)
+        // Popularity adjustment (logarithmic scale)
         double popularity = 0.0;
         if (count != null && count > 0) {
             double basePopularity = Math.min(10.0, Math.log(count + 1) * 4.0);

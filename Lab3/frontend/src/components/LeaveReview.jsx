@@ -2,6 +2,34 @@ import React, { useState } from "react";
 import { ArrowLeft, Search, Star, UserCircle } from "lucide-react";
 import { useParams, Link } from "react-router-dom";
 
+/**
+ * Component for submitting a new user review and rating for a specific eatery.
+ *
+ * <p>The `LeaveReview` page allows authenticated users to rate an eatery and write feedback.
+ * It includes a 5-star interactive rating selector, text input area, and a sample
+ * existing review display for visual context. Once the form is submitted, the user's
+ * rating and review text are logged (placeholder for backend integration).</p>
+ *
+ * <p>Key functionalities include:
+ * <ul>
+ *   <li>Dynamic route handling via React Router's {@link useParams} (to identify the eatery ID)</li>
+ *   <li>Interactive rating component using state hooks for hover and selection</li>
+ *   <li>Form submission handler that logs data to console (mock-up stage)</li>
+ *   <li>Static example section showing how submitted reviews will appear</li>
+ *   <li>Navigation link back to the eatery details page</li>
+ * </ul>
+ * </p>
+ *
+ * @component
+ * @example
+ * // Used in routing within HealthyAura frontend
+ * <Route path="/eatery/:id/review" element={<LeaveReview />} />
+ *
+ * @returns {JSX.Element} The rendered form and UI for submitting an eatery review.
+ *
+ * @since 2025-11-07
+ * @version 1.0
+ */
 export default function LeaveReview() {
   const { id } = useParams();
 
@@ -9,6 +37,16 @@ export default function LeaveReview() {
   const [hover, setHover] = useState(0);
   const [reviewText, setReviewText] = useState("");
 
+  /**
+   * Handles review submission.
+   *
+   * <p>Currently logs review data to the console.
+   * In a complete implementation, this would call the backend API
+   * (e.g., `POST /reviews`) to persist the review in the database.</p>
+   *
+   * @param {React.FormEvent} e - The form submission event.
+   * @returns {void}
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitted Review:", { rating, reviewText });

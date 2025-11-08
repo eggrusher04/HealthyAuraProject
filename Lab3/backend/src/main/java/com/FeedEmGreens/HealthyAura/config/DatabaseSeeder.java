@@ -15,9 +15,38 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Configuration class responsible for seeding initial data into the database upon application startup.
+ *
+ * <p>This includes:
+ * <ul>
+ *   <li>Default reward entries (if none exist)</li>
+ *   <li>A default admin account with associated points record</li>
+ * </ul>
+ *
+ * The seeding process ensures that the application has essential baseline data for use during
+ * local development and deployment. The configuration is excluded from the "test" profile
+ * to avoid interfering with automated testing environments.
+ * </p>
+ *
+ * @version 1.0
+ * @since 2025-11-07
+ */
+
 @Configuration
 @org.springframework.context.annotation.Profile("!test")  // <-- add this line
 public class DatabaseSeeder {
+
+    /**
+     * Initializes the default set of {@link Reward} entries in the database.
+     *
+     * <p>This method is executed automatically at startup through Spring Boot’s {@link CommandLineRunner}.
+     * It checks if the rewards table is empty and inserts a predefined list of sample rewards
+     * (e.g., “Free Healthy Drink”, “10% Discount Voucher”, etc.). If rewards already exist, seeding is skipped.</p>
+     *
+     * @param rewardRepository the {@link RewardRepository} used to interact with the rewards table
+     * @return a {@link CommandLineRunner} that performs the reward initialization
+     */
 
     //   Reward Seeder
     @Bean
@@ -38,6 +67,23 @@ public class DatabaseSeeder {
             }
         };
     }
+
+    /**
+     * Seeds the database with a default administrator account and initializes its corresponding points record.
+     *
+     * <p>The default admin account has:
+     * <ul>
+     *   <li>Username: <code>admin</code></li>
+     *   <li>Email: <code>admin@healthyaura.com</code></li>
+     *   <li>Password: <code>admin123</code> (hashed with {@link BCryptPasswordEncoder})</li>
+     *   <li>Role: <code>ADMIN</code></li>
+     * </ul>
+     * If an admin already exists, seeding is skipped to prevent duplication.</p>
+     *
+     * @param userRepository the {@link UserRepository} for persisting admin user data
+     * @param pointsRepository the {@link PointsRepository} for creating the admin’s associated points record
+     * @return a {@link CommandLineRunner} that performs admin account initialization
+     */
 
     //  Admin Seeder that creates the first admin account
     @Bean
@@ -67,6 +113,17 @@ public class DatabaseSeeder {
             }
         };
     }
+
+    /**
+     * (Optional) Seeds a sample user account and its associated points record.
+     *
+     * <p>This block is commented out by default but can be enabled for testing or demonstration purposes.
+     * It creates a user named <code>rajath</code> with an initial 500 points.</p>
+     *
+     * @param userRepository the {@link UserRepository} for saving the sample user
+     * @param pointsRepository the {@link PointsRepository} for creating the user’s points record
+     * @return a {@link CommandLineRunner} that seeds the user and points data (if enabled)
+     */
 
     //  New User + Points Seeder
     //@Bean

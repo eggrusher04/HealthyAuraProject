@@ -3,15 +3,60 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 
+/**
+ * Home Page (Recommendations Dashboard)
+ *
+ * <p>The `Home` component serves as the main dashboard after user login.
+ * It displays two categories of eatery recommendations:
+ * <ul>
+ *   <li><b>Personalized Recommendations</b> – based on user preferences and past activity</li>
+ *   <li><b>Nearby Eateries</b> – based on the user’s current geolocation</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Key Features:
+ * <ul>
+ *   <li>Uses the <b>Geolocation API</b> to fetch current coordinates.</li>
+ *   <li>Parallel API fetching for performance optimization via <code>Promise.all()</code>.</li>
+ *   <li>Displays a <b>loading skeleton</b> while fetching data.</li>
+ *   <li>Responsive UI grid for eatery cards.</li>
+ *   <li>Fallback handling for users not logged in.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>Backend Endpoints:
+ * <ul>
+ *   <li><code>GET /home/recommendations</code> → Personalized recommendations</li>
+ *   <li><code>GET /home/recommendations?lat={lat}&lng={lng}</code> → Location-based eateries</li>
+ * </ul>
+ * </p>
+ *
+ * @component
+ * @example
+ * // Example route
+ * <Route path="/" element={<Home />} />
+ *
+ * @returns {JSX.Element} The home dashboard displaying user recommendations.
+ * @since 2025-11-07
+ * @version 1.0
+ */
 export default function Home() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [personalized, setPersonalized] = useState([]);
-  const [nearby, setNearby] = useState([]);
-  const [coords, setCoords] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // === State Variables ===
+  const [personalized, setPersonalized] = useState([]); // Recommendations based on preferences
+  const [nearby, setNearby] = useState([]); // Recommendations near current location
+  const [coords, setCoords] = useState(null); // User’s current geolocation
+  const [loading, setLoading] = useState(true); // Loading state for data fetch
 
+  /**
+   * Attempts to get the user's current location using the browser's Geolocation API.
+   * Fallbacks to `null` if permission is denied or unavailable.
+   *
+   * @effect
+   * @returns {void}
+   */
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) => setCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
@@ -22,7 +67,16 @@ export default function Home() {
     );
   }, []);
 
-  //Fetch both recommendation types in parallel
+  /**
+   * Fetches both personalized and nearby recommendations concurrently.
+   *
+   * <p>Personalized recommendations are based on user profile preferences.
+   * Nearby recommendations depend on current coordinates. Both API calls are
+   * executed in parallel using <code>Promise.all()</code>.</p>
+   *
+   * @async
+   * @returns {Promise<void>}
+   */
   useEffect(() => {
     const fetchRecommendations = async () => {
       if (!user) {
@@ -35,12 +89,12 @@ export default function Home() {
         console.time("recommendations");
 
         const [personalRes, nearbyRes] = await Promise.all([
-          API.get("/home/recommendations"), // personalized
+          API.get("/home/recommendations"), // Personalized
           coords
             ? API.get("/home/recommendations", {
                 params: { lat: coords.lat, lng: coords.lng },
               })
-            : Promise.resolve({ data: [] }), // fallback
+            : Promise.resolve({ data: [] }), // Fallback if no location
         ]);
 
         console.timeEnd("recommendations");
@@ -59,13 +113,18 @@ export default function Home() {
     };
 
     if (user === null) {
-        setLoading(false); // ensures shimmer disappears if not logged in
-      } else {
-        fetchRecommendations();
-      }
+      // Ensures shimmer disappears if user is not logged in
+      setLoading(false);
+    } else {
+      fetchRecommendations();
+    }
   }, [user, coords]);
 
-  //loading animation when it is still fetching the recommendations
+  /**
+   * Displays a shimmer-style loading placeholder while recommendations are being fetched.
+   *
+   * @returns {JSX.Element} Loading skeleton animation.
+   */
   const LoadingSkeleton = () => (
     <div className="animate-pulse">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -84,6 +143,7 @@ export default function Home() {
     </div>
   );
 
+  // === Loading State ===
   if (loading)
     return (
       <div className="p-6 text-gray-600">
@@ -94,6 +154,7 @@ export default function Home() {
       </div>
     );
 
+  // === Not Logged In State ===
   if (!user)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center text-center p-6">
@@ -110,7 +171,12 @@ export default function Home() {
       </div>
     );
 
-  //Eatery Card UI
+  /**
+   * Renders an eatery card component with details such as tags, address, scores, and distance.
+   *
+   * @param {Object} rec - The eatery recommendation object.
+   * @returns {JSX.Element} Formatted eatery card UI.
+   */
   const renderCard = (rec) => (
     <div
       key={rec.id}
@@ -120,7 +186,7 @@ export default function Home() {
         <h3 className="text-lg font-semibold text-green-700">{rec.name}</h3>
         <p className="text-sm text-gray-600">{rec.fullAddress || rec.address}</p>
 
-        {/* Tags */}
+        {/* Dietary Tags */}
         {Array.isArray(rec.tags) && rec.tags.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
             {rec.tags.map((tag, i) => (
@@ -139,19 +205,19 @@ export default function Home() {
           <p className="text-xs text-gray-500 mt-2">{rec.description}</p>
         )}
 
-        {/* Reason */}
+        {/* Reason (e.g., "You liked similar stalls") */}
         {rec.reason && (
           <p className="text-xs text-gray-400 mt-1 italic">{rec.reason}</p>
         )}
 
-        {/* Distance */}
+        {/* Distance from current location */}
         {rec.distance != null && (
           <p className="text-xs text-gray-500 mt-1">
             📍 {rec.distance.toFixed(2)} km away
           </p>
         )}
 
-        {/* Scores + Reviews */}
+        {/* Scores + Review Count */}
         <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-gray-700">
           {rec.averageHealth != null && !isNaN(rec.averageHealth) && (
             <span>
@@ -185,6 +251,7 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Navigation Button */}
       <div className="mt-4">
         <button
           onClick={() => navigate(`/details/${rec.id}`)}
@@ -196,14 +263,14 @@ export default function Home() {
     </div>
   );
 
-
+  // === Render Final Layout ===
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4 text-green-800">
         Recommended for You
       </h1>
 
-      {/* Nearby Eateries */}
+      {/* Nearby Eateries Section */}
       {nearby.length > 0 && (
         <>
           <h2 className="text-lg font-semibold text-green-700 mb-3">
@@ -215,7 +282,7 @@ export default function Home() {
         </>
       )}
 
-      {/* Preferences-based Recommendations */}
+      {/* Personalized Recommendations Section */}
       {personalized.length > 0 && (
         <>
           <h2 className="text-lg font-semibold text-green-700 mb-3">
@@ -227,6 +294,7 @@ export default function Home() {
         </>
       )}
 
+      {/* Fallback: No Data */}
       {nearby.length === 0 && personalized.length === 0 && (
         <div className="p-4 bg-white rounded shadow text-center text-gray-500">
           No recommendations available.
