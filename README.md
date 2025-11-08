@@ -33,7 +33,38 @@ HealthyAura is a **full-stack web application** that helps users discover afford
 
 ## Backend Setup (Spring Boot)
 1) Create a new database - "CREATE DATABASE healthyauradb;"
-2) Open "HealthyAura/backend/src/main/resources/application.properties" and change the values to match your MySQL setup
+2) Ensure to make your own .env file in Lab3\backend\.env and follow the following template
+```
+# ==========================
+# Application Configuration
+# ==========================
+SPRING_APPLICATION_NAME=HealthyAura
+SERVER_PORT=8080
+
+# ==========================
+# Database Configuration
+# ==========================
+DB_URL=jdbc:<your mysql db url>
+DB_USERNAME=<your username>
+DB_PASSWORD=<your password>
+DB_DRIVER=com.mysql.cj.jdbc.Driver
+
+# ==========================
+# JWT Configuration
+# ==========================
+JWT_SECRET=<your JWT generated secret>
+JWT_EXPIRATION=3600000  # 1 hour in milliseconds
+
+# ==========================
+# Hibernate Configuration
+# ==========================
+HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+HIBERNATE_DDL_AUTO=update
+SHOW_SQL=true
+FORMAT_SQL=true
+```
+
+4) Open "HealthyAura/backend/src/main/resources/application.properties" and ensure your .env matches the configuration
 ```
 spring.datasource.url=jdbc:mysql://localhost:3306/healthyauradb
 spring.datasource.username=<your-username>
