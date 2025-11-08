@@ -136,6 +136,7 @@ export default function Explore() {
     }, 200);
   };
 
+
   // === Render UI ===
   return (
     <div className="p-6">

@@ -1,6 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Navbar from "./components/Navbar";
+import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Rewards from "./pages/Rewards";
@@ -49,7 +49,7 @@ export default function App() {
   return (
     <AuthProvider>
       <div className="min-h-screen bg-gray-50">
-        <Navbar />
+        <Layout>
         <main className="p-4 max-w-4xl mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -65,6 +65,7 @@ export default function App() {
             <Route path="*" element={<div>Not Found</div>} />
           </Routes>
         </main>
+        </Layout>
       </div>
     </AuthProvider>
   );
